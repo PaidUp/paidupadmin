@@ -26,7 +26,7 @@
     "create:build": "mkdir build",
     "build:client": "npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/public dist/public",
     "front:less": "lessc client/src/style.less client/public/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
-    "start": "browser-sync start --proxy localhost:9000 --reload-delay 1000 --files client/public !client/src",
+    "start": "browser-sync start --server client/public --port 4000 --reload-delay 1000 --files client/public !client/src",
     "watch": "npm-watch"
   }
 }

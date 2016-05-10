@@ -39,3 +39,4 @@ var/logs/*
 
 #Frontend
 client/public/css/style.min.css
+client/src/OLDstyle.less
