@@ -1,0 +1,32 @@
+{
+  "name": "PaidUpAdmin",
+  "description": "PaidUp Admin Application",
+  "version": "1.0.0",
+  "author": "@paidUp company",
+  "license": "private",
+  "private": true,
+  "main": "server/app.js",
+  "devDependencies": {
+    "browser-sync": "^2.12.5",
+    "less": "^2.6.1",
+    "less-plugin-autoprefix": "^1.5.1",
+    "less-plugin-clean-css": "^1.5.1",
+    "npm-watch": "^0.1.4"
+  },
+  "engines": {
+    "node": "4.4.2"
+  },
+  "watch": {
+    "front:less": "client/src/style.less"
+  },
+  "scripts": {
+    "clean:dist": "rm -rf dist",
+    "clean:build": "rm -rf build",
+    "create:dist": "mkdir dist",
+    "create:build": "mkdir build",
+    "build:client": "npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/public dist/public",
+    "front:less": "lessc client/src/style.less client/public/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
+    "start": "browser-sync start --proxy localhost:9000 --reload-delay 1000 --files client/public !client/src",
+    "watch": "npm-watch"
+  }
+}
