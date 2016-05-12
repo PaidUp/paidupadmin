@@ -1,4 +1,5 @@
-<div class="title-blue">Search for Orders V3</div>
+<div class="title_blue">Search for Orders V3</div>
+
 <div class="inputs">
   <div class="input">
     <input type="text" placeholder="Order number, email, beneficiary ..." />    
@@ -19,5 +20,206 @@
   <div class="clearfix"></div>
 </div>
 
-<div class="title-blue">Search Results</div>
+<div class="title_blue">Search Results</div>
 
+
+<table class="orders_table">
+  <thead>
+    <tr>
+      <th>Order Id</th>
+      <th>User</th>
+      <th>Email</th>
+      <th>Beneficiary</th>
+      <th>Created at</th>
+      <th>Company</th>
+      <th>Team</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+    <tr ng-click="expandSection1 = !expandSection1" ng-class="expandSection1 ? 'order_row active' : 'order_row'">
+      <td>10000</td>
+      <td>Ricardo Lara</td>
+      <td>rilara@gmail.com</td>
+      <td>Karen Cooth</td>
+      <td>May 10, 2016</td>
+      <td>Isotopos Springfield</td>
+      <td>Private Coaching</td>
+      <td class="green-font">Active</td>
+    </tr>
+
+    <tr class="expandable">
+      <td class="expand" colspan="8">
+        <div ng-class="expandSection1 ? 'expandable_section active' : 'expandable_section'">
+          <div class="expanded_section">
+            <table class="charges_table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Charge Date</th>
+                  <th>Price</th>
+                  <th ng-show="editCharges1">Orig. Price</th>
+                  <th>Card</th>
+                  <th class="centered">Status</th>
+                  <th class="centered">Processed</th>
+                  <th class="centered">Disabled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>                             
+                  <td>
+                    <span ng-hide="editCharges1">March Payment</span>
+                    <div ng-show="editCharges1">
+                      <input type="text" value="March Payment" />
+                    </div>
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges1">May 10, 2016</span>
+                    <div ng-show="editCharges1">
+                      <input type="text" value="May 10, 2016" />
+                    </div>
+                  </td>
+                  <td>$678.15</td>
+                  <td ng-show="editCharges1">
+                    <input type="text" value="600" />
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges1">Visa x-1234</span>
+                    <div ng-show="editCharges1">
+                      <select name="" id="">
+                        <option value="">AMEX x-1111</option>
+                        <option value="">Visa x-1111</option>
+                        <option value="">MasterCard x-1111</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="centered green-font">Paid</td>
+                  <td  class="centered">   
+                    <input type="checkbox" checked="checked" />
+                    <label></label>
+                  </td>
+                  <td class="centered">
+                    <input type="checkbox" />
+                    <label class="bar"></label>
+                  </td>
+                </tr>
+                <tr>                             
+                  <td>
+                    <span ng-hide="editCharges1">March Payment</span>
+                    <div ng-show="editCharges1">
+                      <input type="text" value="March Payment" />
+                    </div>
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges1">May 10, 2016</span>
+                    <div ng-show="editCharges1">
+                      <input type="text" value="May 10, 2016" />
+                    </div>
+                  </td>
+                  <td>$678.15</td>
+                  <td ng-show="editCharges1">
+                    <input type="text" value="600" />
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges1">Visa x-1234</span>
+                    <div ng-show="editCharges1">
+                      <select name="" id="">
+                        <option value="">AMEX x-1111</option>
+                        <option value="">Visa x-1111</option>
+                        <option value="">MasterCard x-1111</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="centered red-font">Failed</td>
+                  <td  class="centered">
+                    <div ng-hide="editCharges1">
+                      <input type="checkbox" checked="checked" />
+                      <label></label>
+                    </div>
+                    <div ng-show="editCharges1">
+                      <input type="checkbox" class="filled-in" id="checkProcessed12" checked="checked" />
+                      <label for="checkProcessed12"></label>
+                    </div>   
+                  </td>
+                  <td class="centered">
+                    <div ng-hide="editCharges1">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </div>
+                    <div ng-show="editCharges1">
+                      <input type="checkbox" class="filled-in" id="checkDisabled12" />
+                      <label for="checkDisabled12"></label>
+                    </div>  
+                  </td>
+                </tr>  
+                <tr>                             
+                  <td>
+                    <span ng-hide="editCharges1">March Payment</span>
+                    <div ng-show="editCharges1">
+                      <input type="text" value="March Payment" />
+                    </div>
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges1">May 10, 2016</span>
+                    <div ng-show="editCharges1">
+                      <input type="text" value="May 10, 2016" />
+                    </div>
+                  </td>
+                  <td>$678.15</td>
+                  <td ng-show="editCharges1">
+                    <input type="text" value="600" />
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges1">Visa x-1234</span>
+                    <div ng-show="editCharges1">
+                      <select name="" id="">
+                        <option value="">AMEX x-1111</option>
+                        <option value="">Visa x-1111</option>
+                        <option value="">MasterCard x-1111</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="centered">Pending</td>
+                  <td  class="centered"> 
+                    <div ng-hide="editCharges1">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </div>
+                    <div ng-show="editCharges1">
+                      <input type="checkbox" class="filled-in" id="checkProcessed13" />
+                      <label for="checkProcessed13"></label>
+                    </div>  
+
+                  </td>
+                  <td class="centered">
+                    <div ng-hide="editCharges1">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </div>
+                    <div ng-show="editCharges1">
+                      <input type="checkbox" class="filled-in" id="checkDisabled13" />
+                      <label for="checkDisabled13"></label>
+                    </div>  
+
+                  </td>
+                </tr>           
+              </tbody>
+            </table>
+
+            <div class="btns_container">
+              <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">Edit</button>
+              <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close</button>
+              <button class="btn" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Save</button>
+              <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel</button>
+              <button class="btn btn-blue" ng-hide="editCharges1">View Log</button>
+            </div>
+          </div>                     
+        </div>
+      </td>                
+    </tr>
+
+
+  </tbody>
+</table>
