@@ -54,6 +54,7 @@
       <td class="expand" colspan="8">
         <div ng-class="expandSection1 ? 'expandable_section active' : 'expandable_section'">
           <div class="expanded_section">
+
             <table class="charges_table">
               <thead>
                 <tr>
@@ -208,18 +209,67 @@
               </tbody>
             </table>
 
-            <div class="btns_container">
-              <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">Edit</button>
-              <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close</button>
-              <button class="btn" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Save</button>
-              <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel</button>
-              <button class="btn btn-blue" ng-hide="editCharges1">View Log</button>
-            </div>
-          </div>                     
-        </div>
-      </td>                
-    </tr>
+            <div ng-class="expandLog1 ? 'expandable_log active' : 'expandable_log'">
+              <div class="tables_separator"></div>
+              <div class="expanded_log">
+                <table class="log">
+                 <thead>
+                   <tr>
+                     <th>Date</th>
+                     <th>User</th>
+                     <th>Action</th>
+                     <th>Old Value</th>
+                     <th>New Value</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr>
+                     <td>11/10/2015</td>
+                     <td>rlara</td>
+                     <td>Edit Original Price</td>
+                     <td>700</td>
+                     <td>600</td>
+                   </tr> 
+                   <tr>
+                     <td>11/10/2015</td>
+                     <td>rlara</td>
+                     <td>Edit Original Price</td>
+                     <td>700</td>
+                     <td>600</td>
+                   </tr> 
+                   <tr>
+                     <td>11/10/2015</td>
+                     <td>rlara</td>
+                     <td>Edit Original Price</td>
+                     <td>700</td>
+                     <td>600</td>
+                   </tr> 
+                   <tr>
+                     <td>11/10/2015</td>
+                     <td>rlara</td>
+                     <td>Edit Original Price</td>
+                     <td>700</td>
+                     <td>600</td>
+                   </tr>                  
+                 </tbody>
+               </table>
+             </div>
+           </div>
+
+           <div class="btns_container">
+             <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">Edit</button>
+             <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close</button>
+             <button class="btn" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Save</button>
+             <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel</button>
+             <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close Log' : 'View Log'}}</button>
+           </div>
+         </div>                     
+       </div>
+     </td>                
+   </tr>
 
 
-  </tbody>
+
+
+ </tbody>
 </table>

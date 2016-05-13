@@ -358,7 +358,7 @@ header{
                   }                       
                 }
               }     
-            }
+            }         
             .btns_container{
               text-align: center;
               margin: 20px auto;
@@ -399,6 +399,54 @@ header{
               }
             }
           }
+        }
+        div.expandable_log{
+          max-height: 0px;
+          overflow-y: auto;
+          transition-property: all;
+          transition-duration: .4s;
+          transition-timing-function: ease;
+          &.active{
+            max-height: 500px; /* approximate max height */
+          }
+          .tables_separator{
+            border-top: 2px dotted @c-gray-back;
+            margin: 20px 0px;
+          } 
+          .expanded_log{
+            margin: 5px;
+            padding: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            table.log{
+              font-size: 12px;
+
+              thead{
+                tr{
+                  background-color: #fff;
+                }     
+              }
+              tbody{
+                border: 1px solid #ccc;
+
+                tr{
+                  &:nth-child(odd){
+                    background-color: @c-gray-light-back;
+                  }
+                  &:nth-child(even){
+                    background-color: #fff;
+                  }
+                  td{
+                    padding:10px 5px;
+                  }
+                }
+              }
+            }
+            
+          }
+          
         }
       }
     }
