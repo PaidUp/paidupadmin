@@ -23,8 +23,11 @@
     "browserify": "^13.0.0",
     "camelize": "^1.0.0",
     "cookie-parser": "^1.4.3",
+    "fs": "0.0.2",
     "jquery": "^2.2.4",
-    "lodash": "^4.11.2"
+    "lodash": "^4.11.2",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "browser-sync": "^2.12.5",
@@ -39,19 +42,22 @@
   "watch": {
     "front:less": "client/src/style.less",
     "front:dist": {
-      "patterns": ["client/src"],
+      "patterns": [
+        "client/src"
+      ],
       "extensions": "html,css",
       "ignore": "src/**/*.js",
       "quiet": "false"
     },
-    "front:browserify:dev":"client/src/**/*.js"
+    "front:browserify:dev": "client/src/**/*.js"
   },
   "scripts": {
     "build:client": "npm run front:dist && npm run front:less && npm run front:browserify:dev",
     "front:dist": "mkdir -p client/dist && rsync -aP --delete --exclude 'less' --exclude css/style.min.css --exclude 'js' client/src/ client/dist/",
     "front:less": "lessc client/src/less/style.less client/dist/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
     "front:browserify:dev": "rm -rf client/dist/js && mkdir -p client/dist/js && browserify client/src/js/app.js --verbose --debug --outfile client/dist/js/bundle.js",
-    "start": "npm run build:client && browser-sync start --server client/dist --port 4000 --reload-delay 1000 --files client/dist",
+    "start": "npm run build:client && browser-sync start --server --baseDir client/dist --port 4000 --reload-delay 1000 --files client/dist",
+    "start:test": "npm run build:client && browser-sync start --config bs-config.js",
     "watch": "npm-watch"
   }
 }

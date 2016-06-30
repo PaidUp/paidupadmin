@@ -13,14 +13,16 @@
   <link href="/css/materialize.min.css" rel="stylesheet">
   <link href="/css/font-awesome.min.css" rel="stylesheet">
   <link href="/css/style.min.css" rel="stylesheet">
+
+  <base href="/" />
 </head>
-<body ng-app="PaidUpAdmin" ng-controller="PaidUpCtrl">
+<body ng-app="PaidUpAdmin">
 
   <div ng-include="'templates/partials/header.html'"></div>
 
   <div class="container">      
     <div class="main_container">
-      <div ng-include="'templates/partials/ordersV3.html'"></div>
+      <div ui-view></div>
     </div>
   </div>
 
