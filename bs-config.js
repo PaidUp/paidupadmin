@@ -10,6 +10,9 @@
  |  https://github.com/shakyShane/browser-sync/wiki/Working-with-a-Config-File
  |
  */
+
+var historyApiFallback = require('connect-history-api-fallback')
+
 module.exports = {
 
   /*
@@ -38,23 +41,7 @@ module.exports = {
    */
   server: {
     baseDir: "./client/dist",
-    middleware: function(req, res, next) {
-
-      var fs = require("fs"),
-        path = require("path"),
-        url = require("url");
-
-      var defaultFile = "index.html";
-      var folder = path.resolve(__dirname, "client/dist/");
-
-      var fileName = url.parse(req.url);
-      fileName = fileName.href.split(fileName.search).join("");
-      var fileExists = fs.existsSync(folder + fileName);
-      if (!fileExists && fileName.indexOf("browser-sync-client") < 0) {
-        req.url = "/" + defaultFile;
-      }
-      return next();
-    }
+    middleware: [require("connect-logger")(), historyApiFallback()]
 
   },
 
@@ -74,12 +61,12 @@ module.exports = {
    |--------------------------------------------------------------------------
    | https://github.com/shakyShane/browser-sync/wiki/options#wiki-ghostmode
    */
-  ghostMode: {
-    clicks: true,
-    links: true,
-    forms: true,
-    scroll: true
-  },
+  //ghostMode: {
+    //clicks: true,
+    //links: true,
+    //forms: true,
+    //scroll: true
+  //},
 
   /*
    |--------------------------------------------------------------------------

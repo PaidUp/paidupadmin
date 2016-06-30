@@ -36,18 +36,15 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
   // Now set up the states
   $stateProvider
     .state('logout', {
-      abstract: true,
       url: '/logout',
-      templateUrl: '../templates/main/index.html',
-      controller: 'SsoCtrl',
+      templateUrl: '../../templates/main/index.html',
       data: {
         requireLogin: false
       }
     })
     .state('access', {
-      abstract: true,
       url: '/token',
-      templateUrl: '../templates/dashboard/dashboard.html',
+      templateUrl: '../../templates/dashboard/dashboard.html',
       controller: 'SsoCtrl',
       data: {
         requireLogin: false
