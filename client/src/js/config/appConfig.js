@@ -31,7 +31,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
 
   // UI ROUTER
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise('/orders')
+  $urlRouterProvider.otherwise('/logout')
   //
   // Now set up the states
   $stateProvider
@@ -43,8 +43,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
       }
     })
     .state('access', {
-      url: '/token',
-      templateUrl: '../../templates/dashboard/dashboard.html',
+      url: '/access',
       controller: 'SsoCtrl',
       data: {
         requireLogin: false
