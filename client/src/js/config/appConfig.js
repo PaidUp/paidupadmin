@@ -52,9 +52,9 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
     .state('orders', {
     url: '/orders',
     templateUrl: '../../templates/orders/ordersV3.html',
-    controller: 'SsoCtrl',
+    controller: 'OrderV3Ctrl',
     data: {
-      requireLogin: false
+      requireLogin: true
     }
   })
 }

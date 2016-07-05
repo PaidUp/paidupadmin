@@ -55,8 +55,7 @@
     "front:dist": "mkdir -p client/dist && rsync -aP --delete --exclude 'less' --exclude css/style.min.css --exclude 'js' client/src/ client/dist/",
     "front:less": "lessc client/src/less/style.less client/dist/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
     "front:browserify:dev": "rm -rf client/dist/js && mkdir -p client/dist/js && browserify client/src/js/app.js --verbose --debug --outfile client/dist/js/bundle.js",
-    "start": "npm run build:client && browser-sync start --server --baseDir client/dist --port 4000 --reload-delay 1000 --files client/dist",
-    "start:test": "npm run build:client && browser-sync start --config bs-config.js",
+    "start": "npm run build:client && browser-sync start --config bs-config.js",
     "watch": "npm-watch"
   }
 }

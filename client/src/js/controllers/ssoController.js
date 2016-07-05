@@ -7,15 +7,18 @@ module.exports = ['$scope', '$state', '$rootScope', '$stateParams', '$location',
 
     SessionService.addSession(data);
     UserService.get(data.token, function(user){
-      $rootScope.currentUser = user;
-
-      $location.path('/orders')
-
-      console.log('$location.path', $location.path());
-      $location.replace();
-
-      $state.go('orders');
-      //AuthService.setDest();
+      if (user && user.roles && user.roles.indexOf('admin') > -1){
+        $rootScope.currentUser = user;
+        $location.url($location.path());
+        $location.path('/orders')
+        $location.replace();
+        $state.go('orders');
+      } else {
+        $location.path('/logout')
+        $location.replace();
+        $state.go('logout');
+      }
+      
     });
 
 
