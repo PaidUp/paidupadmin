@@ -271,7 +271,7 @@ header{
 
     th:first-child,
     td:first-child{
-      padding-left: 10px;   
+      padding-left: 10px;
     }
 
     th:last-child,
@@ -282,26 +282,36 @@ header{
     tbody{
       border-left: 1px solid #ccc;
       border-right: 1px solid #ccc;
+
+      &:nth-child(4n+1){
+        tr{
+          background-color: @c-green-light-back;
+
+        }
+      }
+      &:nth-child(4n+3){
+        tr{
+          background-color: @c-blue-light-back;
+        }
+      }
+
+      &:last-child{
+        border-bottom: 1px solid #ccc;
+      }
       
       tr{
         background-color: #fff;
-        &:nth-child(4n+1){
-          background-color: @c-green-light-back;
-        }
-        &:nth-child(4n+3){
-          background-color: @c-blue-light-back;
-        }
         &.order_row{
           border-top: 1px solid #ccc;
-          cursor:pointer;          
-        }        
-        &:last-child{
-          border-bottom: 1px solid #ccc;
+          cursor: pointer;
+          cursor: hand;
+
         }
       }
 
       td{
         word-break: break-word;
+
       }
 
       td.expand{

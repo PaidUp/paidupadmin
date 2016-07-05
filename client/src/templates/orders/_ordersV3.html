@@ -1,0 +1,1302 @@
+<div class="title_blue">Search for Orders V3</div>
+
+<div class="inputs">
+  <div class="input">
+    <input type="text" placeholder="Order number, email, beneficiary ..." />    
+  </div>
+  <div class="btns">
+    <div class="btn-green">Search</div>
+  </div>
+  <div class="right">
+    <div class="switch">
+      <label>
+        with filter 1
+        <input type="checkbox">
+        <span class="lever"></span>
+        option 2
+      </label>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<div class="title_blue">Search Results</div>
+
+<div class="tables_container">
+  <table class="orders_table">
+    <thead>
+      <tr>
+        <th>Order Id</th>
+        <th>User</th>
+        <th>Email</th>
+        <th>Beneficiary</th>
+        <th>Created at</th>
+        <th>Company</th>
+        <th>Team</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+
+
+      <tr ng-click="expandSection1 = !expandSection1" ng-class="expandSection1 ? 'order_row active' : 'order_row'">
+        <td>10000</td>
+        <td>Ricardo Lara</td>
+        <td>rilara@gmail.com</td>
+        <td>Karen Cooth</td>
+        <td>May 10, 2016</td>
+        <td>Isotopos Springfield</td>
+        <td>Private Coaching</td>
+        <td class="green-font">Active</td>
+      </tr>
+
+      <tr class="expandable">
+        <td class="expand" colspan="8">
+          <div ng-class="expandSection1 ? 'expandable_section active' : 'expandable_section'">
+            <div class="expanded_section">
+
+              <table class="charges_table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Charge Date</th>
+                    <th>Price</th>
+                    <th ng-show="editCharges1">Orig. Price</th>
+                    <th>Card</th>
+                    <th class="centered">Status</th>
+                    <th class="centered">Processed</th>
+                    <th class="centered">Disabled</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>                             
+                    <td>
+                      <span ng-hide="editCharges1">March Payment</span>
+                      <div ng-show="editCharges1">
+                        <input type="text" value="March Payment" />
+                      </div>
+                    </td>
+                    <td>
+                      <span ng-hide="editCharges1">May 10, 2016</span>
+                      <div ng-show="editCharges1">
+                        <input type="text" value="May 10, 2016" />
+                      </div>
+                    </td>
+                    <td>$678.15</td>
+                    <td ng-show="editCharges1">
+                      <input type="text" value="600" />
+                    </td>
+                    <td>
+                      <span ng-hide="editCharges1">Visa x-1234</span>
+                      <div ng-show="editCharges1">
+                        <select name="" id="">
+                          <option value="">AMEX x-1111</option>
+                          <option value="">Visa x-1111</option>
+                          <option value="">MasterCard x-1111</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td class="centered green-font">Paid</td>
+                    <td  class="centered">   
+                      <input type="checkbox" checked="checked" />
+                      <label></label>
+                    </td>
+                    <td class="centered">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </td>
+                  </tr>
+                  <tr>                             
+                    <td>
+                      <span ng-hide="editCharges1">March Payment</span>
+                      <div ng-show="editCharges1">
+                        <input type="text" value="March Payment" />
+                      </div>
+                    </td>
+                    <td>
+                      <span ng-hide="editCharges1">May 10, 2016</span>
+                      <div ng-show="editCharges1">
+                        <input type="text" value="May 10, 2016" />
+                      </div>
+                    </td>
+                    <td>$678.15</td>
+                    <td ng-show="editCharges1">
+                      <input type="text" value="600" />
+                    </td>
+                    <td>
+                      <span ng-hide="editCharges1">Visa x-1234</span>
+                      <div ng-show="editCharges1">
+                        <select name="" id="">
+                          <option value="">AMEX x-1111</option>
+                          <option value="">Visa x-1111</option>
+                          <option value="">MasterCard x-1111</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td class="centered red-font">Failed</td>
+                    <td  class="centered">
+                      <div ng-hide="editCharges1">
+                        <input type="checkbox" checked="checked" />
+                        <label></label>
+                      </div>
+                      <div ng-show="editCharges1">
+                        <input type="checkbox" class="filled-in" id="checkProcessed12" checked="checked" />
+                        <label for="checkProcessed12"></label>
+                      </div>   
+                    </td>
+                    <td class="centered">
+                      <div ng-hide="editCharges1">
+                        <input type="checkbox" />
+                        <label class="bar"></label>
+                      </div>
+                      <div ng-show="editCharges1">
+                        <input type="checkbox" class="filled-in" id="checkDisabled12" />
+                        <label for="checkDisabled12"></label>
+                      </div>  
+                    </td>
+                  </tr>  
+                  <tr>                             
+                    <td>
+                      <span ng-hide="editCharges1">March Payment</span>
+                      <div ng-show="editCharges1">
+                        <input type="text" value="March Payment" />
+                      </div>
+                    </td>
+                    <td>
+                      <span ng-hide="editCharges1">May 10, 2016</span>
+                      <div ng-show="editCharges1">
+                        <input type="text" value="May 10, 2016" />
+                      </div>
+                    </td>
+                    <td>$678.15</td>
+                    <td ng-show="editCharges1">
+                      <input type="text" value="600" />
+                    </td>
+                    <td>
+                      <span ng-hide="editCharges1">Visa x-1234</span>
+                      <div ng-show="editCharges1">
+                        <select name="" id="">
+                          <option value="">AMEX x-1111</option>
+                          <option value="">Visa x-1111</option>
+                          <option value="">MasterCard x-1111</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td class="centered">Pending</td>
+                    <td  class="centered"> 
+                      <div ng-hide="editCharges1">
+                        <input type="checkbox" />
+                        <label class="bar"></label>
+                      </div>
+                      <div ng-show="editCharges1">
+                        <input type="checkbox" class="filled-in" id="checkProcessed13" />
+                        <label for="checkProcessed13"></label>
+                      </div>  
+
+                    </td>
+                    <td class="centered">
+                      <div ng-hide="editCharges1">
+                        <input type="checkbox" />
+                        <label class="bar"></label>
+                      </div>
+                      <div ng-show="editCharges1">
+                        <input type="checkbox" class="filled-in" id="checkDisabled13" />
+                        <label for="checkDisabled13"></label>
+                      </div>  
+
+                    </td>
+                  </tr>           
+                </tbody>
+              </table>
+
+              <div ng-class="expandLog1 ? 'expandable_log active' : 'expandable_log'">
+                <div class="tables_separator"></div>
+                <div class="expanded_log">
+                  <table class="log">
+                    <thead>
+                      <tr>
+                        <th>Edited</th>
+                        <th>User</th>
+                        <th>Old Charge Info</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="log_date">11/10/2015</td>
+                        <td class="log_user">rlara</td>
+                        <td class="log_data">
+                          <span class="black-font">Desc.</span>: February Payment
+                          <span class="black-font">Charge Date</span>: 11/11/2014
+                          <span class="black-font">Price</span>: $543
+                          <span class="black-font">Orig. Price</span>: $500
+                          <span class="black-font">Card</span>: Visa x-1234
+                          <span class="black-font">Processed</span>: true
+                          <span class="black-font">Disable</span>: false
+                        </td>
+                      </tr> 
+                      <tr>
+                        <td class="log_date">11/10/2015</td>
+                        <td class="log_user">rlara</td>
+                        <td class="log_data">
+                          <span class="black-font">Desc.</span>: May Payment
+                          <span class="black-font">Charge Date</span>: 11/11/2014
+                          <span class="black-font">Price</span>: $543
+                          <span class="black-font">Orig. Price</span>: $500
+                          <span class="black-font">Card</span>: Visa x-1234
+                          <span class="black-font">Processed</span>: true
+                          <span class="black-font">Disable</span>: false
+                        </td>
+                      </tr> 
+                      <tr>
+                        <td class="log_date">11/10/2015</td>
+                        <td class="log_user">rlara</td>
+                        <td class="log_data">
+                          <span class="black-font">Desc.</span>: Repaid
+                          <span class="black-font">Charge Date</span>: 11/9/2014
+                          <span class="black-font">Price</span>: $999
+                          <span class="black-font">Orig. Price</span>: $555
+                          <span class="black-font">Card</span>: AMEX x-1234
+                          <span class="black-font">Processed</span>: false
+                          <span class="black-font">Disable</span>: false
+                        </td>
+                      </tr> 
+                      <tr>
+                        <td class="log_date">11/10/2015</td>
+                        <td class="log_user">rlara</td>
+                        <td class="log_data">
+                          <span class="black-font">Desc.</span>: Extra Payment
+                          <span class="black-font">Charge Date</span>: 11/1/2014
+                          <span class="black-font">Price</span>: $543
+                          <span class="black-font">Orig. Price</span>: $500
+                          <span class="black-font">Card</span>: Visa x-1234
+                          <span class="black-font">Processed</span>: true
+                          <span class="black-font">Disable</span>: true
+                        </td>
+                      </tr>                  
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="btns_container">
+               <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">Edit</button>
+               <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close</button>
+               <button class="btn" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Save</button>
+               <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel</button>
+               <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close Log' : 'View Log'}}</button>
+             </div>
+           </div>                     
+         </div>
+       </td>                
+     </tr>
+
+     <tr ng-click="expandSection2 = !expandSection2" ng-class="expandSection2 ? 'order_row active' : 'order_row'">
+      <td>99999999</td>
+      <td>Dieho Forts</td>
+      <td>d@gmail.com</td>
+      <td>Secin Lorso</td>
+      <td>Apr 10, 2016</td>
+      <td>Houston Rockets</td>
+      <td>Basketball</td>
+      <td>Suspended</td>
+    </tr>
+
+    <tr class="expandable">
+      <td class="expand" colspan="8">
+        <div ng-class="expandSection2 ? 'expandable_section active' : 'expandable_section'">
+          <div class="expanded_section">
+
+            <table class="charges_table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th>Charge Date</th>
+                  <th>Price</th>
+                  <th ng-show="editCharges2">Orig. Price</th>
+                  <th>Card</th>
+                  <th class="centered">Status</th>
+                  <th class="centered">Processed</th>
+                  <th class="centered">Disabled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>                             
+                  <td>
+                    <span ng-hide="editCharges2">March Payment</span>
+                    <div ng-show="editCharges2">
+                      <input type="text" value="March Payment" />
+                    </div>
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges2">May 10, 2016</span>
+                    <div ng-show="editCharges2">
+                      <input type="text" value="May 10, 2016" />
+                    </div>
+                  </td>
+                  <td>$678.15</td>
+                  <td ng-show="editCharges2">
+                    <input type="text" value="600" />
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges2">Visa x-1234</span>
+                    <div ng-show="editCharges2">
+                      <select name="" id="">
+                        <option value="">AMEX x-1111</option>
+                        <option value="">Visa x-1111</option>
+                        <option value="">MasterCard x-1111</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="centered green-font">Paid</td>
+                  <td  class="centered">   
+                    <input type="checkbox" checked="checked" />
+                    <label></label>
+                  </td>
+                  <td class="centered">
+                    <input type="checkbox" />
+                    <label class="bar"></label>
+                  </td>
+                </tr>
+                <tr>                             
+                  <td>
+                    <span ng-hide="editCharges2">March Payment</span>
+                    <div ng-show="editCharges2">
+                      <input type="text" value="March Payment" />
+                    </div>
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges2">May 10, 2016</span>
+                    <div ng-show="editCharges2">
+                      <input type="text" value="May 10, 2016" />
+                    </div>
+                  </td>
+                  <td>$678.15</td>
+                  <td ng-show="editCharges2">
+                    <input type="text" value="600" />
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges2">Visa x-1234</span>
+                    <div ng-show="editCharges2">
+                      <select name="" id="">
+                        <option value="">AMEX x-1111</option>
+                        <option value="">Visa x-1111</option>
+                        <option value="">MasterCard x-1111</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="centered red-font">Failed</td>
+                  <td  class="centered">
+                    <div ng-hide="editCharges2">
+                      <input type="checkbox" checked="checked" />
+                      <label></label>
+                    </div>
+                    <div ng-show="editCharges2">
+                      <input type="checkbox" class="filled-in" id="checkProcessed12" checked="checked" />
+                      <label for="checkProcessed12"></label>
+                    </div>   
+                  </td>
+                  <td class="centered">
+                    <div ng-hide="editCharges2">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </div>
+                    <div ng-show="editCharges2">
+                      <input type="checkbox" class="filled-in" id="checkDisabled12" />
+                      <label for="checkDisabled12"></label>
+                    </div>  
+                  </td>
+                </tr>  
+                <tr>                             
+                  <td>
+                    <span ng-hide="editCharges2">March Payment</span>
+                    <div ng-show="editCharges2">
+                      <input type="text" value="March Payment" />
+                    </div>
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges2">May 10, 2016</span>
+                    <div ng-show="editCharges2">
+                      <input type="text" value="May 10, 2016" />
+                    </div>
+                  </td>
+                  <td>$678.15</td>
+                  <td ng-show="editCharges2">
+                    <input type="text" value="600" />
+                  </td>
+                  <td>
+                    <span ng-hide="editCharges2">Visa x-1234</span>
+                    <div ng-show="editCharges2">
+                      <select name="" id="">
+                        <option value="">AMEX x-1111</option>
+                        <option value="">Visa x-1111</option>
+                        <option value="">MasterCard x-1111</option>
+                      </select>
+                    </div>
+                  </td>
+                  <td class="centered">Pending</td>
+                  <td  class="centered"> 
+                    <div ng-hide="editCharges2">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </div>
+                    <div ng-show="editCharges2">
+                      <input type="checkbox" class="filled-in" id="checkProcessed13" />
+                      <label for="checkProcessed13"></label>
+                    </div>  
+
+                  </td>
+                  <td class="centered">
+                    <div ng-hide="editCharges2">
+                      <input type="checkbox" />
+                      <label class="bar"></label>
+                    </div>
+                    <div ng-show="editCharges2">
+                      <input type="checkbox" class="filled-in" id="checkDisabled13" />
+                      <label for="checkDisabled13"></label>
+                    </div>  
+
+                  </td>
+                </tr>           
+              </tbody>
+            </table>
+
+            <div ng-class="expandLog2 ? 'expandable_log active' : 'expandable_log'">
+              <div class="tables_separator"></div>
+              <div class="expanded_log">
+                <table class="log">
+                  <thead>
+                    <tr>
+                      <th>Edited</th>
+                      <th>User</th>
+                      <th>Old Charge Info</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="log_date">11/10/2015</td>
+                      <td class="log_user">rlara</td>
+                      <td class="log_data">
+                        <span class="black-font">Desc.</span>: February Payment
+                        <span class="black-font">Charge Date</span>: 11/11/2014
+                        <span class="black-font">Price</span>: $543
+                        <span class="black-font">Orig. Price</span>: $500
+                        <span class="black-font">Card</span>: Visa x-1234
+                        <span class="black-font">Processed</span>: true
+                        <span class="black-font">Disable</span>: false
+                      </td>
+                    </tr> 
+                    <tr>
+                      <td class="log_date">11/10/2015</td>
+                      <td class="log_user">rlara</td>
+                      <td class="log_data">
+                        <span class="black-font">Desc.</span>: May Payment
+                        <span class="black-font">Charge Date</span>: 11/11/2014
+                        <span class="black-font">Price</span>: $543
+                        <span class="black-font">Orig. Price</span>: $500
+                        <span class="black-font">Card</span>: Visa x-1234
+                        <span class="black-font">Processed</span>: true
+                        <span class="black-font">Disable</span>: false
+                      </td>
+                    </tr> 
+                    <tr>
+                      <td class="log_date">11/10/2015</td>
+                      <td class="log_user">rlara</td>
+                      <td class="log_data">
+                        <span class="black-font">Desc.</span>: Repaid
+                        <span class="black-font">Charge Date</span>: 11/9/2014
+                        <span class="black-font">Price</span>: $999
+                        <span class="black-font">Orig. Price</span>: $555
+                        <span class="black-font">Card</span>: AMEX x-1234
+                        <span class="black-font">Processed</span>: false
+                        <span class="black-font">Disable</span>: false
+                      </td>
+                    </tr> 
+                    <tr>
+                      <td class="log_date">11/10/2015</td>
+                      <td class="log_user">rlara</td>
+                      <td class="log_data">
+                        <span class="black-font">Desc.</span>: Extra Payment
+                        <span class="black-font">Charge Date</span>: 11/1/2014
+                        <span class="black-font">Price</span>: $543
+                        <span class="black-font">Orig. Price</span>: $500
+                        <span class="black-font">Card</span>: Visa x-1234
+                        <span class="black-font">Processed</span>: true
+                        <span class="black-font">Disable</span>: true
+                      </td>
+                    </tr>                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="btns_container">
+             <button class="btn" ng-click="editCharges2 = !editCharges2" ng-hide="editCharges2">Edit</button>
+             <button class="btn btn-gray" ng-click="expandSection2 = !expandSection2" ng-hide="editCharges2">Close</button>
+             <button class="btn" ng-show="editCharges2" ng-click="editCharges2 = !editCharges2">Save</button>
+             <button class="btn btn-gray" ng-show="editCharges2" ng-click="editCharges2 = !editCharges2">Cancel</button>
+             <button class="btn btn-blue" ng-click="expandLog2 = !expandLog2">{{expandLog2 ? 'Close Log' : 'View Log'}}</button>
+           </div>
+         </div>                     
+       </div>
+     </td>                
+   </tr>
+
+   <tr ng-click="expandSection3 = !expandSection3" ng-class="expandSection3 ? 'order_row active' : 'order_row'">
+    <td>10000</td>
+    <td>Ricardo Lara</td>
+    <td>rilara@gmail.com</td>
+    <td>Karen Cooth</td>
+    <td>May 10, 2016</td>
+    <td>Isotopos Springfield</td>
+    <td>Private Coaching</td>
+    <td class="red-font">Check</td>
+  </tr>
+
+  <tr class="expandable">
+    <td class="expand" colspan="8">
+      <div ng-class="expandSection3 ? 'expandable_section active' : 'expandable_section'">
+        <div class="expanded_section">
+
+          <table class="charges_table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Charge Date</th>
+                <th>Price</th>
+                <th ng-show="editCharges3">Orig. Price</th>
+                <th>Card</th>
+                <th class="centered">Status</th>
+                <th class="centered">Processed</th>
+                <th class="centered">Disabled</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>                             
+                <td>
+                  <span ng-hide="editCharges3">March Payment</span>
+                  <div ng-show="editCharges3">
+                    <input type="text" value="March Payment" />
+                  </div>
+                </td>
+                <td>
+                  <span ng-hide="editCharges3">May 10, 2016</span>
+                  <div ng-show="editCharges3">
+                    <input type="text" value="May 10, 2016" />
+                  </div>
+                </td>
+                <td>$678.15</td>
+                <td ng-show="editCharges3">
+                  <input type="text" value="600" />
+                </td>
+                <td>
+                  <span ng-hide="editCharges3">Visa x-1234</span>
+                  <div ng-show="editCharges3">
+                    <select name="" id="">
+                      <option value="">AMEX x-1111</option>
+                      <option value="">Visa x-1111</option>
+                      <option value="">MasterCard x-1111</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="centered green-font">Paid</td>
+                <td  class="centered">   
+                  <input type="checkbox" checked="checked" />
+                  <label></label>
+                </td>
+                <td class="centered">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </td>
+              </tr>
+              <tr>                             
+                <td>
+                  <span ng-hide="editCharges3">March Payment</span>
+                  <div ng-show="editCharges3">
+                    <input type="text" value="March Payment" />
+                  </div>
+                </td>
+                <td>
+                  <span ng-hide="editCharges3">May 10, 2016</span>
+                  <div ng-show="editCharges3">
+                    <input type="text" value="May 10, 2016" />
+                  </div>
+                </td>
+                <td>$678.15</td>
+                <td ng-show="editCharges3">
+                  <input type="text" value="600" />
+                </td>
+                <td>
+                  <span ng-hide="editCharges3">Visa x-1234</span>
+                  <div ng-show="editCharges3">
+                    <select name="" id="">
+                      <option value="">AMEX x-1111</option>
+                      <option value="">Visa x-1111</option>
+                      <option value="">MasterCard x-1111</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="centered red-font">Failed</td>
+                <td  class="centered">
+                  <div ng-hide="editCharges3">
+                    <input type="checkbox" checked="checked" />
+                    <label></label>
+                  </div>
+                  <div ng-show="editCharges3">
+                    <input type="checkbox" class="filled-in" id="checkProcessed12" checked="checked" />
+                    <label for="checkProcessed12"></label>
+                  </div>   
+                </td>
+                <td class="centered">
+                  <div ng-hide="editCharges3">
+                    <input type="checkbox" />
+                    <label class="bar"></label>
+                  </div>
+                  <div ng-show="editCharges3">
+                    <input type="checkbox" class="filled-in" id="checkDisabled12" />
+                    <label for="checkDisabled12"></label>
+                  </div>  
+                </td>
+              </tr>  
+              <tr>                             
+                <td>
+                  <span ng-hide="editCharges3">March Payment</span>
+                  <div ng-show="editCharges3">
+                    <input type="text" value="March Payment" />
+                  </div>
+                </td>
+                <td>
+                  <span ng-hide="editCharges3">May 10, 2016</span>
+                  <div ng-show="editCharges3">
+                    <input type="text" value="May 10, 2016" />
+                  </div>
+                </td>
+                <td>$678.15</td>
+                <td ng-show="editCharges3">
+                  <input type="text" value="600" />
+                </td>
+                <td>
+                  <span ng-hide="editCharges3">Visa x-1234</span>
+                  <div ng-show="editCharges3">
+                    <select name="" id="">
+                      <option value="">AMEX x-1111</option>
+                      <option value="">Visa x-1111</option>
+                      <option value="">MasterCard x-1111</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="centered">Pending</td>
+                <td  class="centered"> 
+                  <div ng-hide="editCharges3">
+                    <input type="checkbox" />
+                    <label class="bar"></label>
+                  </div>
+                  <div ng-show="editCharges3">
+                    <input type="checkbox" class="filled-in" id="checkProcessed13" />
+                    <label for="checkProcessed13"></label>
+                  </div>  
+
+                </td>
+                <td class="centered">
+                  <div ng-hide="editCharges3">
+                    <input type="checkbox" />
+                    <label class="bar"></label>
+                  </div>
+                  <div ng-show="editCharges3">
+                    <input type="checkbox" class="filled-in" id="checkDisabled13" />
+                    <label for="checkDisabled13"></label>
+                  </div>  
+
+                </td>
+              </tr>           
+            </tbody>
+          </table>
+
+          <div ng-class="expandLog3 ? 'expandable_log active' : 'expandable_log'">
+            <div class="tables_separator"></div>
+            <div class="expanded_log">
+              <table class="log">
+                <thead>
+                  <tr>
+                    <th>Edited</th>
+                    <th>User</th>
+                    <th>Old Charge Info</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="log_date">11/10/2015</td>
+                    <td class="log_user">rlara</td>
+                    <td class="log_data">
+                      <span class="black-font">Desc.</span>: February Payment
+                      <span class="black-font">Charge Date</span>: 11/11/2014
+                      <span class="black-font">Price</span>: $543
+                      <span class="black-font">Orig. Price</span>: $500
+                      <span class="black-font">Card</span>: Visa x-1234
+                      <span class="black-font">Processed</span>: true
+                      <span class="black-font">Disable</span>: false
+                    </td>
+                  </tr> 
+                  <tr>
+                    <td class="log_date">11/10/2015</td>
+                    <td class="log_user">rlara</td>
+                    <td class="log_data">
+                      <span class="black-font">Desc.</span>: May Payment
+                      <span class="black-font">Charge Date</span>: 11/11/2014
+                      <span class="black-font">Price</span>: $543
+                      <span class="black-font">Orig. Price</span>: $500
+                      <span class="black-font">Card</span>: Visa x-1234
+                      <span class="black-font">Processed</span>: true
+                      <span class="black-font">Disable</span>: false
+                    </td>
+                  </tr> 
+                  <tr>
+                    <td class="log_date">11/10/2015</td>
+                    <td class="log_user">rlara</td>
+                    <td class="log_data">
+                      <span class="black-font">Desc.</span>: Repaid
+                      <span class="black-font">Charge Date</span>: 11/9/2014
+                      <span class="black-font">Price</span>: $999
+                      <span class="black-font">Orig. Price</span>: $555
+                      <span class="black-font">Card</span>: AMEX x-1234
+                      <span class="black-font">Processed</span>: false
+                      <span class="black-font">Disable</span>: false
+                    </td>
+                  </tr> 
+                  <tr>
+                    <td class="log_date">11/10/2015</td>
+                    <td class="log_user">rlara</td>
+                    <td class="log_data">
+                      <span class="black-font">Desc.</span>: Extra Payment
+                      <span class="black-font">Charge Date</span>: 11/1/2014
+                      <span class="black-font">Price</span>: $543
+                      <span class="black-font">Orig. Price</span>: $500
+                      <span class="black-font">Card</span>: Visa x-1234
+                      <span class="black-font">Processed</span>: true
+                      <span class="black-font">Disable</span>: true
+                    </td>
+                  </tr>                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="btns_container">
+           <button class="btn" ng-click="editCharges3 = !editCharges3" ng-hide="editCharges3">Edit</button>
+           <button class="btn btn-gray" ng-click="expandSection3 = !expandSection3" ng-hide="editCharges3">Close</button>
+           <button class="btn" ng-show="editCharges3" ng-click="editCharges3 = !editCharges3">Save</button>
+           <button class="btn btn-gray" ng-show="editCharges3" ng-click="editCharges3 = !editCharges3">Cancel</button>
+           <button class="btn btn-blue" ng-click="expandLog3 = !expandLog3">{{expandLog3 ? 'Close Log' : 'View Log'}}</button>
+         </div>
+       </div>                     
+     </div>
+   </td>                
+ </tr>
+
+ <tr ng-click="expandSection4 = !expandSection4" ng-class="expandSection4 ? 'order_row active' : 'order_row'">
+  <td>10233</td>
+  <td>Robert Souza</td>
+  <td>souz@gmail.com</td>
+  <td>Sukamoto Traji</td>
+  <td>Sept 15, 2015</td>
+  <td>Ramb Oklahoma</td>
+  <td>Private Coaching</td>
+  <td class="green-font">Active</td>
+</tr>
+
+<tr class="expandable">
+  <td class="expand" colspan="8">
+    <div ng-class="expandSection4 ? 'expandable_section active' : 'expandable_section'">
+      <div class="expanded_section">
+
+        <table class="charges_table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Charge Date</th>
+              <th>Price</th>
+              <th ng-show="editCharges4">Orig. Price</th>
+              <th>Card</th>
+              <th class="centered">Status</th>
+              <th class="centered">Processed</th>
+              <th class="centered">Disabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>                             
+              <td>
+                <span ng-hide="editCharges4">March Payment</span>
+                <div ng-show="editCharges4">
+                  <input type="text" value="March Payment" />
+                </div>
+              </td>
+              <td>
+                <span ng-hide="editCharges4">May 10, 2016</span>
+                <div ng-show="editCharges4">
+                  <input type="text" value="May 10, 2016" />
+                </div>
+              </td>
+              <td>$678.15</td>
+              <td ng-show="editCharges4">
+                <input type="text" value="600" />
+              </td>
+              <td>
+                <span ng-hide="editCharges4">Visa x-1234</span>
+                <div ng-show="editCharges4">
+                  <select name="" id="">
+                    <option value="">AMEX x-1111</option>
+                    <option value="">Visa x-1111</option>
+                    <option value="">MasterCard x-1111</option>
+                  </select>
+                </div>
+              </td>
+              <td class="centered green-font">Paid</td>
+              <td  class="centered">   
+                <input type="checkbox" checked="checked" />
+                <label></label>
+              </td>
+              <td class="centered">
+                <input type="checkbox" />
+                <label class="bar"></label>
+              </td>
+            </tr>
+            <tr>                             
+              <td>
+                <span ng-hide="editCharges4">March Payment</span>
+                <div ng-show="editCharges4">
+                  <input type="text" value="March Payment" />
+                </div>
+              </td>
+              <td>
+                <span ng-hide="editCharges4">May 10, 2016</span>
+                <div ng-show="editCharges4">
+                  <input type="text" value="May 10, 2016" />
+                </div>
+              </td>
+              <td>$678.15</td>
+              <td ng-show="editCharges4">
+                <input type="text" value="600" />
+              </td>
+              <td>
+                <span ng-hide="editCharges4">Visa x-1234</span>
+                <div ng-show="editCharges4">
+                  <select name="" id="">
+                    <option value="">AMEX x-1111</option>
+                    <option value="">Visa x-1111</option>
+                    <option value="">MasterCard x-1111</option>
+                  </select>
+                </div>
+              </td>
+              <td class="centered red-font">Failed</td>
+              <td  class="centered">
+                <div ng-hide="editCharges4">
+                  <input type="checkbox" checked="checked" />
+                  <label></label>
+                </div>
+                <div ng-show="editCharges4">
+                  <input type="checkbox" class="filled-in" id="checkProcessed12" checked="checked" />
+                  <label for="checkProcessed12"></label>
+                </div>   
+              </td>
+              <td class="centered">
+                <div ng-hide="editCharges4">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </div>
+                <div ng-show="editCharges4">
+                  <input type="checkbox" class="filled-in" id="checkDisabled12" />
+                  <label for="checkDisabled12"></label>
+                </div>  
+              </td>
+            </tr>  
+            <tr>                             
+              <td>
+                <span ng-hide="editCharges4">March Payment</span>
+                <div ng-show="editCharges4">
+                  <input type="text" value="March Payment" />
+                </div>
+              </td>
+              <td>
+                <span ng-hide="editCharges4">May 10, 2016</span>
+                <div ng-show="editCharges4">
+                  <input type="text" value="May 10, 2016" />
+                </div>
+              </td>
+              <td>$678.15</td>
+              <td ng-show="editCharges4">
+                <input type="text" value="600" />
+              </td>
+              <td>
+                <span ng-hide="editCharges4">Visa x-1234</span>
+                <div ng-show="editCharges4">
+                  <select name="" id="">
+                    <option value="">AMEX x-1111</option>
+                    <option value="">Visa x-1111</option>
+                    <option value="">MasterCard x-1111</option>
+                  </select>
+                </div>
+              </td>
+              <td class="centered">Pending</td>
+              <td  class="centered"> 
+                <div ng-hide="editCharges4">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </div>
+                <div ng-show="editCharges4">
+                  <input type="checkbox" class="filled-in" id="checkProcessed13" />
+                  <label for="checkProcessed13"></label>
+                </div>  
+
+              </td>
+              <td class="centered">
+                <div ng-hide="editCharges4">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </div>
+                <div ng-show="editCharges4">
+                  <input type="checkbox" class="filled-in" id="checkDisabled13" />
+                  <label for="checkDisabled13"></label>
+                </div>  
+
+              </td>
+            </tr>           
+          </tbody>
+        </table>
+
+        <div ng-class="expandLog4 ? 'expandable_log active' : 'expandable_log'">
+          <div class="tables_separator"></div>
+          <div class="expanded_log">
+            <table class="log">
+              <thead>
+                <tr>
+                  <th>Edited</th>
+                  <th>User</th>
+                  <th>Old Charge Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: February Payment
+                    <span class="black-font">Charge Date</span>: 11/11/2014
+                    <span class="black-font">Price</span>: $543
+                    <span class="black-font">Orig. Price</span>: $500
+                    <span class="black-font">Card</span>: Visa x-1234
+                    <span class="black-font">Processed</span>: true
+                    <span class="black-font">Disable</span>: false
+                  </td>
+                </tr> 
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: May Payment
+                    <span class="black-font">Charge Date</span>: 11/11/2014
+                    <span class="black-font">Price</span>: $543
+                    <span class="black-font">Orig. Price</span>: $500
+                    <span class="black-font">Card</span>: Visa x-1234
+                    <span class="black-font">Processed</span>: true
+                    <span class="black-font">Disable</span>: false
+                  </td>
+                </tr> 
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: Repaid
+                    <span class="black-font">Charge Date</span>: 11/9/2014
+                    <span class="black-font">Price</span>: $999
+                    <span class="black-font">Orig. Price</span>: $555
+                    <span class="black-font">Card</span>: AMEX x-1234
+                    <span class="black-font">Processed</span>: false
+                    <span class="black-font">Disable</span>: false
+                  </td>
+                </tr> 
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: Extra Payment
+                    <span class="black-font">Charge Date</span>: 11/1/2014
+                    <span class="black-font">Price</span>: $543
+                    <span class="black-font">Orig. Price</span>: $500
+                    <span class="black-font">Card</span>: Visa x-1234
+                    <span class="black-font">Processed</span>: true
+                    <span class="black-font">Disable</span>: true
+                  </td>
+                </tr>                  
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="btns_container">
+         <button class="btn" ng-click="editCharges4 = !editCharges4" ng-hide="editCharges4">Edit</button>
+         <button class="btn btn-gray" ng-click="expandSection4 = !expandSection4" ng-hide="editCharges4">Close</button>
+         <button class="btn" ng-show="editCharges4" ng-click="editCharges4 = !editCharges4">Save</button>
+         <button class="btn btn-gray" ng-show="editCharges4" ng-click="editCharges4 = !editCharges4">Cancel</button>
+         <button class="btn btn-blue" ng-click="expandLog4 = !expandLog4">{{expandLog4 ? 'Close Log' : 'View Log'}}</button>
+       </div>
+     </div>                     
+   </div>
+ </td>                
+</tr>
+
+<tr ng-click="expandSection5 = !expandSection5" ng-class="expandSection5 ? 'order_row active' : 'order_row'">
+  <td>222</td>
+  <td>Chizamoto Sizalotokope Longname</td>
+  <td>longemail_sdsddddd@gmail.com</td>
+  <td>Karen Cooth</td>
+  <td>May 10, 2016</td>
+  <td>Isotopos Springfield</td>
+  <td>Private Coaching</td>
+  <td class="green-font">Active</td>
+</tr>
+
+<tr class="expandable">
+  <td class="expand" colspan="8">
+    <div ng-class="expandSection5 ? 'expandable_section active' : 'expandable_section'">
+      <div class="expanded_section">
+
+        <table class="charges_table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Charge Date</th>
+              <th>Price</th>
+              <th ng-show="editCharges1">Orig. Price</th>
+              <th>Card</th>
+              <th class="centered">Status</th>
+              <th class="centered">Processed</th>
+              <th class="centered">Disabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>                             
+              <td>
+                <span ng-hide="editCharges1">March Payment</span>
+                <div ng-show="editCharges1">
+                  <input type="text" value="March Payment" />
+                </div>
+              </td>
+              <td>
+                <span ng-hide="editCharges1">May 10, 2016</span>
+                <div ng-show="editCharges1">
+                  <input type="text" value="May 10, 2016" />
+                </div>
+              </td>
+              <td>$678.15</td>
+              <td ng-show="editCharges1">
+                <input type="text" value="600" />
+              </td>
+              <td>
+                <span ng-hide="editCharges1">Visa x-1234</span>
+                <div ng-show="editCharges1">
+                  <select name="" id="">
+                    <option value="">AMEX x-1111</option>
+                    <option value="">Visa x-1111</option>
+                    <option value="">MasterCard x-1111</option>
+                  </select>
+                </div>
+              </td>
+              <td class="centered green-font">Paid</td>
+              <td  class="centered">   
+                <input type="checkbox" checked="checked" />
+                <label></label>
+              </td>
+              <td class="centered">
+                <input type="checkbox" />
+                <label class="bar"></label>
+              </td>
+            </tr>
+            <tr>                             
+              <td>
+                <span ng-hide="editCharges1">March Payment</span>
+                <div ng-show="editCharges1">
+                  <input type="text" value="March Payment" />
+                </div>
+              </td>
+              <td>
+                <span ng-hide="editCharges1">May 10, 2016</span>
+                <div ng-show="editCharges1">
+                  <input type="text" value="May 10, 2016" />
+                </div>
+              </td>
+              <td>$678.15</td>
+              <td ng-show="editCharges1">
+                <input type="text" value="600" />
+              </td>
+              <td>
+                <span ng-hide="editCharges1">Visa x-1234</span>
+                <div ng-show="editCharges1">
+                  <select name="" id="">
+                    <option value="">AMEX x-1111</option>
+                    <option value="">Visa x-1111</option>
+                    <option value="">MasterCard x-1111</option>
+                  </select>
+                </div>
+              </td>
+              <td class="centered red-font">Failed</td>
+              <td  class="centered">
+                <div ng-hide="editCharges1">
+                  <input type="checkbox" checked="checked" />
+                  <label></label>
+                </div>
+                <div ng-show="editCharges1">
+                  <input type="checkbox" class="filled-in" id="checkProcessed12" checked="checked" />
+                  <label for="checkProcessed12"></label>
+                </div>   
+              </td>
+              <td class="centered">
+                <div ng-hide="editCharges1">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </div>
+                <div ng-show="editCharges1">
+                  <input type="checkbox" class="filled-in" id="checkDisabled12" />
+                  <label for="checkDisabled12"></label>
+                </div>  
+              </td>
+            </tr>  
+            <tr>                             
+              <td>
+                <span ng-hide="editCharges1">March Payment</span>
+                <div ng-show="editCharges1">
+                  <input type="text" value="March Payment" />
+                </div>
+              </td>
+              <td>
+                <span ng-hide="editCharges1">May 10, 2016</span>
+                <div ng-show="editCharges1">
+                  <input type="text" value="May 10, 2016" />
+                </div>
+              </td>
+              <td>$678.15</td>
+              <td ng-show="editCharges1">
+                <input type="text" value="600" />
+              </td>
+              <td>
+                <span ng-hide="editCharges1">Visa x-1234</span>
+                <div ng-show="editCharges1">
+                  <select name="" id="">
+                    <option value="">AMEX x-1111</option>
+                    <option value="">Visa x-1111</option>
+                    <option value="">MasterCard x-1111</option>
+                  </select>
+                </div>
+              </td>
+              <td class="centered">Pending</td>
+              <td  class="centered"> 
+                <div ng-hide="editCharges1">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </div>
+                <div ng-show="editCharges1">
+                  <input type="checkbox" class="filled-in" id="checkProcessed13" />
+                  <label for="checkProcessed13"></label>
+                </div>  
+
+              </td>
+              <td class="centered">
+                <div ng-hide="editCharges1">
+                  <input type="checkbox" />
+                  <label class="bar"></label>
+                </div>
+                <div ng-show="editCharges1">
+                  <input type="checkbox" class="filled-in" id="checkDisabled13" />
+                  <label for="checkDisabled13"></label>
+                </div>  
+
+              </td>
+            </tr>           
+          </tbody>
+        </table>
+
+        <div ng-class="expandLog5 ? 'expandable_log active' : 'expandable_log'">
+          <div class="tables_separator"></div>
+          <div class="expanded_log">
+            <table class="log">
+              <thead>
+                <tr>
+                  <th>Edited</th>
+                  <th>User</th>
+                  <th>Old Charge Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: February Payment
+                    <span class="black-font">Charge Date</span>: 11/11/2014
+                    <span class="black-font">Price</span>: $543
+                    <span class="black-font">Orig. Price</span>: $500
+                    <span class="black-font">Card</span>: Visa x-1234
+                    <span class="black-font">Processed</span>: true
+                    <span class="black-font">Disable</span>: false
+                  </td>
+                </tr> 
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: May Payment
+                    <span class="black-font">Charge Date</span>: 11/11/2014
+                    <span class="black-font">Price</span>: $543
+                    <span class="black-font">Orig. Price</span>: $500
+                    <span class="black-font">Card</span>: Visa x-1234
+                    <span class="black-font">Processed</span>: true
+                    <span class="black-font">Disable</span>: false
+                  </td>
+                </tr> 
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: Repaid
+                    <span class="black-font">Charge Date</span>: 11/9/2014
+                    <span class="black-font">Price</span>: $999
+                    <span class="black-font">Orig. Price</span>: $555
+                    <span class="black-font">Card</span>: AMEX x-1234
+                    <span class="black-font">Processed</span>: false
+                    <span class="black-font">Disable</span>: false
+                  </td>
+                </tr> 
+                <tr>
+                  <td class="log_date">11/10/2015</td>
+                  <td class="log_user">rlara</td>
+                  <td class="log_data">
+                    <span class="black-font">Desc.</span>: Extra Payment
+                    <span class="black-font">Charge Date</span>: 11/1/2014
+                    <span class="black-font">Price</span>: $543
+                    <span class="black-font">Orig. Price</span>: $500
+                    <span class="black-font">Card</span>: Visa x-1234
+                    <span class="black-font">Processed</span>: true
+                    <span class="black-font">Disable</span>: true
+                  </td>
+                </tr>                  
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="btns_container">
+         <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">Edit</button>
+         <button class="btn btn-gray" ng-click="expandSection5 = !expandSection5" ng-hide="editCharges1">Close</button>
+         <button class="btn" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Save</button>
+         <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel</button>
+         <button class="btn btn-blue" ng-click="expandLog5 = !expandLog5">{{expandLog5 ? 'Close Log' : 'View Log'}}</button>
+       </div>
+     </div>                     
+   </div>
+ </td>                
+</tr>
+
+
+
+
+</tbody>
+</table>
+</div>

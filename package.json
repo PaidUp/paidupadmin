@@ -39,7 +39,7 @@
     "node": "4.4.2"
   },
   "watch": {
-    "front:less": "client/src/style.less",
+    "front:less": "client/src/less/style.less",
     "front:dist": {
       "patterns": [
         "client/src"
