@@ -9,35 +9,11 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
     return OrderSearch.post({params: params}).$promise
   }
 
-
-
-
-
-
-
-  var Orders = $resource('/api/v1/commerce/order/list', {}, {})
-  var Order = $resource('/api/v1/commerce/order/:orderId', {}, {})
-  var OrderBasic = $resource('/api/v1/commerce/order/basic/:orderId', {}, {})
-  var Transactions = $resource('/api/v1/commerce/transaction/list', {}, {})
-  var Schedule = $resource('/api/v1/commerce/schedule/generate', {}, {
-    post: { method: 'POST', isArray: false }})
-  
-
-  var PaymentPlanEdit = $resource('/api/v1/commerce/order/edit', {}, {
+  var PaymentPlanEdit = $resource(ConfigService.getBrokerUrl()+'/api/v1/commerce/order/edit', {}, {
     post: { method: 'POST', isArray: false }})
 
-  var PaymentPlanAdd = $resource('/api/v1/commerce/order/add', {}, {
+  var PaymentPlanAdd = $resource(ConfigService.getBrokerUrl()+'/api/v1/commerce/order/add', {}, {
     post: { method: 'POST', isArray: false }})
-
-  this.getOrders = function () {
-    return Orders.query().$promise
-  }
-
-  this.getOrder = function (orderId) {
-    return Order.get({orderId: orderId}).$promise
-  }
-
-  
 
   this.paymentPlanEdit = function (params) {
     return PaymentPlanEdit.post(params).$promise
@@ -47,6 +23,22 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
     return PaymentPlanAdd.post(params).$promise
   }
 
+
+  var Orders = $resource('/api/v1/commerce/order/list', {}, {})
+  var Order = $resource('/api/v1/commerce/order/:orderId', {}, {})
+  var OrderBasic = $resource('/api/v1/commerce/order/basic/:orderId', {}, {})
+  var Transactions = $resource('/api/v1/commerce/transaction/list', {}, {})
+  var Schedule = $resource('/api/v1/commerce/schedule/generate', {}, {
+    post: { method: 'POST', isArray: false }})
+
+  this.getOrders = function () {
+    return Orders.query().$promise
+  }
+
+  this.getOrder = function (orderId) {
+    return Order.get({orderId: orderId}).$promise
+  }
+  
   this.getOrderBasic = function (orderId) {
     return OrderBasic.get({orderId: orderId}).$promise
   }
