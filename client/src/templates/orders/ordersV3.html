@@ -1,3 +1,4 @@
+<div class="materialize-styles1">
 <div class="title_blue">Search for Orders V3</div>
 <form ng-submit="search()">
   <div class="inputs">
@@ -24,7 +25,7 @@
 <div class="title_blue" ng-show="searchResult.length > 0">Search Results</div>
 
 <div class="tables_container" ng-show="searchResult.length > 0">
-  <table class="orders_table">
+  <table class="orders_table md-table">
     <thead>
       <tr>
         <th>Order Id</th>
@@ -57,7 +58,8 @@
               <tr>
                 <th>Description</th>
                 <th>Charge Date</th>
-                <th>Price</th>
+                <th>Base Price</th>
+                <th>Charge Price</th>
                 <th ng-show="editCharges1">Orig. Price</th>
                 <th>Card</th>
                 <th class="centered">Status</th>
@@ -70,18 +72,27 @@
                 <td>
                   <span ng-hide="editCharges1">{{pp.description}}</span>
                   <div ng-show="editCharges1">
-                    <input type="text" value="March Payment" />
+                    <md-input-container>
+<input type="text" ng-model="pp.description" />
+                    </md-input-container>
+                    
                   </div>
                 </td>
                 <td>
                   <span ng-hide="editCharges1">{{pp.dateCharge}}</span>
-                  <div ng-show="editCharges1">
-                    <input type="text" value="May 10, 2016" />
+                  <div ng-show="editCharges1" >
+
+<div input-field>
+    <input type="text" ng-model="dummyInputs.inputFieldInput" length="150">
+    <label>Input label</label>
+</div>
+
                   </div>
                 </td>
-                <td>{{pp.price}}</td>
+                <td>{{pp.basePrice}}</td>
+                <td ng-hide="editCharges1">{{pp.price}}</td>
                 <td ng-show="editCharges1">
-                  <input type="text" value="600" />
+                  <input type="text" ng-model="pp.originalPrice" />
                 </td>
                 <td>
                   <span ng-hide="editCharges1">{{pp.accountBrand}} x-{{pp.last4}}</span>
@@ -183,7 +194,7 @@
             <div class="btns_container">
               <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">Edit</button>
               <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close</button>
-              <button class="btn" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Save</button>
+              <button class="btn" ng-show="editCharges1" ng-click="updateOrder(order)" ng-class="">Save</button>
               <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel</button>
               <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close Log' : 'View Log'}}</button>
             </div>
@@ -198,3 +209,5 @@
 
 </table>
 </div>
+</div>
+
