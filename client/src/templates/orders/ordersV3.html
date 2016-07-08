@@ -22,6 +22,13 @@
   </div>
 </form>
 
+<div input-field>
+    <select class="" ng-model="select.value1" material-select watch>
+<option value="">AMEX x-1111</option>
+                      <option value="">Visa x-1111</option>
+                      <option value="">MasterCard x-1111</option>    </select>
+</div>
+
 <div class="title_blue" ng-show="searchResult.length > 0">Search Results</div>
 
 <div class="tables_container" ng-show="searchResult.length > 0">
@@ -82,10 +89,20 @@
                   <span ng-hide="editCharges1">{{pp.dateCharge}}</span>
                   <div ng-show="editCharges1" >
 
-<div input-field>
-    <input type="text" ng-model="dummyInputs.inputFieldInput" length="150">
-    <label>Input label</label>
-</div>
+<input input-date
+    type="text"
+    name="created"
+    ng-model="pp.dateCharge"
+    container=""
+    format="dd/mm/yyyy"
+   
+    disable="disable"
+   
+    today="today"
+    clear="clear"
+    close="close"
+    select-years="15"
+    />
 
                   </div>
                 </td>
@@ -97,7 +114,7 @@
                 <td>
                   <span ng-hide="editCharges1">{{pp.accountBrand}} x-{{pp.last4}}</span>
                   <div ng-show="editCharges1">
-                    <select name="" >
+                    <select name="" material-select watch>
                       <option value="">AMEX x-1111</option>
                       <option value="">Visa x-1111</option>
                       <option value="">MasterCard x-1111</option>
