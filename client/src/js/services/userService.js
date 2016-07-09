@@ -3,6 +3,9 @@ var angular = require('angular')
 
 module.exports = [ '$resource', 'ConfigService', function ($resource, ConfigService) {
   // ============= User Service =============
+
+  console.log('ConfigService url resource: ', ConfigService.getBrokerUrl()+'/api/v1/user/:action/:userId');
+
   var User = $resource(ConfigService.getBrokerUrl()+'/api/v1/user/:action/:userId', {
     userId: ''
   }, {
