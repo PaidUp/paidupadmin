@@ -15,7 +15,7 @@ module.exports = [ '$rootScope', '$location', function ($rootScope, $location) {
       brokerUrl = 'https://stg.getpaidup.com';
     }
     else if(host.indexOf('admdev') === 0){
-      brokerUrl = 'https://stg.getpaidup.com';
+      brokerUrl = 'https://dev.getpaidup.com';
     }
     else {
       brokerUrl = 'http://localhost:9000'
@@ -34,7 +34,7 @@ module.exports = [ '$rootScope', '$location', function ($rootScope, $location) {
       brokerUrl = 'https://stg.getpaidup.com';
     }
     else if(host.indexOf('admdev') === 0){
-      brokerUrl = 'https://stg.getpaidup.com';
+      brokerUrl = 'https://dev.getpaidup.com';
     }
     else {
       brokerUrl = 'http://localhost:9000'
