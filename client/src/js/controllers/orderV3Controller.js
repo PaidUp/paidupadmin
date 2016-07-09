@@ -13,18 +13,22 @@ module.exports = ['$scope', 'CommerceService',
       $scope.accounts = []
       $scope.orderSelected = null
 
-      CommerceService.orderSearch($scope.searchCriteria).then(function (result) {
-        console.log(result)
+      CommerceService.orderSearch ($scope.searchCriteria).then (function (result) {
         $scope.searchResult = result.body.orders
         $scope.loading = false
-      }).catch(function (err) {
+      }).catch (function (err) {
 
         $scope.loading = false
       })
     }
 
+    $scope.closeDatePicker = function (id) {
+      var selectedDay = angular.element ('#' + id + '_root').find ('.picker__day--selected').length
+      if (selectedDay) {
+        angular.element ('#' + id + '_root').find ('.picker__close').click ()
+      }
+    }
   }
-  
 ]
 
 

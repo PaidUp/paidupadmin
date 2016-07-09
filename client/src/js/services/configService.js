@@ -11,10 +11,10 @@ module.exports = [ '$rootScope', '$location', function ($rootScope, $location) {
     if(host.indexOf('admin') === 0){
       brokerUrl = 'https://app.getpaidup.com';
     }
-    else if(host.indexOf('adminstg') === 0){
+    else if(host.indexOf('admstg') === 0){
       brokerUrl = 'https://stg.getpaidup.com';
     }
-    else if(host.indexOf('admindev') === 0){
+    else if(host.indexOf('admdev') === 0){
       brokerUrl = 'https://stg.getpaidup.com';
     }
     else {
@@ -30,10 +30,10 @@ module.exports = [ '$rootScope', '$location', function ($rootScope, $location) {
     if(host.indexOf('admin') === 0){
       brokerUrl = 'https://app.getpaidup.com';
     }
-    else if(host.indexOf('adminstg') === 0){
+    else if(host.indexOf('admstg') === 0){
       brokerUrl = 'https://stg.getpaidup.com';
     }
-    else if(host.indexOf('admindev') === 0){
+    else if(host.indexOf('admdev') === 0){
       brokerUrl = 'https://stg.getpaidup.com';
     }
     else {

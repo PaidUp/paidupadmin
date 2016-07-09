@@ -25,6 +25,25 @@
 @xlarge-up: ~"only screen and (min-width:1200px)";
 
 
+@media only screen and (min-width: 993px){
+  .container {
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width: 601px){
+  .container {
+    width: 85%;
+  }
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 95%;
+}
+
+
 @font-face{
   font-family: 'The_Northern_Block_Medium';
   src: url(../fonts/The_Northern_Block_Ltd__Brokman_Medium.otf);
@@ -100,7 +119,25 @@ COMMONS
 //   }
 // }
 
+.picker__close, .picker__today, .picker__clear{
+  /* font-size: 1.1rem; */
+  //padding: 0 1rem;
+  font-size: 14px !important;
+  color:@c-green-font !important;
+}
 
+.picker__day--selected {
+  background-color: @c-blue-font !important;
+}
+
+.picker__date-display {
+  background-color: @c-blue-font !important;
+}
+
+.input-field {
+    position: relative;
+    margin-top: 0px;
+}
 
 .btn-green{
   width: 100%;
@@ -212,7 +249,7 @@ header{
 
 // MAIN
 .main_container{
-  min-height: 600px;
+  min-height: 800px;
   margin:30px 0px;
   padding: 15px;
   width: 100%;
@@ -230,12 +267,19 @@ header{
     div.input{
       float:left;
       margin-right: 20px;
+      input[type='text']{
+        width: 300px;
+      }
     }
     div.btns{
       float:left;
     }
     div.right{
-      float:right;
+      @media @medium-only{
+          display:none;
+        }
+      //float:right;
+      
       .switch{
         padding: 8px 0px;
         label{
@@ -245,6 +289,19 @@ header{
         }
       }
     }
+  }
+
+  .filter{
+    margin-bottom: 30px;
+      float:right;
+      .switch{
+        padding: 8px 0px;
+        label{
+          font-size: 16px;
+          color: @c-green-font;
+          font-weight: bold;
+        }
+      }
   }
 
   // TABLES
@@ -363,7 +420,7 @@ header{
                     //   width:100%;
                     // }
                     input[type=checkbox]+label{
-                      top: 5px;
+                      top: 0px;
                       &.bar{
                         &:before{
                           top: -11px;
@@ -462,12 +519,13 @@ header{
                 width: auto;
                 display: inline-block;
                 cursor: pointer;
+                cursor: hand;
                 font-size: 16px;
                 font-weight: bold;
                 color: #FFF;
-                border-radius: 15px;
+                //border-radius: 15px;
                 text-align: center;
-                border:none;
+                //border:none;
                 &:focus{
                   background-color: @c-green-back;
                 }
