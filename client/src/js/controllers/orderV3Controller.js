@@ -1,11 +1,12 @@
 'use strict';
 
-module.exports = ['$scope', 'CommerceService',
-  function ($scope, CommerceService) {
+module.exports = ['$scope', 'CommerceService', 'PaymentService',
+  function ($scope, CommerceService, PaymentService) {
 
     $scope.searchCriteria = '';
     $scope.loading = false;
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>';
+    $scope.expandSection1 = false;
 
 
     $scope.search = function () {
@@ -15,11 +16,25 @@ module.exports = ['$scope', 'CommerceService',
 
       CommerceService.orderSearch ($scope.searchCriteria).then (function (result) {
         $scope.searchResult = result.body.orders
-        $scope.loading = false
       }).catch (function (err) {
 
         $scope.loading = false
       })
+    }
+
+    $scope.selectOrder = function (order) {
+      console.log('order', order);
+
+      PaymentService.listAccounts(order.userId).then(function (res) {
+        $scope.accounts = res.data
+        console.log('data: ', res.data);
+
+      }).catch(function (err) {
+        console.log('ERR', err)
+      })
+
+
+      $scope.expandSection1 = !$scope.expandSection1;
     }
 
     $scope.closeDatePicker = function (id) {
