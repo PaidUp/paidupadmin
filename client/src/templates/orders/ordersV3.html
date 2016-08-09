@@ -154,14 +154,14 @@
                             
                             
 
-                            <div class="btns_container" ng-show="loadingOrder !== order._id && editCharges !== order._id">
-                                <button class="btn" ng-click="changeToEdit(order._id)">Edit</button>
-                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'CloseLog' : 'View Log'}}</button>
+                            <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges !== order._id">
+                                <button class="btn" ng-show="order.status !== 'complete'" ng-click="changeToEdit(order._id)">Edit</button>
+                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close Log' : 'View Log'}}</button>
             </div>
 
-            <div class="btns_container" ng-show="loadingOrder !== order._id && editCharges === order._id">
+            <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges === order._id">
                 <button class="btn btn-gray" ng-click="changeToEdit('')">Cancel</button>
-                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'CloseLog' : 'View Log'}}</button>
+                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close Log' : 'View Log'}}</button>
             </div>
         </div>
         </td>
