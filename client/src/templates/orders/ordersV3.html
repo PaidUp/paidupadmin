@@ -3,16 +3,13 @@
     <form name="submitForm" ng-submit="search()" novalidate>
         <div class="row">
             <div class="input-field col l6 m6 s12">
-                <input ng-model="searchCriteria" name="searchFied" id="searchField" type="text"
-                       ng-class="submitForm.$submitted && submitForm.searchFied.$invalid	 ? 'invalid ng-not-empty' : ''"
-                       ng-required="true">
-                <label ng-class="submitForm.$submitted	 ? 'active' : ''" data-error="Field is required"
-                       for="searchField">Order number, email, beneficiary ...</label>
+                <input ng-model="searchCriteria" name="searchFied" id="searchField" type="text" ng-class="submitForm.$submitted && submitForm.searchFied.$invalid	 ? 'invalid ng-not-empty' : ''"
+                    ng-required="true">
+                <label ng-class="submitForm.$submitted	 ? 'active' : ''" data-error="Field is required" for="searchField">Order number, email, beneficiary ...</label>
             </div>
             <div class="col l1 m6 s12">
 
-                <button class="btn" type="submit" id="submit" ng-bind-html="loading ? loader : 'Search'"
-                        ng-click="submited = true">
+                <button class="btn" type="submit" id="submit" ng-bind-html="loading ? loader : 'Search'" ng-click="submited = true">
             </div>
             <div class=" col l5 m6 s12">
                 <div class="filter">
@@ -28,6 +25,10 @@
             </div>
         </div>
     </form>
+
+   <div class="progress" ng-show="loading">
+    <div class="indeterminate"></div>
+</div>
 
     <div class="title_blue" ng-show="searchResult.length > 0">Search Results</div>
 
@@ -58,7 +59,7 @@
 
             <tr class="expandable">
                 <td class="expand" colspan="7">
-                    <div ng-class="expandSection1 ? 'expandable_section active' : 'expandable_section'">
+                    <div ng-class="expandSection[order._id] ? 'expandable_section active' : 'expandable_section'">
                         <div class="expanded_section">
 
                             <table class="charges_table">
@@ -72,6 +73,7 @@
                                     <th class="centered">Status</th>
                                     <th class="centered">Processed</th>
                                     <th class="centered">Disabled</th>
+                                    <th ng-show="editCharges1" class="centered">Option</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -88,7 +90,6 @@
                                     <td>
                                         <span ng-hide="editCharges1">{{pp.dateCharge}}</span>
                                         <div ng-show="editCharges1">
-
                                             <input input-date
                                                    id="datePicker{{pp._id}}"
                                                    type="text"
@@ -109,21 +110,26 @@
                                     </td>
                                     <td>
                                         <span ng-hide="editCharges1">{{pp.accountBrand}} x-{{pp.last4}}</span>
-                                        <div ng-show="editCharges1">
-                                            <select name="" material-select watch ng-options="account.id as account.last4 for account in accounts track by accounts.id" ng-model="test">
-                                    
+                                        <div ng-if="editCharges1">
+                                            <select material-select watch  ng-model="pp.account">
+                                                <option ng-repeat="account in accountsFilter[pp._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
                                             </select>
-                                            {{test}}
                                         </div>
                                     </td>
                                     <td class="centered green-font">{{pp.status}}</td>
                                     <td class="centered">
-                                        <input type="checkbox" ng-checked="pp.wasProcessed"/>
-                                        <label></label>
+                                        <input id="proc-{{pp._id}}" ng-show="pp.status!=='succeeded'"  ng-disabled="!editCharges1 || pp.status==='disable' || !pp.wasProcessed" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
+                                       <label for="proc-{{pp._id}}"></label>
                                     </td>
                                     <td class="centered">
-                                        <input id="status{{$index}}" type="checkbox" checked="checked"/>
-                                        <label class="" for="status{{$index}}"></label>
+                                        <input id="dis-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="!editCharges1" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'">
+                                        <label for="dis-{{pp._id}}"></label>
+                                    </td>
+                                    <td ng-show="editCharges1" class="centered">
+                                        <a href="#" ng-click="editPaymentPlan(pp)">
+                                        <i class="small material-icons">save</i>
+
+                                        </a>
                                     </td>
                                 </tr>
 
@@ -200,31 +206,30 @@
                                 </div>
                             </div>
 
-                            <div class="btns_container">
+                             <div class="progress" ng-show="loadingOrder">
+                                <div class="indeterminate"></div>
+                            </div>
+
+                            <div class="btns_container" ng-hide="loadingOrder">
                                 <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">
                                     Edit
                                 </button>
-                                <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1"
-                                        ng-hide="editCharges1">Close
+                <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close
                                 </button>
-                                <button class="btn" ng-show="editCharges1" ng-click="updateOrder(order)" ng-class="">
-                                    Save
+                <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel
                                 </button>
-                                <button class="btn btn-gray" ng-show="editCharges1"
-                                        ng-click="editCharges1 = !editCharges1">Cancel
-                                </button>
-                                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close
+                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close
                                     Log' : 'View Log'}}
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+            </div>
+        </div>
+</div>
+</td>
+</tr>
 
-            </tbody>
+</tbody>
 
 
-        </table>
-    </div>
+</table>
+</div>
 </div>

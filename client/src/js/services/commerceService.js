@@ -9,7 +9,7 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
     return OrderSearch.post({params: params}).$promise
   }
 
-  var PaymentPlanEdit = $resource(ConfigService.getBrokerUrl()+'/api/v1/commerce/order/edit-all', {}, {
+  var PaymentPlanEdit = $resource(ConfigService.getBrokerUrl()+'/api/v1/commerce/order/edit', {}, {
     post: { method: 'POST', isArray: false }})
 
   var PaymentPlanAdd = $resource(ConfigService.getBrokerUrl()+'/api/v1/commerce/order/add', {}, {
