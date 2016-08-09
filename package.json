@@ -6,8 +6,37 @@
   "license": "private",
   "private": true,
   "main": "server/app.js",
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-cookies": "^1.5.7",
+    "angular-local-storage": "^0.2.7",
+    "angular-materialize": "^0.1.9",
+    "angular-resource": "^1.5.7",
+    "angular-sanitize": "^1.5.7",
+    "angular-translate": "^2.11.0",
+    "angular-ui-bootstrap": "^1.3.3",
+    "angular-ui-mask": "^1.8.3",
+    "angular-ui-router": "^0.3.1",
+    "angulartics": "^1.0.3",
+    "angulartics-google-analytics": "^0.1.4",
+    "body-parser": "1.15.0",
+    "browserify": "^13.0.0",
+    "camelize": "^1.0.0",
+    "connect-history-api-fallback": "^1.2.0",
+    "connect-logger": "0.0.1",
+    "cookie-parser": "^1.4.3",
+    "jquery": "^3.0.0",
+    "jsdom": "^9.4.1",
+    "location": "0.0.1",
+    "lodash": "^4.11.2",
+    "materialize-css": "^0.97.6",
+    "navigator": "^1.0.1",
+    "xmlhttprequest": "^1.8.0"
+  },
   "devDependencies": {
     "browser-sync": "^2.12.5",
+    "browserify-shim": "^3.8.12",
     "less": "^2.6.1",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
@@ -17,16 +46,40 @@
     "node": "4.4.2"
   },
   "watch": {
-    "front:less": "client/src/style.less"
+    "front:less": "client/src/less/style.less",
+    "front:dist": {
+      "patterns": [
+        "client/src"
+      ],
+      "extensions": "html,css",
+      "ignore": "src/**/*.js",
+      "quiet": "false"
+    },
+    "front:browserify:dev": "client/src/**/*.js"
   },
   "scripts": {
-    "clean:dist": "rm -rf dist",
-    "clean:build": "rm -rf build",
-    "create:dist": "mkdir dist",
-    "create:build": "mkdir build",
-    "build:client": "npm run front:less && mkdir -p dist && mkdir -p dist/public && cp -R client/public dist/public",
-    "front:less": "lessc client/src/style.less client/public/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
-    "start": "browser-sync start --server client/public --port 4000 --reload-delay 1000 --files client/public !client/src",
+    "build:client": "npm run front:dist && npm run front:less && npm run front:browserify:dev",
+    "front:dist": "mkdir -p client/dist && rsync -aP --delete --exclude 'less' --exclude css/style.min.css --exclude 'js' client/src/ client/dist/",
+    "front:less": "lessc client/src/less/style.less client/dist/css/style.min.css --autoprefix='> 1%, last 2 versions, Firefox ESR'  --clean-css='--s1 --compatibility=ie8'",
+    "front:browserify:dev": "rm -rf client/dist/js && mkdir -p client/dist/js && browserify client/src/js/app.js --verbose --debug --outfile client/dist/js/bundle.js",
+    "start": "npm run build:client && browser-sync start --config bs-config.js",
     "watch": "npm-watch"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browser": {
+    "jquery": "./node_modules/jquery/dist/jquery.js"
+  },
+  "browserify-shim": {
+    "jquery": "$",
+    "angular": {
+      "exports": "angular",
+      "depends": [
+        "jquery"
+      ]
+    }
   }
 }

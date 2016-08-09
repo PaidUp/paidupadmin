@@ -25,6 +25,25 @@
 @xlarge-up: ~"only screen and (min-width:1200px)";
 
 
+@media only screen and (min-width: 993px){
+  .container {
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width: 601px){
+  .container {
+    width: 85%;
+  }
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 95%;
+}
+
+
 @font-face{
   font-family: 'The_Northern_Block_Medium';
   src: url(../fonts/The_Northern_Block_Ltd__Brokman_Medium.otf);
@@ -84,21 +103,42 @@ COMMONS
   color: @c-black-font;
 }
 
-input[type="text"], 
-input[type="number"], 
-input[type="password"], 
-input[type="email"], 
-select{
-  font-size: 16px;
-  padding: 10px 15px;
-  width: 100%;
-  display: block;
-  border-radius: 15px;
-  border: 1px solid @c-gray-back;
-  @media @medium-up{
-    width: 300px;
-  }
+// input[type="text"], 
+// input[type="number"], 
+// input[type="password"], 
+// input[type="email"], 
+// select{
+//   font-size: 16px;
+//   padding: 10px 15px;
+//   width: 100%;
+//   display: block;
+//   border-radius: 15px;
+//   border: 1px solid @c-gray-back;
+//   @media @medium-up{
+//     width: 300px;
+//   }
+// }
+
+.picker__close, .picker__today, .picker__clear{
+  /* font-size: 1.1rem; */
+  //padding: 0 1rem;
+  font-size: 14px !important;
+  color:@c-green-font !important;
 }
+
+.picker__day--selected {
+  background-color: @c-blue-font !important;
+}
+
+.picker__date-display {
+  background-color: @c-blue-font !important;
+}
+
+.input-field {
+    position: relative;
+    margin-top: 0px;
+}
+
 .btn-green{
   width: 100%;
   display: block;
@@ -209,7 +249,7 @@ header{
 
 // MAIN
 .main_container{
-  min-height: 600px;
+  min-height: 800px;
   margin:30px 0px;
   padding: 15px;
   width: 100%;
@@ -227,12 +267,19 @@ header{
     div.input{
       float:left;
       margin-right: 20px;
+      input[type='text']{
+        width: 300px;
+      }
     }
     div.btns{
       float:left;
     }
     div.right{
-      float:right;
+      @media @medium-only{
+          display:none;
+        }
+      //float:right;
+      
       .switch{
         padding: 8px 0px;
         label{
@@ -242,6 +289,19 @@ header{
         }
       }
     }
+  }
+
+  .filter{
+    margin-bottom: 30px;
+      float:right;
+      .switch{
+        padding: 8px 0px;
+        label{
+          font-size: 16px;
+          color: @c-green-font;
+          font-weight: bold;
+        }
+      }
   }
 
   // TABLES
@@ -271,7 +331,7 @@ header{
 
     th:first-child,
     td:first-child{
-      padding-left: 10px;   
+      padding-left: 10px;
     }
 
     th:last-child,
@@ -282,26 +342,36 @@ header{
     tbody{
       border-left: 1px solid #ccc;
       border-right: 1px solid #ccc;
+
+      &:nth-child(4n+1){
+        tr{
+          background-color: @c-green-light-back;
+
+        }
+      }
+      &:nth-child(4n+3){
+        tr{
+          background-color: @c-blue-light-back;
+        }
+      }
+
+      &:last-child{
+        border-bottom: 1px solid #ccc;
+      }
       
       tr{
         background-color: #fff;
-        &:nth-child(4n+1){
-          background-color: @c-green-light-back;
-        }
-        &:nth-child(4n+3){
-          background-color: @c-blue-light-back;
-        }
         &.order_row{
           border-top: 1px solid #ccc;
-          cursor:pointer;          
-        }        
-        &:last-child{
-          border-bottom: 1px solid #ccc;
+          cursor: pointer;
+          cursor: hand;
+
         }
       }
 
       td{
         word-break: break-word;
+
       }
 
       td.expand{
@@ -341,16 +411,16 @@ header{
                     input[type="number"], 
                     input[type="password"], 
                     input[type="email"], 
-                    select{
-                      font-size: 14px;
-                      padding: 5px 10px;
-                      border-radius: 10px;
-                      border: 1px solid @c-gray-back;                      
-                      height: auto;
-                      width:100%;
-                    }
+                    // select{
+                    //   font-size: 14px;
+                    //   padding: 5px 10px;
+                    //   border-radius: 10px;
+                    //   border: 1px solid @c-gray-back;                      
+                    //   height: auto;
+                    //   width:100%;
+                    // }
                     input[type=checkbox]+label{
-                      top: 5px;
+                      top: 0px;
                       &.bar{
                         &:before{
                           top: -11px;
@@ -453,12 +523,13 @@ header{
                 width: auto;
                 display: inline-block;
                 cursor: pointer;
+                cursor: hand;
                 font-size: 16px;
                 font-weight: bold;
                 color: #FFF;
-                border-radius: 15px;
+                //border-radius: 15px;
                 text-align: center;
-                border:none;
+                //border:none;
                 &:focus{
                   background-color: @c-green-back;
                 }
@@ -609,4 +680,29 @@ header{
     background: transparent;
     border: 0;
   }
+}
+
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v17/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  color: #00897b;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
