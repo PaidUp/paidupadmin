@@ -20,6 +20,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       $scope.loadingOrder = '';
       $scope.accountsFilter = {};
       $scope.expandSection = '',
+      $scope.editCharges = '';
 
       CommerceService.orderSearch($scope.searchCriteria).then(function (result) {
 
@@ -35,7 +36,6 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     $scope.selectOrder = function (order) {
       $scope.loadingOrder = order._id;
       $scope.accountsFilter = {};
-
       $scope.editCharges = '';
 
       if ($scope.expandSection !== order._id) {
