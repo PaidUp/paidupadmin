@@ -76,7 +76,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
     $scope.editPaymentPlan = function (orderId, pp) {
       $scope.loadingOrder = orderId;
-      if (!pp.originalPrice || !pp.description || !pp.dateCharge) {
+      if (!pp.price || !pp.description || !pp.dateCharge) {
         DialogService.warm('All fields are required');
         return
       }
@@ -101,7 +101,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         version: pp.version || 'v1',
         orderId: orderId,
         paymentPlanId: pp._id,
-        originalPrice: pp.discount === 0 ? pp.originalPrice : pp.price * 100 / pp.discount,
+        originalPrice: pp.discount === 0 ? pp.price : pp.price * 100 / pp.discount,
         description: pp.description,
         dateCharge: pp.dateCharge,
         wasProcessed: pp.wasProcessed,
