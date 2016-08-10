@@ -32,7 +32,7 @@ module.exports = ['$rootScope', function ($rootScope) {
       throw Error('Message is required')
     }
     var color = typeColor[type];
-    var time = duration || 5000;
+    var time = duration || 10000;
     if (!color) {
       throw Error('Type must be: info, ok, warn or danger')
     }
