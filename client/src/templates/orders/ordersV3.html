@@ -209,7 +209,7 @@
                                     </div>
                                     <ul class="collapsible popout" data-collapsible="accordion">
                                         <li ng-repeat="oldOrder in ordersHistory">
-                                            <div class="collapsible-header"><i class="mdi mdi-plus"></i>{{oldOrder.createAt | date:'medium'}}</div>
+                                            <div class="collapsible-header"><i class="small mdi mdi-view-list" style="color:#00897b "></i>{{oldOrder.createAt | date:'medium'}} - {{oldOrder.order.status}}</div>
                                             <div class="collapsible-body">
 
 
