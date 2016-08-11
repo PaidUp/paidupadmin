@@ -206,16 +206,16 @@
 
                             <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges !== order._id">
                                 <button class="btn waves-effect waves-light" ng-show="order.status !== 'complete'" ng-click="changeToEdit(order._id)">Edit</button>
-                <a class='btn btn-blue waves-effect waves-light' href='#demoModal' modal>View Log</a>
+                <a class='btn btn-blue waves-effect waves-light' href='#modal{{orderId}}' modal>View Log</a>
             </div>
 
             <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges === order._id">
                 <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('')">Cancel</button>
-                <a class='btn btn-blue waves-effect waves-light' href='#demoModal' modal>View Log</a>
+                <a class='btn btn-blue waves-effect waves-light' href='#modal{{orderId}}' modal>View Log</a>
             </div>
 
 <!-- Modal Structure -->
-<div id="demoModal" class="modal">
+<div id="modal{{orderId}}" class="modal">
     <div class="modal-content">
         <h5>History Order {{order.orderId}}</h5>
         <p>A bunch of text</p>
