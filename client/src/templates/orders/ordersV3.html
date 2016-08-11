@@ -101,7 +101,7 @@
                                 <tr ng-repeat="pp in order.paymentsPlan" ng-if="editCharges === order._id">
                                     <td>
                                             <md-input-container>
-                                                <input type="text" ng-model="pp.description"/>
+                                                <input type="text" ng-model="pp.description" ng-disabled="pp.status==='succeeded'"/>
                                             </md-input-container>
 
                                     </td>
@@ -116,29 +116,34 @@
                                                    disable="disable"
                                                    select-years="15"
                                                    on-set="closeDatePicker('datePicker'+pp._id)"
+                                                   ng-disabled="pp.status==='succeeded'"
                                             />
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="pp.price"/>
+                                        <input type="text" ng-model="pp.price" ng-disabled="pp.status==='succeeded'"/>
                                     </td>
                                     <td>
-                                            <select material-select watch  ng-model="pp.account">
+                                            <select material-select watch  ng-model="pp.account" ng-disabled="pp.status==='succeeded'">
                                                 <option ng-repeat="account in accountsFilter[pp._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
                                             </select>
                                     </td>
                                     <td class="centered green-font">{{pp.status}}</td>
                                     <td class="centered">
-                                        <input id="proc-{{pp._id}}" ng-show="pp.status!=='succeeded'"  ng-disabled="editCharges !== order._id || pp.status==='disable' || !pp.wasProcessed" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
+                                        <input id="proc-{{pp._id}}" ng-show="pp.status!=='succeeded'"  ng-disabled="editCharges !== order._id || pp.status==='disable' || !pp.wasProcessed || pp.status==='succeeded'" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
                                        <label for="proc-{{pp._id}}"></label>
                                     </td>
                                     <td class="centered">
-                                        <input id="dis-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="editCharges !== order._id" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'">
+                                        <input id="dis-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="editCharges !== order._id || pp.status==='succeeded'" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'">
                                         <label for="dis-{{pp._id}}"></label>
                                     </td>
                                     <td class="centered">
-                                        <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-click="editPaymentPlan(order._id, pp)">
+                                        <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded'" ng-click="editPaymentPlan(order._id, pp)">
                                         <i class="small mdi mdi-content-save"></i>
                                         </a>
+                                        <a class="btn-floating btn-large waves-effect waves-light disabled" href="#" ng-if="pp.status==='succeeded'" message="This payment was charged  -" duration="5000" toast='click'>
+                                            <i class="small mdi mdi-content-save"></i>
+                                        </a>
+                                        
                                     </td>
                                 </tr>
 
