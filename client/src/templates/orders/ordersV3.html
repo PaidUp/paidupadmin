@@ -61,7 +61,7 @@
                     <div ng-class="expandSection === order._id ? 'expandable_section active' : 'expandable_section'">
                         <div class="expanded_section">
 
-                            <table class="charges_table" responsive-table >
+                            <table class="charges_table responsive-table">
                                 <thead>
                                     <tr>
                                         <th>Description</th>
@@ -181,13 +181,20 @@
 
                                 </tbody>
                             </table>
-
+                            <hr/>
+                            <table class="charges_table responsive-table" ng-if="editCharges !== order._id">
+                                <thead>
+                                    <th ng-repeat="ci in customInfo">{{ci.fieldTitle}}</th>
+                                </thead>
+                                <tbody>
+                                    <td ng-repeat="ci in customInfo">{{ci.fieldValue}}</td>
+                                </tbody>
+                            </table>
 
 
                             <div class="progress" ng-show="loadingOrder === order._id">
                                 <div class="indeterminate"></div>
                             </div>
-
 
 
                             <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges !== order._id">
@@ -200,6 +207,10 @@
                                 <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal ng-click="loadHistory(order._id)">View Log</a>
                             </div>
 
+
+
+
+
                             <!-- Modal Structure -->
                             <div id="modal{{order._id}}" class="modal">
                                 <div class="modal-content">
@@ -209,7 +220,8 @@
                                     </div>
                                     <ul class="collapsible popout" data-collapsible="accordion">
                                         <li ng-repeat="oldOrder in ordersHistory">
-                                            <div class="collapsible-header"><i class="small mdi mdi-view-list" style="color:#00897b "></i>{{oldOrder.createAt | date:'medium'}} - {{oldOrder.order.status}}</div>
+                                            <div class="collapsible-header"><i class="small mdi mdi-view-list" style="color:#00897b "></i>{{oldOrder.createAt
+                                                | date:'medium'}}</div>
                                             <div class="collapsible-body">
 
 

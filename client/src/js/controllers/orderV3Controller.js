@@ -11,6 +11,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     $scope.expandSection = '';
     $scope.accountsFilter = {};
     $scope.ordersHistory = [];
+    $scope.customInfo = [];
 
     $scope.search = function () {
       if (!$scope.searchCriteria) {
@@ -31,6 +32,21 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $scope.loading = false
         DialogService.danger('There are a problem, please contact us');
       })
+    }
+
+    function loadCustomInfo(order){
+      $scope.customInfo = [];
+      var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
+      var formData= order.paymentsPlan[0].customInfo.formData;
+
+      formTemplate.forEach(function(ft, fdIdx, fdArr){
+        if(ft.displayed){
+          $scope.customInfo.push({
+            fieldTitle : ft.name,
+            fieldValue : formData[ft.model]
+          })
+        }
+      });
     }
 
     function sortAccountFilter(order) {
@@ -75,6 +91,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         loadAccountFileter(order, function () {
           $scope.loadingOrder = '';
         });
+        loadCustomInfo(order);
       } else {
         $scope.loadingOrder = '';
         $scope.expandSection = '';
