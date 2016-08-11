@@ -34,19 +34,26 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       })
     }
 
-    function loadCustomInfo(order){
+    function loadCustomInfo(order) {
       $scope.customInfo = [];
-      var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
-      var formData= order.paymentsPlan[0].customInfo.formData;
+      if (order.beneficiaryInfo) {
+        $scope.customInfo.push({
+          fieldTitle: 'Beneficiary Name',
+          fieldValue: order.beneficiaryInfo.beneficiaryName
+        })
+      } else {
+        var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
+        var formData = order.paymentsPlan[0].customInfo.formData;
 
-      formTemplate.forEach(function(ft, fdIdx, fdArr){
-        if(ft.displayed){
-          $scope.customInfo.push({
-            fieldTitle : ft.name,
-            fieldValue : formData[ft.model]
-          })
-        }
-      });
+        formTemplate.forEach(function (ft, fdIdx, fdArr) {
+          if (ft.displayed) {
+            $scope.customInfo.push({
+              fieldTitle: ft.name,
+              fieldValue: formData[ft.model]
+            })
+          }
+        });
+      }
     }
 
     function sortAccountFilter(order) {
