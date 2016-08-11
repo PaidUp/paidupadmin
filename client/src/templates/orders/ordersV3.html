@@ -33,7 +33,7 @@
     <div class="title_blue" ng-show="searchResult.length > 0">Search Results</div>
 
     <div class="tables_container" ng-show="searchResult.length > 0">
-        <table class="orders_table md-table">
+        <table class="orders_table md-table responsive-table">
             <thead>
             <tr>
                 <th>Order Id</th>
@@ -62,7 +62,7 @@
                     <div ng-class="expandSection === order._id ? 'expandable_section active' : 'expandable_section'">
                         <div class="expanded_section" >
 
-                            <table class="charges_table" >
+                            <table class="charges_table" responsive-table>
                                 <thead>
                                 <tr>
                                     <th>Description</th>
