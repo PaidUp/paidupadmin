@@ -10,7 +10,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     $scope.newPaymentPlan = {};
     $scope.expandSection = '';
     $scope.accountsFilter = {};
-
+    $scope.ordersHistory = [];
 
     $scope.search = function () {
       if (!$scope.searchCriteria) {
@@ -139,7 +139,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         DialogService.warn('All fields are required');
         return
       }
-      if(isNaN(parseFloat($scope.newPaymentPlan.price))){
+      if (isNaN(parseFloat($scope.newPaymentPlan.price))) {
         DialogService.warn('Charge price:\n must be a number.');
         return;
       }
@@ -190,7 +190,19 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         angular.element('#' + id + '_root').find('.picker__close').click()
       }
     }
-  }
-]
+
+    $scope.completeHistory = function () {
+      $scope.ordersHistory = [];
+    }
+
+    $scope.loadHistory = function (orderId) {
+      CommerceService.orderHistory(orderId).then(function (res) {
+        $scope.ordersHistory = res.body.orders;
+      }).catch(function (e) {
+        console.log(e);
+        DialogService.danger('There are a problem, please contact us');
+      });
+    }
+  }]
 
 
