@@ -36,12 +36,13 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
     function loadCustomInfo(order) {
       $scope.customInfo = [];
-      if (order.beneficiaryInfo) {
+      if (order.paymentsPlan[0].beneficiaryInfo && order.paymentsPlan[0].beneficiaryInfo.beneficiaryName) {
         $scope.customInfo.push({
           fieldTitle: 'Beneficiary Name',
-          fieldValue: order.beneficiaryInfo.beneficiaryName
+          fieldValue: order.paymentsPlan[0].beneficiaryInfo.beneficiaryName
         })
-      } else {
+      } 
+      if(order.paymentsPlan[0].customInfo) {
         var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
         var formData = order.paymentsPlan[0].customInfo.formData;
 
