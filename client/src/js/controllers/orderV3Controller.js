@@ -41,18 +41,16 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           fieldTitle: 'Beneficiary Name',
           fieldValue: order.paymentsPlan[0].beneficiaryInfo.beneficiaryName
         })
-      } 
-      if(order.paymentsPlan[0].customInfo) {
+      }
+      if (order.paymentsPlan[0].customInfo) {
         var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
         var formData = order.paymentsPlan[0].customInfo.formData;
 
         formTemplate.forEach(function (ft, fdIdx, fdArr) {
-          if (ft.displayed) {
-            $scope.customInfo.push({
-              fieldTitle: ft.name,
-              fieldValue: formData[ft.model]
-            })
-          }
+          $scope.customInfo.push({
+            fieldTitle: ft.name,
+            fieldValue: formData[ft.model]
+          })
         });
       }
     }
