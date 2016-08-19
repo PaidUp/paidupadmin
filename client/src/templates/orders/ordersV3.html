@@ -1,41 +1,42 @@
-<div class="materialize-styles1">
-    <div class="title_blue">Search for Orders V3</div>
-    <form name="submitForm" ng-submit="search()" novalidate>
-        <div class="row">
-            <div class="input-field col l6 m6 s12">
-                <input ng-model="searchCriteria" name="searchFied" id="searchField" type="text" ng-class="submitForm.$submitted && submitForm.searchFied.$invalid	 ? 'invalid ng-not-empty' : ''"
-                    ng-required="true">
-                <label ng-class="submitForm.$submitted	 ? 'active' : ''" data-error="Field is required" for="searchField">Order number, email, beneficiary ...</label>
-            </div>
-            <div class="col l1 m6 s12">
+<div class="title_blue">
+    Search for Orders V3</div>
+<form name="submitForm" ng-submit="search()" novalidate>
+    <div class="row">
+        <div class="input-field col l6 m6 s12">
+            <input ng-model="searchCriteria" name="searchFied" id="searchField" type="text" ng-class="submitForm.$submitted && submitForm.searchFied.$invalid	 ? 'invalid ng-not-empty' : ''"
+                ng-required="true">
+            <label ng-class="submitForm.$submitted	 ? 'active' : ''" data-error="Field is required" for="searchField">Order number, email, beneficiary ...</label>
+        </div>
+        <div class="col l1 m6 s12">
 
-                <button class="btn" type="submit" id="submit" ng-bind-html="loading ? loader : 'Search'" ng-click="submited = true">
-            </div>
-            <div class=" col l5 m6 s12">
-                <div class="filter">
-                    <div class="switch">
-                        <label>
+            <button class="btn waves-effect waves-light" type="submit" id="submit" ng-bind-html="loading ? loader : 'Search'" ng-click="submited = true"></button>
+        </div>
+        <div class=" col l5 m6 s12">
+            <div class="filter" ng-if="false">
+                <div class="switch">
+                    <label>
                             with filter 1
                             <input type="checkbox">
                             <span class="lever"></span>
                             option 2
                         </label>
-                    </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 
-   <div class="progress" ng-show="loading">
+<div class="progress" ng-show="loading">
     <div class="indeterminate"></div>
 </div>
 
-    <div class="title_blue" ng-show="searchResult.length > 0">Search Results</div>
+<div class="title_blue" ng-show="searchResult.length > 0">Search Results</div>
 
-    <div class="tables_container" ng-show="searchResult.length > 0">
-        <table class="orders_table md-table">
-            <thead>
+<div class="tables_container" ng-show="searchResult.length > 0">
+    <table class="orders_table md-table responsive-table">
+        <thead>
             <tr>
+                <th>Version</th>
                 <th>Order Id</th>
                 <th>User</th>
                 <th>Email</th>
@@ -44,10 +45,10 @@
                 <th>Product</th>
                 <th>Status</th>
             </tr>
-            </thead>
-            <tbody ng-repeat="order in searchResult">
-            <tr ng-click="selectOrder(order)"
-                ng-class="expandSection1 ? 'order_row active' : 'order_row active'">
+        </thead>
+        <tbody ng-repeat="order in searchResult">
+            <tr ng-click="selectOrder(order)" ng-class="expandSection === order._id ? 'order_row active' : 'order_row'">
+                <td>{{order.paymentsPlan[0].version || v1}}</td>
                 <td>{{order.orderId}}</td>
                 <td>{{order.paymentsPlan[0].userInfo.userName}}</td>
                 <td>{{order.paymentsPlan[0].email}}</td>
@@ -57,179 +58,229 @@
                 <td class="green-font">{{order.status}}</td>
             </tr>
 
-            <tr class="expandable">
-                <td class="expand" colspan="7">
-                    <div ng-class="expandSection[order._id] ? 'expandable_section active' : 'expandable_section'">
+            <tr class="expandable" ng-if="expandSection === order._id">
+                <td class="expand" colspan="8">
+                    <div ng-class="expandSection === order._id ? 'expandable_section active' : 'expandable_section'">
                         <div class="expanded_section">
 
-                            <table class="charges_table">
+                            <table class="charges_table responsive-table">
                                 <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Charge Date</th>
-                                    <th>Base Price</th>
-                                    <th>Charge Price</th>
-                                    <th>Card</th>
-                                    <th class="centered">Status</th>
-                                    <th class="centered">Processed</th>
-                                    <th class="centered">Disabled</th>
-                                    <th ng-show="editCharges1" class="centered">Option</th>
-                                </tr>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Charge Date</th>
+                                        <th>Charge Price</th>
+                                        <th>Card</th>
+                                        <th class="centered">Status</th>
+                                        <th class="centered">Processed</th>
+                                        <th class="centered">Disabled</th>
+                                        <th ng-show="editCharges === order._id" class="centered">Option</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="pp in order.paymentsPlan">
-                                    <td>
-                                        <span ng-hide="editCharges1">{{pp.description}}</span>
-                                        <div ng-show="editCharges1">
+                                    <tr ng-repeat="pp in order.paymentsPlan" ng-if="editCharges !== order._id">
+                                        <td>
+                                            <span>{{pp.description}}</span>
+                                        </td>
+                                        <td>
+                                            <span>{{pp.dateCharge | date}}</span>
+                                        </td>
+                                        <td>{{pp.price}}</td>
+                                        <td>
+                                            <span>{{pp.accountBrand}} x-{{pp.last4}}</span>
+                                        </td>
+                                        <td class="centered green-font">{{pp.status}}</td>
+                                        <td class="centered">
+                                            <input id="rproc-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
+                                            <label for="rproc-{{pp._id}}"></label>
+                                        </td>
+                                        <td class="centered">
+                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'"
+                                                ng-false-value="'pending'">
+                                            <label for="rdis-{{pp._id}}"></label>
+                                        </td>
+
+                                    </tr>
+                                    <tr ng-repeat="pp in order.paymentsPlan" ng-if="editCharges === order._id">
+                                        <td>
                                             <md-input-container>
-                                                <input type="text" ng-model="pp.description"/>
+                                                <input type="text" ng-model="pp.description" ng-disabled="pp.status==='succeeded'" />
                                             </md-input-container>
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span ng-hide="editCharges1">{{pp.dateCharge}}</span>
-                                        <div ng-show="editCharges1">
-                                            <input input-date
-                                                   id="datePicker{{pp._id}}"
-                                                   type="text"
-                                                   name="created"
-                                                   ng-model="pp.dateCharge"
-                                                   container=""
-                                                   format="mm/dd/yyyy"
-                                                   disable="disable"
-                                                   select-years="15"
-                                                   on-set="closeDatePicker('datePicker'+pp._id)"
-                                            />
-                                        </div>
-                                    </td>
-                                    <td>{{pp.basePrice}}</td>
-                                    <td ng-hide="editCharges1">{{pp.price}}</td>
-                                    <td ng-show="editCharges1">
-                                        <input type="text" ng-model="pp.originalPrice"/>
-                                    </td>
-                                    <td>
-                                        <span ng-hide="editCharges1">{{pp.accountBrand}} x-{{pp.last4}}</span>
-                                        <div ng-if="editCharges1">
-                                            <select material-select watch  ng-model="pp.account">
+                                        </td>
+                                        <td>
+                                            <input input-date id="datePicker{{pp._id}}" type="text" name="created" ng-model="pp.dateCharge" container="" format="mm/dd/yyyy"
+                                                disable="disable" select-years="15" on-set="closeDatePicker('datePicker'+pp._id)"
+                                                ng-disabled="pp.status==='succeeded'" />
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="pp.price" ng-disabled="pp.status==='succeeded'" />
+                                        </td>
+                                        <td>
+                                            <select material-select watch ng-model="pp.account" ng-disabled="pp.status==='succeeded'">
                                                 <option ng-repeat="account in accountsFilter[pp._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
                                             </select>
-                                        </div>
-                                    </td>
-                                    <td class="centered green-font">{{pp.status}}</td>
-                                    <td class="centered">
-                                        <input id="proc-{{pp._id}}" ng-show="pp.status!=='succeeded'"  ng-disabled="!editCharges1 || pp.status==='disable' || !pp.wasProcessed" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
-                                       <label for="proc-{{pp._id}}"></label>
-                                    </td>
-                                    <td class="centered">
-                                        <input id="dis-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="!editCharges1" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'">
-                                        <label for="dis-{{pp._id}}"></label>
-                                    </td>
-                                    <td ng-show="editCharges1" class="centered">
-                                        <a href="#" ng-click="editPaymentPlan(pp)">
-                                        <i class="small material-icons">save</i>
+                                        </td>
+                                        <td class="centered green-font">{{pp.status}}</td>
+                                        <td class="centered">
+                                            <input id="proc-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="editCharges !== order._id || pp.status==='disable' || !pp.wasProcessed || pp.status==='succeeded'"
+                                                type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
+                                            <label for="proc-{{pp._id}}"></label>
+                                        </td>
+                                        <td class="centered">
+                                            <input id="dis-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="editCharges !== order._id || pp.status==='succeeded'"
+                                                type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'">
+                                            <label for="dis-{{pp._id}}"></label>
+                                        </td>
+                                        <td class="centered">
+                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded'" ng-click="editPaymentPlan(order._id, pp)">
+                                                <i class="small mdi mdi-content-save"></i>
+                                            </a>
+                                            <a class="btn-floating btn-large waves-effect waves-light disabled" href="#" ng-if="pp.status==='succeeded'" message="This payment was charged  -"
+                                                duration="5000" toast='click'>
+                                                <i class="small mdi mdi-content-save"></i>
+                                            </a>
 
-                                        </a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+
+                                    <!-- new payment plan -->
+
+                                    <tr ng-if="editCharges === order._id">
+                                        <td>
+                                            <md-input-container>
+                                                <input type="text" ng-model="newPaymentPlan.description" />
+                                            </md-input-container>
+                                        </td>
+                                        <td>
+                                            <input input-date id="datePicker{{pp._id}}" type="text" name="created" ng-model="newPaymentPlan.dateCharge" container=""
+                                                format="mm/dd/yyyy" disable="disable" select-years="15" on-set="closeDatePicker('datePicker'+pp._id)"
+                                            />
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="newPaymentPlan.price" />
+                                        </td>
+                                        <td>
+                                            <select material-select watch ng-model="newPaymentPlan.account">
+                                                <option ng-repeat="account in accountsFilter[order.paymentsPlan[0]._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
+                                            </select>
+                                        </td>
+                                        <td class="centered green-font">{{pp.status}}</td>
+                                        <td class="centered">
+
+                                        </td>
+                                        <td class="centered">
+
+                                        </td>
+                                        <td class="centered">
+                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-click="addPaymentplan(order, order.paymentsPlan[0])">
+                                                <i class="small mdi mdi-plus"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <!-- end new payment plan -->
 
 
                                 </tbody>
                             </table>
+                            <hr/>
+                            <table class="charges_table responsive-table" ng-if="editCharges !== order._id">
+                                <thead>
+                                    <th ng-repeat="ci in customInfo">{{ci.fieldTitle}}</th>
+                                </thead>
+                                <tbody>
+                                    <td ng-repeat="ci in customInfo">{{ci.fieldValue}}</td>
+                                </tbody>
+                            </table>
 
-                            <div ng-class="expandLog1 ? 'expandable_log active' : 'expandable_log'">
-                                <div class="tables_separator"></div>
-                                <div class="expanded_log">
-                                    <table class="log">
-                                        <thead>
-                                        <tr>
-                                            <th>Edited</th>
-                                            <th>User</th>
-                                            <th>Old Charge Info</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td class="log_date">11/10/2015</td>
-                                            <td class="log_user">rlara</td>
-                                            <td class="log_data">
-                                                <span class="black-font">Desc.</span>: February Payment
-                                                <span class="black-font">Charge Date</span>: 11/11/2014
-                                                <span class="black-font">Price</span>: $543
-                                                <span class="black-font">Orig. Price</span>: $500
-                                                <span class="black-font">Card</span>: Visa x-1234
-                                                <span class="black-font">Processed</span>: true
-                                                <span class="black-font">Disable</span>: false
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="log_date">11/10/2015</td>
-                                            <td class="log_user">rlara</td>
-                                            <td class="log_data">
-                                                <span class="black-font">Desc.</span>: May Payment
-                                                <span class="black-font">Charge Date</span>: 11/11/2014
-                                                <span class="black-font">Price</span>: $543
-                                                <span class="black-font">Orig. Price</span>: $500
-                                                <span class="black-font">Card</span>: Visa x-1234
-                                                <span class="black-font">Processed</span>: true
-                                                <span class="black-font">Disable</span>: false
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="log_date">11/10/2015</td>
-                                            <td class="log_user">rlara</td>
-                                            <td class="log_data">
-                                                <span class="black-font">Desc.</span>: Repaid
-                                                <span class="black-font">Charge Date</span>: 11/9/2014
-                                                <span class="black-font">Price</span>: $999
-                                                <span class="black-font">Orig. Price</span>: $555
-                                                <span class="black-font">Card</span>: AMEX x-1234
-                                                <span class="black-font">Processed</span>: false
-                                                <span class="black-font">Disable</span>: false
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="log_date">11/10/2015</td>
-                                            <td class="log_user">rlara</td>
-                                            <td class="log_data">
-                                                <span class="black-font">Desc.</span>: Extra Payment
-                                                <span class="black-font">Charge Date</span>: 11/1/2014
-                                                <span class="black-font">Price</span>: $543
-                                                <span class="black-font">Orig. Price</span>: $500
-                                                <span class="black-font">Card</span>: Visa x-1234
-                                                <span class="black-font">Processed</span>: true
-                                                <span class="black-font">Disable</span>: true
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                            <div ng-if="order.paymentsPlan[0].version === 'v2'">
+
+                                <div class="progress" ng-show="loadingOrder === order._id">
+                                    <div class="indeterminate"></div>
                                 </div>
+
+
+                                <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges !== order._id">
+                                    <button class="btn waves-effect waves-light" ng-show="order.status !== 'complete'" ng-click="changeToEdit(order._id)">Edit</button>
+                                    <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal complete='completeHistory' ng-click="loadHistory(order._id)">View Log</a>
+                                </div>
+
+                                <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges === order._id">
+                                    <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('')">Cancel</button>
+                                    <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal ng-click="loadHistory(order._id)">View Log</a>
+                                </div>
+
+                                <!-- Modal Structure -->
+                                <div id="modal{{order._id}}" class="modal">
+                                    <div class="modal-content">
+                                        <h5>History Order {{order.orderId}}</h5>
+                                        <div class="progress" ng-show="ordersHistory.length === 0">
+                                            <div class="indeterminate"></div>
+                                        </div>
+                                        <ul class="collapsible popout" data-collapsible="accordion">
+                                            <li ng-repeat="oldOrder in ordersHistory">
+                                                <div class="collapsible-header"><i class="small mdi mdi-view-list" style="color:#00897b "></i>{{oldOrder.createAt
+                                                    | date:'medium'}}</div>
+                                                <div class="collapsible-body">
+
+
+                                                    <table class="charges_table" responsive-table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Description</th>
+                                                                <th>Charge Date</th>
+                                                                <th>Charge Price</th>
+                                                                <th>Card</th>
+                                                                <th class="centered">Status</th>
+                                                                <th class="centered">Processed</th>
+                                                                <th class="centered">Disabled</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="pp in oldOrder.order.paymentsPlan">
+                                                                <td>
+                                                                    <span>{{pp.description}}</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>{{pp.dateCharge | date}}</span>
+                                                                </td>
+                                                                <td>{{pp.price}}</td>
+                                                                <td>
+                                                                    <span>{{pp.accountBrand}} x-{{pp.last4}}</span>
+                                                                </td>
+                                                                <td class="centered green-font">{{pp.status}}</td>
+                                                                <td class="centered">
+                                                                    <input id="rproc-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
+                                                                    <label for="rproc-{{pp._id}}"></label>
+                                                                </td>
+                                                                <td class="centered">
+                                                                    <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'"
+                                                                        ng-false-value="'pending'">
+                                                                    <label for="rdis-{{pp._id}}"></label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                                    </div>
+                                </div>
+
                             </div>
 
-                             <div class="progress" ng-show="loadingOrder">
-                                <div class="indeterminate"></div>
-                            </div>
-
-                            <div class="btns_container" ng-hide="loadingOrder">
-                                <button class="btn" ng-click="editCharges1 = !editCharges1" ng-hide="editCharges1">
-                                    Edit
-                                </button>
-                <button class="btn btn-gray" ng-click="expandSection1 = !expandSection1" ng-hide="editCharges1">Close
-                                </button>
-                <button class="btn btn-gray" ng-show="editCharges1" ng-click="editCharges1 = !editCharges1">Cancel
-                                </button>
-                <button class="btn btn-blue" ng-click="expandLog1 = !expandLog1">{{expandLog1 ? 'Close
-                                    Log' : 'View Log'}}
-                                </button>
-            </div>
-        </div>
-</div>
-</td>
-</tr>
-
-</tbody>
 
 
-</table>
-</div>
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
 </div>

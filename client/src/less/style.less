@@ -318,7 +318,6 @@ header{
     thead{
       border-bottom: none;
       th{
-        padding: 5px;
         font-weight: normal;
         color: @c-blue-font;
       }     
@@ -379,6 +378,7 @@ header{
         div.expandable_section{
           max-height: 0px;
           overflow-y: hidden;
+          overflow-y: scroll;
           transition-property: all;
           transition-duration: .4s;
           transition-timing-function: ease;
@@ -479,32 +479,36 @@ header{
                     border: 1px solid #ccc;
                     tr{
                       &:nth-child(odd){
-                        background-color: @c-gray-light-back;
+                        background-color: @c-green-light-back;
+                        border-top: 1px solid #ccc;
                       }
                       &:nth-child(even){
                         background-color: #fff;
-                      }
-                      &:hover{
-                        font-size:15px;
-                      }
+                      }   
                       td{
                         padding:10px 5px;
-                        span{
-                          margin-left: 8px;
-                          &:first-child{
-                            margin-left: 0px;
-                          }
-                        }
                         &.log_date{
-                          width: 10%;
+                          width: 20%;
+                          font-size: 13px;
                         }
                         &.log_user{
-                          width: 10%;
-                        }
-                        &.log_data{
-                          color:@c-gray-font;
                           width: 80%;
-
+                          font-size: 13px;
+                        }
+                        table.log_charges{
+                          thead{
+                            tr{
+                              background-color: #fff;
+                              border:none;
+                            } 
+                          }
+                          tbody{
+                            border:none;
+                            tr{
+                              border: 1px solid @c-blue-light-back;
+                              background-color:#fff;
+                            }
+                          }
                         }
                       }
                     }
@@ -557,9 +561,10 @@ header{
       }
     }
   }
+i{
+  color: #FFF
 }
-
-
+}
 
 // ALERTS
 .alerts-container{
@@ -678,27 +683,3 @@ header{
   }
 }
 
-/* fallback */
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v17/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2');
-}
-
-.material-icons {
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  color: #00897b;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}

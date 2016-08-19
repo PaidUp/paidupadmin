@@ -5,67 +5,110 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
     $scope.searchCriteria = '';
     $scope.loading = false;
-    $scope.loadingOrder = false;
+    $scope.loadingOrder = '';
     $scope.loader = '<i class="fa fa-circle-o-notch fa-spin"></i>';
-    $scope.expandSection1 = false;
     $scope.newPaymentPlan = {};
-    $scope.expandSection = {};
-
+    $scope.expandSection = '';
+    $scope.accountsFilter = {};
+    $scope.ordersHistory = [];
+    $scope.customInfo = [];
 
     $scope.search = function () {
-      $scope.loading = true;
-      $scope.accounts = []
-      $scope.orderSelected = null
+      if (!$scope.searchCriteria) {
+        DialogService.warn('Please fill form');
+        return;
+      }
+      $scope.loadingOrder = '';
+      $scope.accountsFilter = {};
+      $scope.expandSection = '',
+        $scope.editCharges = '';
 
       CommerceService.orderSearch($scope.searchCriteria).then(function (result) {
+
         $scope.searchResult = result.body.orders
+        DialogService.info(result.body.orders.length + ' results');
         $scope.loading = false
       }).catch(function (err) {
         $scope.loading = false
+        DialogService.danger('There are a problem, please contact us');
+      })
+    }
+
+    function loadCustomInfo(order) {
+      $scope.customInfo = [];
+      if (order.paymentsPlan[0].beneficiaryInfo && order.paymentsPlan[0].beneficiaryInfo.beneficiaryName) {
+        $scope.customInfo.push({
+          fieldTitle: 'Beneficiary Name',
+          fieldValue: order.paymentsPlan[0].beneficiaryInfo.beneficiaryName
+        })
+      }
+      if (order.paymentsPlan[0].customInfo) {
+        var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
+        var formData = order.paymentsPlan[0].customInfo.formData;
+
+        formTemplate.forEach(function (ft, fdIdx, fdArr) {
+          $scope.customInfo.push({
+            fieldTitle: ft.name,
+            fieldValue: formData[ft.model]
+          })
+        });
+      }
+    }
+
+    function sortAccountFilter(order) {
+      $scope.accountsFilter = {};
+      order.paymentsPlan.forEach(function (ele, idx, arr) {
+        if (!$scope.accountsFilter[ele._id]) {
+          $scope.accountsFilter[ele._id] = [];
+        }
+
+        if (!ele.paymentMethods || ele.paymentMethods.length === 0) {
+          ele.paymentMethods = ['card']
+        }
+
+        ele.paymentMethods.forEach(function (pm, idxPm, arrPm) {
+          $scope.accounts.map(function (acc) {
+            if (acc.object.indexOf(pm) === 0) {
+              $scope.accountsFilter[ele._id].push(acc)
+            }
+          })
+        })
+      });
+    }
+
+    function loadAccountFileter(order, cb) {
+      PaymentService.listAccounts(order.userId).then(function (res) {
+        $scope.accounts = res.data
+        sortAccountFilter(order);
+        cb();
+      }).catch(function (err) {
+        console.log('ERR', err)
         DialogService.danger('There are a problem, please contact us');
       })
     }
 
     $scope.selectOrder = function (order) {
-      $scope.loadingOrder = true;
-      $scope.orderSelected = order;
-      $scope.newPaymentPlan = {};
-      $scope.accountsFilter = {}
-      PaymentService.listAccounts(order.userId).then(function (res) {
-        $scope.accounts = res.data
-        
+      $scope.loadingOrder = order._id;
+      $scope.accountsFilter = {};
+      $scope.editCharges = '';
 
-        order.paymentsPlan.forEach(function(ele, idx, arr){
-          if(!$scope.accountsFilter[ele._id]){
-            $scope.accountsFilter[ele._id] = [];
-          }
-
-          ele.paymentMethods.forEach(function(pm, idxPm, arrPm){
-            res.data.map(function(acc){
-              console.log('acc.object',acc.object)
-              console.log('pm',pm)
-              console.log('acc.object.indexOf(pm)',acc.object.indexOf(pm))
-              if(acc.object.indexOf(pm) === 0){
-                $scope.accountsFilter[ele._id].push(acc)
-              }
-            })
-          })
+      if ($scope.expandSection !== order._id) {
+        $scope.expandSection = order._id;
+        loadAccountFileter(order, function () {
+          $scope.loadingOrder = '';
         });
+        loadCustomInfo(order);
+      } else {
+        $scope.loadingOrder = '';
+        $scope.expandSection = '';
+      }
 
-        console.log('data: ', res.data);
-        $scope.loadingOrder = false;
 
-      }).catch(function (err) {
-        console.log('ERR', err)
-        DialogService.danger('There are a problem, please contact us');
-      })
-      $scope.expandSection = {};
-      $scope.expandSection[order._id] = !$scope.expandSection[order._id];
     }
 
-    $scope.editPaymentPlan = function (pp) {
-      $scope.loadingOrder = true;
-      if (!$scope.orderSelected._id || !pp.originalPrice || !pp.description || !pp.dateCharge) {
+    $scope.editPaymentPlan = function (orderId, pp) {
+      $scope.loadingOrder = orderId;
+      if (!pp.price || !pp.description || !pp.dateCharge) {
         DialogService.warm('All fields are required');
         return
       }
@@ -86,12 +129,11 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       pp.last4 = objAccount[0].last4
       pp.typeAccount = objAccount[0].object
 
-
       var params = {
         version: pp.version || 'v1',
-        orderId: $scope.orderSelected._id,
+        orderId: orderId,
         paymentPlanId: pp._id,
-        originalPrice: pp.originalPrice,
+        originalPrice: pp.price / (1 - pp.discount/100),
         description: pp.description,
         dateCharge: pp.dateCharge,
         wasProcessed: pp.wasProcessed,
@@ -106,12 +148,63 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
         DialogService.ok('Order was updated successfully');
-        $scope.loadingOrder = false;
+        $scope.loadingOrder = '';
       }).catch(function (err) {
         DialogService.danger('Order cannot be updated, please contact us');
-        $scope.loadingOrder = false;
+        $scope.loadingOrder = '';
         console.log('ERR: ', err)
       })
+    }
+
+    $scope.addPaymentplan = function (order, pp) {
+      if (!$scope.newPaymentPlan.description || !$scope.newPaymentPlan.dateCharge || !$scope.newPaymentPlan.price ||
+        !$scope.newPaymentPlan.account) {
+        DialogService.warn('All fields are required');
+        return
+      }
+      if (isNaN(parseFloat($scope.newPaymentPlan.price))) {
+        DialogService.warn('Charge price:\n must be a number.');
+        return;
+      }
+
+      var objAccount = $scope.accounts.filter(function (ele) {
+        if ($scope.newPaymentPlan.account === ele.id) {
+          return ele
+        }
+      })
+
+      if (!objAccount || objAccount.length < 1) {
+        DialogService.danger('A payment method is required');
+        return
+      }
+      $scope.newPaymentPlan.orderId = order._id;
+      $scope.newPaymentPlan.account = objAccount[0].id
+      $scope.newPaymentPlan.accountBrand = objAccount[0].brand || objAccount[0].bankName
+      $scope.newPaymentPlan.last4 = objAccount[0].last4
+      $scope.newPaymentPlan.typeAccount = objAccount[0].object
+      $scope.newPaymentPlan.originalPrice =  $scope.newPaymentPlan.price / (1 - pp.discount/100),
+
+
+      CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
+        $scope.newPaymentPlan = {}
+        order.paymentsPlan = res.paymentsPlan;
+
+        DialogService.ok('Payment was added successfully');
+
+        $scope.submitted = false
+        //$scope.editCharges = '';
+        //$scope.loadingOrder = order._id;
+        sortAccountFilter(order);
+
+
+      }).catch(function (err) {
+        console.log('ERR: ', err)
+        DialogService.danger('Payment wasn`t added, please contact us');
+      })
+    }
+
+    $scope.changeToEdit = function (orderId) {
+      $scope.editCharges = orderId;
     }
 
     $scope.closeDatePicker = function (id) {
@@ -120,7 +213,19 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         angular.element('#' + id + '_root').find('.picker__close').click()
       }
     }
-  }
-]
+
+    $scope.completeHistory = function () {
+      $scope.ordersHistory = [];
+    }
+
+    $scope.loadHistory = function (orderId) {
+      CommerceService.orderHistory(orderId).then(function (res) {
+        $scope.ordersHistory = res.body.orders;
+      }).catch(function (e) {
+        console.log(e);
+        DialogService.danger('There are a problem, please contact us');
+      });
+    }
+  }]
 
 
