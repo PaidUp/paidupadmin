@@ -133,7 +133,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         version: pp.version || 'v1',
         orderId: orderId,
         paymentPlanId: pp._id,
-        originalPrice: pp.discount === 0 ? pp.price : pp.price * 100 / pp.discount,
+        originalPrice: pp.price / (1 - pp.discount/100),
         description: pp.description,
         dateCharge: pp.dateCharge,
         wasProcessed: pp.wasProcessed,
