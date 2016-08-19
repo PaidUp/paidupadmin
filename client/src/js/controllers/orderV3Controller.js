@@ -182,7 +182,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       $scope.newPaymentPlan.accountBrand = objAccount[0].brand || objAccount[0].bankName
       $scope.newPaymentPlan.last4 = objAccount[0].last4
       $scope.newPaymentPlan.typeAccount = objAccount[0].object
-      $scope.newPaymentPlan.originalPrice = pp.discount === 0 ? $scope.newPaymentPlan.price : $scope.newPaymentPlan.price * 100 / pp.discount
+      $scope.newPaymentPlan.originalPrice =  $scope.newPaymentPlan.price / (1 - pp.discount/100),
 
 
       CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
