@@ -2,8 +2,7 @@
 
 module.exports = ['$resource', 'ConfigService', function ($resource, ConfigService) {
   
-  var url = ConfigService.getBrokerUrl()+'/api/v1/payment/account/:action';
-  console.log('url: ', url);
+  var url = ConfigService.getBrokerUrl()+'/api/v1/payment/account/:action/:userId';
   var accountServices = $resource(url, {}, {})
 
   var brands = {
@@ -35,6 +34,6 @@ module.exports = ['$resource', 'ConfigService', function ($resource, ConfigServi
   }
 
   this.listAccounts = function (userId) {
-    return accountServices.get({ action: 'list' }).$promise
+    return accountServices.get({ action: 'list', userId: userId }).$promise
   }
 }]
