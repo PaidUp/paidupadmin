@@ -78,6 +78,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
     function loadAccountFileter(order, cb) {
       PaymentService.listAccounts(order.userId).then(function (res) {
+        console.log('res: ', res);
         $scope.accounts = res.data
         sortAccountFilter(order);
         cb();

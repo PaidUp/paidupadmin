@@ -2,7 +2,9 @@
 
 module.exports = ['$resource', 'ConfigService', function ($resource, ConfigService) {
   
-  var accountServices = $resource(ConfigService.getBrokerUrl()+'/api/v1/payment/account/:action', {}, {})
+  var url = ConfigService.getBrokerUrl()+'/api/v1/payment/account/:action';
+  console.log('url: ', url);
+  var accountServices = $resource(url, {}, {})
 
   var brands = {
     'Visa': 'cc-visa',
