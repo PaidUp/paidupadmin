@@ -57,5 +57,13 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
       requireLogin: true
     }
   })
+  .state('reportRevenueProjection', {
+    url: '/report/revenue/projection',
+    templateUrl: '../../templates/reports/revenueProjection.html',
+    controller: 'RevenueProjection',
+    data: {
+      requireLogin: true
+    }
+  })
 }
 ]

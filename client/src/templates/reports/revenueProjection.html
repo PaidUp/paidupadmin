@@ -1,0 +1,27 @@
+<table class="striped responsive-table">
+        <thead>
+          <tr>
+              <th data-field="date">Date</th>
+              <th data-field="organizationId">Organization Id</th>
+              <th data-field="organization">Organization</th>
+              <th data-field="location">Locatoin</th>
+              <th data-field="price">To Be Charged</th>
+              <th data-field="price">Stripe Fee</th>
+              <th data-field="price">Expected Revenue</th>
+              <th data-field="price">Total Fee</th>
+              
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="projection in data">
+            <td>{{projection._id.month}}/{{projection._id.year}}</td>
+            <td>{{projection._id.organizationId}}</td>
+            <td>{{projection._id.organizationName}}</td>
+            <td>{{projection._id.organizationLocation}}</td>
+            <td>{{projection.price | currency : $ : 2}}</td>
+            <td>{{projection.stripeFee | currency : $ : 2}}</td>
+            <td>{{projection.paidupFee | currency : $ : 2}}</td>
+            <td>{{projection.totalFee | currency : $ : 2}}</td>
+          </tr>
+        </tbody>
+      </table>
