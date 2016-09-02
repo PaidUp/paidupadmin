@@ -1,21 +1,11 @@
-<div ng-init="init()">
-<h5>Reports</h5>
+<h5>Report Revenue</h5>
 <hr/>
 
-<div class="row" >
-    <div class="col s12">
-        <ul tabs reload="allTabContentLoaded" class="">
-            <li class="tab col s3" ng-click="loadReport('retrieveRevenueProjection')"><a class="active" href="#test1">Projection</a></li>
-            <li class="tab col s3" ng-click="loadReport('retrieveRevenue')"><a href="#test2">Revenue</a></li>
-        </ul>
-    </div>
-    <div id="test1" class="col s12"></div>
-    <div id="test2" class="col s12"></div>
-</div>
+<a class='dropdown-button btn' href='#' data-activates='dropdownReport'>Revenue</a>
 
 <button class="btn waves-effect waves-light" type="button" ng-csv="data" csv-header="['Date', 'Organization Id', 'Organization', 'Location', 'To Be Charged', 'Stripe Fee', 'Expected Revenue', 'Total Fee']" filename="{{fileName()}}">
   Export<i class="mdi mdi-download"></i>
-</button>
+  </button>
 
 <table class="striped responsive-table">
         <thead>
@@ -44,8 +34,23 @@
           </tr>
         </tbody>
       </table>
-</div>
 
+      <!-- Dropdown Structure Report -->
+          <ul id='dropdownReport' class='dropdown-content'>
+            <li><a ui-sref="reportRevenue" href="#!">Revenue</a></li>                 
+            <li class="divider"></li>
+            <li><a ui-sref="reportRevenueProjection" href="#!">Projection</a></li>            
+          </ul>
 
-
-    
+          <script type="text/javascript">
+     $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+    }
+  );
+  </script>

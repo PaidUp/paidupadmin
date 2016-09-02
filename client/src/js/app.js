@@ -17,6 +17,7 @@ require('angular-ui-mask')
 require('angular-local-storage')
 require('./vendor/materialize.min')
 require('angular-materialize');
+require('ng-csv');
 
 /* global angular */
 var PaidUpAdmin = angular.module('PaidUpAdmin', [
@@ -30,7 +31,8 @@ var PaidUpAdmin = angular.module('PaidUpAdmin', [
   'ui.mask',
   'LocalStorageModule',
   'ui.bootstrap',
-  'ui.materialize'
+  'ui.materialize',
+  'ngCsv'
   ]);
 
 PaidUpAdmin.config(require('./config/appConfig'))
