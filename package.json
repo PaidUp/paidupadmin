@@ -32,6 +32,7 @@
     "lodash": "^4.11.2",
     "materialize-css": "^0.97.6",
     "navigator": "^1.0.1",
+    "ng-csv": "^0.3.6",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {

@@ -1,0 +1,51 @@
+<div ng-init="init()">
+<h5>Reports</h5>
+<hr/>
+
+<div class="row" >
+    <div class="col s12">
+        <ul tabs reload="allTabContentLoaded" class="">
+            <li class="tab col s3" ng-click="loadReport('retrieveRevenueProjection')"><a class="active" href="#test1">Projection</a></li>
+            <li class="tab col s3" ng-click="loadReport('retrieveRevenue')"><a href="#test2">Revenue</a></li>
+        </ul>
+    </div>
+    <div id="test1" class="col s12"></div>
+    <div id="test2" class="col s12"></div>
+</div>
+
+<button class="btn waves-effect waves-light" type="button" ng-csv="data" csv-header="columnHeaders" filename="{{fileName()}}">
+  Export<i class="mdi mdi-download"></i>
+</button>
+
+<table class="striped responsive-table">
+        <thead>
+          <tr>
+              <th data-field="date">{{columnHeaders[0]}}</th>
+              <th data-field="organizationId">{{columnHeaders[1]}}</th>
+              <th data-field="organization">{{columnHeaders[2]}}</th>
+              <th data-field="location">{{columnHeaders[3]}}</th>
+              <th data-field="charged">{{columnHeaders[4]}}</th>
+              <th data-field="stripeFee">{{columnHeaders[5]}}</th>
+              <th data-field="expectedRevenue">{{columnHeaders[6]}}</th>
+              <th data-field="total">{{columnHeaders[7]}}</th>
+              
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="projection in data">
+            <td>{{projection.date}}</td>
+            <td>{{projection.organizationId}}</td>
+            <td>{{projection.organizationName}}</td>
+            <td>{{projection.organizationLocation}}</td>
+            <td>{{projection.price | currency : $ : 2}}</td>
+            <td>{{projection.stripeFee | currency : $ : 2}}</td>
+            <td>{{projection.paidupFee | currency : $ : 2}}</td>
+            <td>{{projection.totalFee | currency : $ : 2}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+
+
+    
