@@ -5,12 +5,14 @@
 
 module.exports = ['$scope', '$rootScope', 'ReportsService',
   function ($scope, $rootScope, ReportsService) {
+    var fileName = '';
 
     $scope.init = function(){
-      $scope.loadReport('retrieveRevenueProjection')
+      $scope.loadReport('retrieveRevenueProjection');
     }
 
     $scope.loadReport = function loadReport(name) {
+      fileName = name;      
       ReportsService[name]({}).then(function (res) {
         $scope.data = res.data.map(function (projection) {
           return {
@@ -33,7 +35,7 @@ module.exports = ['$scope', '$rootScope', 'ReportsService',
 
     $scope.fileName = function () {
       var today = new Date()
-      return 'revenueProjections' + today.toISOString().substring(0, 10) + '.csv';
+      return fileName + today.toLocaleString().substring(0, 18) + '.csv';
     }
 
     $('.dropdown-button').dropdown({

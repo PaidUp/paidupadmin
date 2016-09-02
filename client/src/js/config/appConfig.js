@@ -58,7 +58,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
     }
   })
   .state('reportRevenueProjection', {
-    url: '/report/revenue/projection',
+    url: '/report/revenue',
     templateUrl: '../../templates/reports/revenueProjection.html',
     controller: 'RevenueProjection',
     data: {
