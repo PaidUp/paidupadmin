@@ -6,13 +6,25 @@
 module.exports = ['$scope', '$rootScope', 'ReportsService',
   function ($scope, $rootScope, ReportsService) {
     var fileName = '';
+    var columnHeaders = {
+      projection : ['Date', 'Organization Id', 'Organization', 'Location', 'To Be Charged', 'Stripe Fee', 'Expected Revenue', 'Total Fee'],
+      revenue: ['Date', 'Organization Id', 'Organization', 'Location', 'Charged', 'Stripe Fee', 'Revenue', 'Total Fee']
+    };
 
     $scope.init = function(){
       $scope.loadReport('retrieveRevenueProjection');
+      $scope.columnHeaders = columnHeaders.projection
     }
 
     $scope.loadReport = function loadReport(name) {
-      fileName = name;      
+      if(name === 'retrieveRevenueProjection'){
+        fileName = 'revenueProjection';
+        $scope.columnHeaders = columnHeaders.projection;
+      } else if(name === 'retrieveRevenue'){
+        fileName = 'revenue';
+        $scope.columnHeaders = columnHeaders.revenue;        
+      }
+            
       ReportsService[name]({}).then(function (res) {
         $scope.data = res.data.map(function (projection) {
           return {

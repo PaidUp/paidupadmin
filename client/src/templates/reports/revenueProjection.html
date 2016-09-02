@@ -13,21 +13,21 @@
     <div id="test2" class="col s12"></div>
 </div>
 
-<button class="btn waves-effect waves-light" type="button" ng-csv="data" csv-header="['Date', 'Organization Id', 'Organization', 'Location', 'To Be Charged', 'Stripe Fee', 'Expected Revenue', 'Total Fee']" filename="{{fileName()}}">
+<button class="btn waves-effect waves-light" type="button" ng-csv="data" csv-header="columnHeaders" filename="{{fileName()}}">
   Export<i class="mdi mdi-download"></i>
 </button>
 
 <table class="striped responsive-table">
         <thead>
           <tr>
-              <th data-field="date">Date</th>
-              <th data-field="organizationId">Organization Id</th>
-              <th data-field="organization">Organization</th>
-              <th data-field="location">Locatoin</th>
-              <th data-field="charged">To Be Charged</th>
-              <th data-field="stripeFee">Stripe Fee</th>
-              <th data-field="expectedRevenue">Expected Revenue</th>
-              <th data-field="total">Total Fee</th>
+              <th data-field="date">{{columnHeaders[0]}}</th>
+              <th data-field="organizationId">{{columnHeaders[1]}}</th>
+              <th data-field="organization">{{columnHeaders[2]}}</th>
+              <th data-field="location">{{columnHeaders[3]}}</th>
+              <th data-field="charged">{{columnHeaders[4]}}</th>
+              <th data-field="stripeFee">{{columnHeaders[5]}}</th>
+              <th data-field="expectedRevenue">{{columnHeaders[6]}}</th>
+              <th data-field="total">{{columnHeaders[7]}}</th>
               
           </tr>
         </thead>
