@@ -67,13 +67,15 @@
                                 <thead>
                                     <tr>
                                         <th>Description</th>
-                                        <th>Charge Date</th>
-                                        <th>Charge Price</th>
+                                        <th style="width: 110px;">Charge Date</th>
+                                        <th style="width: 110px;">Charge Price</th>
                                         <th>Card</th>
                                         <th class="centered">Status</th>
                                         <th class="centered">Processed</th>
-                                        <th class="centered">Disabled</th>
-                                        <th ng-show="editCharges === order._id" class="centered">Option</th>
+                                        <th class="centered" ng-show="editCharges === order._id" >Save</th>
+                                        <th class="centered">Disable</th>
+                                        <th ng-show="editCharges === order._id" class="centered">Retry</th>
+                                        <th ng-show="editCharges === order._id" class="centered">Refund</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,6 +102,9 @@
                                         </td>
 
                                     </tr>
+
+
+
                                     <tr ng-repeat="pp in order.paymentsPlan" ng-if="editCharges === order._id">
                                         <td>
                                             <md-input-container>
@@ -122,23 +127,33 @@
                                         </td>
                                         <td class="centered green-font">{{pp.status}}</td>
                                         <td class="centered">
-                                            <input id="proc-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="editCharges !== order._id || pp.status==='disable' || !pp.wasProcessed || pp.status==='succeeded'"
-                                                type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
+                                            <input id="proc-{{pp._id}}" ng-disabled="true"
+                                                type="checkbox" ng-model="pp.wasProcessed" />
                                             <label for="proc-{{pp._id}}"></label>
                                         </td>
                                         <td class="centered">
-                                            <input id="dis-{{pp._id}}" ng-show="pp.status!=='succeeded'" ng-disabled="editCharges !== order._id || pp.status==='succeeded'"
-                                                type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'">
-                                            <label for="dis-{{pp._id}}"></label>
+                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded' && pp.status!=='disable' && pp.status!=='refunded'" ng-click="editPaymentPlan(order._id, pp)">
+                                                <i class="small mdi mdi-content-save"></i>
+                                            </a>
                                         </td>
                                         <td class="centered">
-                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded'" ng-click="editPaymentPlan(order._id, pp)">
-                                                <i class="small mdi mdi-content-save"></i>
+                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status!=='succeeded' && pp.status!=='refunded' && pp.status!=='disable'" ng-click="confirmDisable(order._id, pp)">
+                                                <i class="small mdi mdi-checkbox-blank-outline"></i>
                                             </a>
-                                            <a class="btn-floating btn-large waves-effect waves-light disabled" href="#" ng-if="pp.status==='succeeded'" message="This payment was charged  -"
-                                                duration="5000" toast='click'>
-                                                <i class="small mdi mdi-content-save"></i>
+                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status==='disable'" ng-click="enable(order._id, pp)">
+                                                <i class="small mdi mdi-checkbox-marked-outline"></i>
                                             </a>
+                                        </td>
+                                        <td>
+                                            <a class="btn-floating btn-large waves-effect waves-light light-blue darken-1" ng-if="pp.status==='failed'" ng-click="retry(order._id,pp)">
+                                                <i class="small mdi mdi-reload"></i>
+                                            </a>
+                                            </td>
+                                        <td>
+                                            <a class="btn-floating btn-large waves-effect waves-light orange darken-1" ng-if="pp.status === 'succeeded'" ng-click="retrieveTransfer(order._id,pp)">
+                                                <i class="small mdi mdi-undo-variant"></i>
+                                            </a>
+                                            
 
                                         </td>
                                     </tr>
@@ -284,3 +299,34 @@
     </table>
     </div>
 </div>
+
+<!-- Modal refund -->
+  <div id="modalRefund" class="modal">
+    <div class="modal-content">
+      <h4>Refund</h4>
+        <div class="row">
+        <div class="input-field col s12">
+          <textarea id="reason" class="materialize-textarea" ng-model="refundObj.reason"></textarea>
+          <label for="reason">Reason</label>
+        </div>
+      </div>
+      </p>
+    </div>
+    <div class="modal-footer">
+        <div class="btns_container" ng-hide="processRefud">
+      <button href="#" class="waves-effect waves-green btn-flat" ng-click="refund()">Agree</button>
+      <button href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmDisableModal" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Confirm</h4>
+      <p>Are you sure? </p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(true)">Agree</a>
+      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(false)">Cancel</a>
+    </div>
+  </div>
