@@ -90,7 +90,7 @@
                                         <td>
                                             <span>{{pp.accountBrand}} x-{{pp.last4}}</span>
                                         </td>
-                                        <td class="centered green-font">{{pp.status}}</td>
+                                        <td ng-class="{'green-font': pp.status ==='succeeded', 'red-font': pp.status ==='failed'}" class="centered">{{pp.status.startsWith('disable-') ? pp.status.substring(8) : pp.status}}</td>
                                         <td class="centered">
                                             <input id="rproc-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.wasProcessed" />
                                             <label for="rproc-{{pp._id}}"></label>
@@ -125,22 +125,22 @@
                                                 <option ng-repeat="account in accountsFilter[pp._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
                                             </select>
                                         </td>
-                                        <td class="centered green-font">{{pp.status}}</td>
+                                        <td ng-class="{'green-font': pp.status ==='succeeded', 'red-font': pp.status ==='failed'}" class="centered">{{pp.status.startsWith('disable-') ? pp.status.substring(8) : pp.status}}</td>
                                         <td class="centered">
                                             <input id="proc-{{pp._id}}" ng-disabled="true"
                                                 type="checkbox" ng-model="pp.wasProcessed" />
                                             <label for="proc-{{pp._id}}"></label>
                                         </td>
                                         <td class="centered">
-                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded' && pp.status!=='disable' && pp.status!=='refunded'" ng-click="editPaymentPlan(order._id, pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded' && !pp.status.startsWith('disable-') && pp.status!=='refunded'" ng-click="editPaymentPlan(order._id, pp)">
                                                 <i class="small mdi mdi-content-save"></i>
                                             </a>
                                         </td>
                                         <td class="centered">
-                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status!=='succeeded' && pp.status!=='refunded' && pp.status!=='disable'" ng-click="confirmDisable(order._id, pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status!=='succeeded' && pp.status!=='refunded' && !pp.status.startsWith('disable-')" ng-click="confirmDisable(order._id, pp)">
                                                 <i class="small mdi mdi-checkbox-blank-outline"></i>
                                             </a>
-                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status==='disable'" ng-click="enable(order._id, pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status.startsWith('disable-')" ng-click="enable(order._id, pp)">
                                                 <i class="small mdi mdi-checkbox-marked-outline"></i>
                                             </a>
                                         </td>
@@ -179,17 +179,13 @@
                                                 <option ng-repeat="account in accountsFilter[order.paymentsPlan[0]._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
                                             </select>
                                         </td>
-                                        <td class="centered green-font">{{pp.status}}</td>
-                                        <td class="centered">
-
-                                        </td>
-                                        <td class="centered">
-
-                                        </td>
                                         <td class="centered">
                                             <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-click="addPaymentplan(order, order.paymentsPlan[0])">
                                                 <i class="small mdi mdi-plus"></i>
                                             </a>
+                                        </td>
+                                        <td class="centered" colspan="5">
+
                                         </td>
                                     </tr>
 

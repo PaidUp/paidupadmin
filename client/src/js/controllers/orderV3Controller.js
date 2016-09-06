@@ -290,7 +290,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     $scope.disabled = function (confirm) {
       if (confirm) {
         if ($scope.disableObj.pp.status !== 'succeeded' || $scope.disableObj.pp.status !== 'refunded') {
-          $scope.disableObj.pp.status = 'disable'
+          $scope.disableObj.pp.status = 'disable-'+$scope.disableObj.pp.status
           $scope.editPaymentPlan($scope.disableObj.orderId, $scope.disableObj.pp);
           $('#confirmDisableModal').closeModal();
         } else {
@@ -307,8 +307,8 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     }
 
     $scope.enable = function (orderId, pp) {
-      if (pp.status === 'disable') {
-        pp.status = 'pending'
+      if (pp.status.startsWith('disable-')) {
+        pp.status = pp.status.substring(8);
         $scope.editPaymentPlan(orderId, pp);
         $('#confirmDisableModal').closeModal();
       } else {
