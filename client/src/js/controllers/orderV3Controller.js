@@ -141,7 +141,8 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         accountBrand: pp.accountBrand,
         last4: pp.last4,
         typeAccount: pp.typeAccount,
-        status: pp.status
+        status: pp.status,
+        attempts: pp.attempts
       }
 
       $scope.submitted = true
@@ -256,8 +257,17 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         DialogService.danger('The status must be succeeded');
         return;
       }
+
       PaymentService.refund($scope.refundObj.chargeId, $scope.refundObj.reason).then(function (refund) {
         $scope.refundObj.pp.status = 'refunded';
+        $scope.refundObj.pp.attempts.push({
+          status: 'refunded',
+          message: $scope.refundObj.reason,
+          dateAttemp: new Date(),
+          last4: $scope.refundObj.pp.last4,
+          accountBrand: $scope.refundObj.pp.accountBrand,
+          transferId: refund.id
+        })
         $scope.editPaymentPlan($scope.refundObj.orderId, $scope.refundObj.pp);
         $('#modalRefund').closeModal();
         DialogService.ok('Refunded was applyed');
@@ -267,6 +277,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         DialogService.danger('There are a problem, please contact us');
         console.log(err);
       })
+
     }
 
     $scope.retry = function (orderId, pp) {
@@ -290,7 +301,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     $scope.disabled = function (confirm) {
       if (confirm) {
         if ($scope.disableObj.pp.status !== 'succeeded' || $scope.disableObj.pp.status !== 'refunded') {
-          $scope.disableObj.pp.status = 'disable-'+$scope.disableObj.pp.status
+          $scope.disableObj.pp.status = 'disable-' + $scope.disableObj.pp.status
           $scope.editPaymentPlan($scope.disableObj.orderId, $scope.disableObj.pp);
           $('#confirmDisableModal').closeModal();
         } else {
