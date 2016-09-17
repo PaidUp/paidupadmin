@@ -2,8 +2,16 @@
 
 module.exports = ['$resource', 'ConfigService', function ($resource, ConfigService) {
   
-  var url = ConfigService.getBrokerUrl()+'/api/v1/payment/account/:action/:userId';
-  var accountServices = $resource(url, {}, {})
+  var urlAccountServices = ConfigService.getBrokerUrl()+'/api/v1/payment/account/:action/:userId';
+  var accountServices = $resource(urlAccountServices, {}, {})
+
+  var urlRefund = ConfigService.getBrokerUrl()+'/api/v1/payment/refund';
+  var refundResource = $resource(urlRefund, {}, {
+    post: { method: 'POST', isArray: false }
+  })
+
+  var urlRetrieveTransfer = ConfigService.getBrokerUrl()+'/api/v1/payment/transfer/retrieve/:transferId';
+  var retrieveTransferResource = $resource(urlRetrieveTransfer, {}, {})
 
   var brands = {
     'Visa': 'cc-visa',
@@ -35,5 +43,13 @@ module.exports = ['$resource', 'ConfigService', function ($resource, ConfigServi
 
   this.listAccounts = function (userId) {
     return accountServices.get({ action: 'list', userId: userId }).$promise
+  }
+
+  this.refund = function (chargeId, reason) {
+    return refundResource.post({ chargeId: chargeId, reason: reason }).$promise
+  }
+
+  this.retrieveTransfer = function (transferId) {
+    return retrieveTransferResource.get({ transferId: transferId}).$promise
   }
 }]

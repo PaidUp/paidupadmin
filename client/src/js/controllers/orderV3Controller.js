@@ -133,7 +133,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         version: pp.version || 'v1',
         orderId: orderId,
         paymentPlanId: pp._id,
-        originalPrice: pp.price / (1 - pp.discount/100),
+        originalPrice: pp.price / (1 - pp.discount / 100),
         description: pp.description,
         dateCharge: pp.dateCharge,
         wasProcessed: pp.wasProcessed,
@@ -141,7 +141,8 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         accountBrand: pp.accountBrand,
         last4: pp.last4,
         typeAccount: pp.typeAccount,
-        status: pp.status
+        status: pp.status,
+        attempts: pp.attempts
       }
 
       $scope.submitted = true
@@ -182,25 +183,25 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       $scope.newPaymentPlan.accountBrand = objAccount[0].brand || objAccount[0].bankName
       $scope.newPaymentPlan.last4 = objAccount[0].last4
       $scope.newPaymentPlan.typeAccount = objAccount[0].object
-      $scope.newPaymentPlan.originalPrice =  $scope.newPaymentPlan.price / (1 - pp.discount/100),
+      $scope.newPaymentPlan.originalPrice = $scope.newPaymentPlan.price / (1 - pp.discount / 100),
 
 
-      CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
-        $scope.newPaymentPlan = {}
-        order.paymentsPlan = res.paymentsPlan;
+        CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
+          $scope.newPaymentPlan = {}
+          order.paymentsPlan = res.paymentsPlan;
 
-        DialogService.ok('Payment was added successfully');
+          DialogService.ok('Payment was added successfully');
 
-        $scope.submitted = false
-        //$scope.editCharges = '';
-        //$scope.loadingOrder = order._id;
-        sortAccountFilter(order);
+          $scope.submitted = false
+          //$scope.editCharges = '';
+          //$scope.loadingOrder = order._id;
+          sortAccountFilter(order);
 
 
-      }).catch(function (err) {
-        console.log('ERR: ', err)
-        DialogService.danger('Payment wasn`t added, please contact us');
-      })
+        }).catch(function (err) {
+          console.log('ERR: ', err)
+          DialogService.danger('Payment wasn`t added, please contact us');
+        })
     }
 
     $scope.changeToEdit = function (orderId) {
@@ -226,6 +227,109 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         DialogService.danger('There are a problem, please contact us');
       });
     }
+
+    $scope.retrieveTransfer = function (orderId, pp) {
+      $scope.refundObj = {}
+      pp.attempts.forEach(function (attemp, idx, arr) {
+        if (attemp.status === 'succeeded') {
+          PaymentService.retrieveTransfer(attemp.transferId).then(function (transfer) {
+            $scope.refundObj.chargeId = transfer.source_transaction;
+            $scope.refundObj.pp = pp;
+            $scope.refundObj.orderId = orderId;
+            $scope.refundObj.reason = '';
+            $('#modalRefund').openModal();
+          }).catch(function (err) {
+            DialogService.danger('There are a problem, please contact us');
+            console.log(err)
+          })
+        }
+      });
+    }
+
+    $scope.refund = function () {
+      $scope.processRefud = true;
+      if (!$scope.refundObj.reason) {
+        DialogService.warn('A reason is required');
+        $scope.processRefud = false;
+        return;
+      }
+      if ($scope.refundObj.pp.status !== 'succeeded') {
+        DialogService.danger('The status must be succeeded');
+        return;
+      }
+
+      PaymentService.refund($scope.refundObj.chargeId, $scope.refundObj.reason).then(function (refund) {
+        $scope.refundObj.pp.status = 'refunded';
+        $scope.refundObj.pp.attempts.push({
+          status: 'refunded',
+          message: $scope.refundObj.reason,
+          dateAttemp: new Date(),
+          last4: $scope.refundObj.pp.last4,
+          accountBrand: $scope.refundObj.pp.accountBrand,
+          transferId: refund.id
+        })
+        $scope.editPaymentPlan($scope.refundObj.orderId, $scope.refundObj.pp);
+        $('#modalRefund').closeModal();
+        DialogService.ok('Refunded was applyed');
+        $scope.processRefud = false;
+      }).catch(function (err) {
+        $scope.processRefud = false;
+        DialogService.danger('There are a problem, please contact us');
+        console.log(err);
+      })
+
+    }
+
+    $scope.retry = function (orderId, pp) {
+      if (pp.status === 'failed') {
+        pp.status = 'pending'
+        pp.wasProcessed = false;
+        $scope.editPaymentPlan(orderId, pp);
+      } else {
+        DialogService.danger('The status must be failed');
+      }
+    }
+
+    $scope.confirmDisable = function (orderId, pp) {
+      $('#confirmDisableModal').openModal();
+      $scope.disableObj = {
+        orderId: orderId,
+        pp: pp
+      }
+    }
+
+    $scope.disabled = function (confirm) {
+      if (confirm) {
+        if ($scope.disableObj.pp.status !== 'succeeded' || $scope.disableObj.pp.status !== 'refunded') {
+          $scope.disableObj.pp.status = 'disable-' + $scope.disableObj.pp.status
+          $scope.editPaymentPlan($scope.disableObj.orderId, $scope.disableObj.pp);
+          $('#confirmDisableModal').closeModal();
+        } else {
+          DialogService.danger('The status must be failed');
+          $('#confirmDisableModal').closeModal();
+
+        }
+      } else {
+        console.log('close model')
+        $('#confirmDisableModal').closeModal();
+        $scope.disableObj = {}
+      }
+
+    }
+
+    $scope.enable = function (orderId, pp) {
+      if (pp.status.startsWith('disable-')) {
+        pp.status = pp.status.substring(8);
+        $scope.editPaymentPlan(orderId, pp);
+        $('#confirmDisableModal').closeModal();
+      } else {
+        DialogService.danger('The status must be failed');
+        $('#confirmDisableModal').closeModal();
+
+      }
+    }
+
+
   }]
 
 
