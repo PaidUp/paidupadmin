@@ -36,6 +36,7 @@ client/e2eNW/reports/
 bin
 dist
 var/logs/*
+.idea
 
 #Frontend
 client/public/css/style.min.css

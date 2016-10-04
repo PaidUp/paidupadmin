@@ -32,10 +32,10 @@ module.exports = ['$scope', '$rootScope', 'ReportsService',
             organizationId: projection._id.organizationId,
             organizationName: projection._id.organizationName,
             organizationLocation: projection._id.organizationLocation,
-            price: projection.price,
-            stripeFee: projection.stripeFee,
-            paidupFee: projection.paidupFee,
-            totalFee: projection.totalFee
+            price: projection.value.price,
+            stripeFee: projection.value.stripeFee,
+            paidupFee: projection.value.paidupFee,
+            totalFee: projection.value.totalFee
           }
         });
       }).catch(function (err) {
