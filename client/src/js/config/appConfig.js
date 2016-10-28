@@ -8,11 +8,6 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
   uiMaskConfigProvider.clearOnBlur(false)
   uiMaskConfigProvider.maskDefinitions({'D': /^[0-9]*$/})
 
-  $httpProvider.defaults.headers.common = {};
-  $httpProvider.defaults.headers.post = {};
-  $httpProvider.defaults.headers.put = {};
-  $httpProvider.defaults.headers.patch = {};
-
   // Remove initial Hash in URL
   $locationProvider.html5Mode({
     enabled: true
