@@ -21,7 +21,6 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
 
   this.orderSearch = function (params) {
     var body = { params: params };
-    console.log(body)
     return OrderSearch.post(body).$promise
   }
 
