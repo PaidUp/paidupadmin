@@ -20,7 +20,8 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
 
 
   this.orderSearch = function (params) {
-    return OrderSearch.post({ params: params }).$promise
+    var body = { params: params };
+    return OrderSearch.post(body).$promise
   }
 
   this.paymentPlanEdit = function (params) {
