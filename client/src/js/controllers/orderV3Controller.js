@@ -135,7 +135,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         paymentPlanId: pp._id,
         originalPrice: pp.price / (1 - pp.discount / 100),
         description: pp.description,
-        dateCharge: pp.dateCharge,
+        dateCharge: pp.dateCharge+ " 10:00",
         wasProcessed: pp.wasProcessed,
         account: pp.account,
         accountBrand: pp.accountBrand,
