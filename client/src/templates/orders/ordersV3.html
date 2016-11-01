@@ -96,7 +96,7 @@
                                             <label for="rproc-{{pp._id}}"></label>
                                         </td>
                                         <td class="centered">
-                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'"
+                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-checked="pp.status.startsWith('disable-')" 
                                                 ng-false-value="'pending'">
                                             <label for="rdis-{{pp._id}}"></label>
                                         </td>
