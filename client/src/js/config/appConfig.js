@@ -31,7 +31,7 @@ module.exports = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
 
   // UI ROUTER
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise('/logout')
+  $urlRouterProvider.otherwise('/orders')
   //
   // Now set up the states
   $stateProvider

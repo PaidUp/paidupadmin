@@ -135,7 +135,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         paymentPlanId: pp._id,
         originalPrice: pp.price / (1 - pp.discount / 100),
         description: pp.description,
-        dateCharge: pp.dateCharge,
+        dateCharge: pp.dateCharge.substring(0, 10) + " 10:00",
         wasProcessed: pp.wasProcessed,
         account: pp.account,
         accountBrand: pp.accountBrand,
@@ -204,8 +204,21 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         })
     }
 
-    $scope.changeToEdit = function (orderId) {
-      $scope.editCharges = orderId;
+    $scope.changeToEdit = function (orderId, index) {
+      if (orderId.length === 0) {
+        $scope.loading = true;
+        CommerceService.orderSearch($scope.searchResult[index].orderId).then(function (result) {
+          $scope.searchResult.splice(index, 1, result.body.orders[0]);
+          $scope.loading = false
+          $scope.editCharges = '';
+        }).catch(function (err) {
+          $scope.loading = false
+          DialogService.danger('There are a problem, please contact us');
+        })
+      } else {
+        $scope.editCharges = orderId;
+      }
+
     }
 
     $scope.closeDatePicker = function (id) {

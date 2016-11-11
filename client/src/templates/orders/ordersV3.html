@@ -96,7 +96,7 @@
                                             <label for="rproc-{{pp._id}}"></label>
                                         </td>
                                         <td class="centered">
-                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-true-value="'disable'"
+                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-checked="pp.status.startsWith('disable-')" 
                                                 ng-false-value="'pending'">
                                             <label for="rdis-{{pp._id}}"></label>
                                         </td>
@@ -212,12 +212,12 @@
 
 
                                 <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges !== order._id">
-                                    <button class="btn waves-effect waves-light" ng-show="order.status !== 'complete'" ng-click="changeToEdit(order._id)">Edit</button>
+                                    <button class="btn waves-effect waves-light" ng-show="order.status !== 'complete'" ng-click="changeToEdit(order._id, $index)">Edit</button>
                                     <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal complete='completeHistory' ng-click="loadHistory(order._id)">View Log</a>
                                 </div>
 
                                 <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges === order._id">
-                                    <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('')">Cancel</button>
+                                    <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('', $index)">Cancel</button>
                                     <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal ng-click="loadHistory(order._id)">View Log</a>
                                 </div>
 
