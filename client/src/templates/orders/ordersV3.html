@@ -59,7 +59,7 @@
             </tr>
 
             <tr class="expandable" ng-if="expandSection === order._id">
-                <td class="expand" colspan="8">
+                <td class="expand" colspan="9">
                     <div ng-class="expandSection === order._id ? 'expandable_section active' : 'expandable_section'">
                         <div class="expanded_section">
 
@@ -217,7 +217,8 @@
                                 </div>
 
                                 <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges === order._id">
-                                    <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('', $index)">Cancel</button>
+                                    <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('', $index)">Close</button>
+                                     <button class="btn waves-effect waves-light" ng-if="order.status === 'active'" type="button" id="CancelOrder" ng-bind-html="loading ? loader : 'Cancel Order'" ng-click="confirmCancel($index, order.orderId)"></button>
                                     <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal ng-click="loadHistory(order._id)">View Log</a>
                                 </div>
 
@@ -324,5 +325,16 @@
     <div class="modal-footer">
       <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(true)">Agree</a>
       <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(false)">Cancel</a>
+    </div>
+  </div>
+
+  <div id="confirmCancelModal" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Confirm</h4>
+      <p>Are you sure? </p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(true)">Agree</a>
+      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(false)">Cancel</a>
     </div>
   </div>
