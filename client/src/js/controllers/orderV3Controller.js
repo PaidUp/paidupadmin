@@ -323,7 +323,6 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
         }
       } else {
-        console.log('close model')
         $('#confirmDisableModal').closeModal();
         $scope.disableObj = {}
       }
@@ -340,6 +339,36 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $('#confirmDisableModal').closeModal();
 
       }
+    }
+
+    $scope.confirmCancel = function (index, orderId) {
+      $('#confirmCancelModal').openModal();
+      $scope.cancelObj = {
+        orderId: orderId,
+        index: index
+      }
+    }
+
+    $scope.orderCancel = function (confirm) {
+      console.log('order cancel: ', confirm)
+      if (confirm) {
+        $scope.loading = true;
+        CommerceService.orderCancel($scope.cancelObj.orderId).then(function (result) {
+          $scope.searchResult[$scope.cancelObj.index] = result;
+          $scope.loading = false;
+          DialogService.ok('Order was canceled successfully');
+          $('#confirmCancelModal').closeModal();
+        }).catch(function () {
+          DialogService.danger('Cannot was possible to update this order');
+          $scope.loading = false;
+          $('#confirmCancelModal').closeModal();
+        })
+      } else {
+        $('#confirmCancelModal').closeModal();
+        $scope.cancelObj = {}
+      }
+
+
     }
 
 

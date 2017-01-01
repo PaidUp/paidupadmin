@@ -6,6 +6,10 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
     post: { method: 'POST', isArray: false }
   })
 
+  var OrderCancel = $resource(ConfigService.getBrokerUrl() + '/api/v1/commerce/order/cancel', {}, {
+    post: { method: 'POST', isArray: false }
+  })
+
   var PaymentPlanEdit = $resource(ConfigService.getBrokerUrl() + '/api/v1/commerce/order/edit', {}, {
     post: { method: 'POST', isArray: false }
   })
@@ -22,6 +26,11 @@ module.exports = ['$cookieStore', '$resource', 'ConfigService', function ($cooki
   this.orderSearch = function (params) {
     var body = { params: params };
     return OrderSearch.post(body).$promise
+  }
+
+  this.orderCancel = function (orderId) {
+    var body = { orderId: orderId };
+    return OrderCancel.post(body).$promise
   }
 
   this.paymentPlanEdit = function (params) {
