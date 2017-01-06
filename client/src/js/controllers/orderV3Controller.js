@@ -349,8 +349,16 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       }
     }
 
+    $scope.confirmRemove = function (index, orderId, paymentPlanId) {
+      $('#confirmRemoveModal').openModal();
+      $scope.removeObj = {
+        orderId: orderId,
+        paymentPlanId: paymentPlanId,
+        index: index
+      }
+    }
+
     $scope.orderCancel = function (confirm) {
-      console.log('order cancel: ', confirm)
       if (confirm) {
         $scope.loading = true;
         CommerceService.orderCancel($scope.cancelObj.orderId).then(function (result) {
@@ -367,8 +375,25 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $('#confirmCancelModal').closeModal();
         $scope.cancelObj = {}
       }
+    }
 
-
+    $scope.orderRemovePayment = function (confirm) {
+      if (confirm) {
+        $scope.loading = true;
+        CommerceService.orderPaymentRemove($scope.removeObj.orderId, $scope.removeObj.paymentPlanId).then(function (result) {
+          $scope.searchResult[$scope.removeObj.index] = result;
+          $scope.loading = false;
+          DialogService.ok('Payment was removed successfully');
+          $('#confirmRemoveModal').closeModal();
+        }).catch(function () {
+          DialogService.danger('Cannot was possible to update this order');
+          $scope.loading = false;
+          $('#confirmRemoveModal').closeModal();
+        })
+      } else {
+        $('#confirmRemoveModal').closeModal();
+        $scope.cancelObj = {}
+      }
     }
 
 
