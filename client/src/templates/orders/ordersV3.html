@@ -46,7 +46,7 @@
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody ng-repeat="order in searchResult">
+        <tbody ng-repeat="order in searchResult" ng-init="orderIndex = $index">
             <tr ng-click="selectOrder(order)" ng-class="expandSection === order._id ? 'order_row active' : 'order_row'">
                 <td>{{order.paymentsPlan[0].version || v1}}</td>
                 <td>{{order.orderId}}</td>
@@ -76,6 +76,7 @@
                                         <th class="centered">Disable</th>
                                         <th ng-show="editCharges === order._id" class="centered">Retry</th>
                                         <th ng-show="editCharges === order._id" class="centered">Refund</th>
+                                        <th ng-show="editCharges === order._id" class="centered">Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -153,8 +154,12 @@
                                             <a class="btn-floating btn-large waves-effect waves-light orange darken-1" ng-if="pp.status === 'succeeded'" ng-click="retrieveTransfer(order._id,pp)">
                                                 <i class="small mdi mdi-undo-variant"></i>
                                             </a>
-                                            
+                                        </td>
 
+                                        <td>
+                                            <a class="btn-floating btn-large waves-effect waves-light red darken-1"  ng-if="pp.status !== 'succeeded'" ng-click="confirmRemove(orderIndex, order.orderId, pp._id)">
+                                                <i class="small mdi mdi-delete"></i>
+                                            </a>
                                         </td>
                                     </tr>
 
@@ -184,7 +189,7 @@
                                                 <i class="small mdi mdi-plus"></i>
                                             </a>
                                         </td>
-                                        <td class="centered" colspan="5">
+                                        <td class="centered" colspan="6">
 
                                         </td>
                                     </tr>
@@ -336,5 +341,16 @@
     <div class="modal-footer">
       <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(true)">Agree</a>
       <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(false)">Cancel</a>
+    </div>
+  </div>
+
+  <div id="confirmRemoveModal" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Confirm</h4>
+      <p>Are you sure? </p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderRemovePayment(true)">Agree</a>
+      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderRemovePayment(false)">Cancel</a>
     </div>
   </div>
