@@ -349,6 +349,14 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       }
     }
 
+    $scope.confirmActivate = function (index, orderId) {
+      $('#confirmActivateModal').openModal();
+      $scope.activateObj = {
+        orderId: orderId,
+        index: index
+      }
+    }
+
     $scope.confirmRemove = function (index, orderId, paymentPlanId) {
       $('#confirmRemoveModal').openModal();
       $scope.removeObj = {
@@ -373,6 +381,25 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         })
       } else {
         $('#confirmCancelModal').closeModal();
+        $scope.cancelObj = {}
+      }
+    }
+
+    $scope.orderActivate = function (confirm) {
+      if (confirm) {
+        $scope.loading = true;
+        CommerceService.orderActivate($scope.activateObj.orderId).then(function (result) {
+          $scope.searchResult[$scope.activateObj.index] = result;
+          $scope.loading = false;
+          DialogService.ok('Order was activated successfully');
+          $('#confirmActivateModal').closeModal();
+        }).catch(function () {
+          DialogService.danger('Cannot was possible to activate this order');
+          $scope.loading = false;
+          $('#confirmActivateModal').closeModal();
+        })
+      } else {
+        $('#confirmActivateModal').closeModal();
         $scope.cancelObj = {}
       }
     }
