@@ -375,7 +375,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           DialogService.ok('Order was canceled successfully');
           $('#confirmCancelModal').closeModal();
         }).catch(function () {
-          DialogService.danger('Cannot was possible to update this order');
+          DialogService.danger('Unable to cancel this order.');
           $scope.loading = false;
           $('#confirmCancelModal').closeModal();
         })
@@ -394,7 +394,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           DialogService.ok('Order was activated successfully');
           $('#confirmActivateModal').closeModal();
         }).catch(function () {
-          DialogService.danger('Cannot was possible to activate this order');
+          DialogService.danger('Unable to activate this order.');
           $scope.loading = false;
           $('#confirmActivateModal').closeModal();
         })
@@ -413,7 +413,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           DialogService.ok('Payment was removed successfully');
           $('#confirmRemoveModal').closeModal();
         }).catch(function () {
-          DialogService.danger('Cannot was possible to update this order');
+          DialogService.danger('Unable to update this order.');
           $scope.loading = false;
           $('#confirmRemoveModal').closeModal();
         })
