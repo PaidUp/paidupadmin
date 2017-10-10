@@ -72,7 +72,7 @@
                                         <th>Card</th>
                                         <th class="centered">Status</th>
                                         <th class="centered">Processed</th>
-                                        <th class="centered" ng-show="editCharges === order._id" >Save</th>
+                                        <th class="centered" ng-show="editCharges === order._id">Save</th>
                                         <th class="centered">Disable</th>
                                         <th ng-show="editCharges === order._id" class="centered">Retry</th>
                                         <th ng-show="editCharges === order._id" class="centered">Refund</th>
@@ -97,7 +97,7 @@
                                             <label for="rproc-{{pp._id}}"></label>
                                         </td>
                                         <td class="centered">
-                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-checked="pp.status.startsWith('disable-')" 
+                                            <input id="rdis-{{pp._id}}" ng-disabled="true" type="checkbox" ng-change="" ng-model="pp.status" ng-checked="pp.status.startsWith('disable-')"
                                                 ng-false-value="'pending'">
                                             <label for="rdis-{{pp._id}}"></label>
                                         </td>
@@ -128,20 +128,22 @@
                                         </td>
                                         <td ng-class="{'green-font': pp.status ==='succeeded', 'red-font': pp.status ==='failed'}" class="centered">{{pp.status.startsWith('disable-') ? pp.status.substring(8) : pp.status}}</td>
                                         <td class="centered">
-                                            <input id="proc-{{pp._id}}" ng-disabled="true"
-                                                type="checkbox" ng-model="pp.wasProcessed" />
+                                            <input id="proc-{{pp._id}}" ng-disabled="true" type="checkbox" ng-model="pp.wasProcessed" />
                                             <label for="proc-{{pp._id}}"></label>
                                         </td>
                                         <td class="centered">
-                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status!=='succeeded' && !pp.status.startsWith('disable-') && pp.status!=='refunded'" ng-click="editPaymentPlan(order._id, pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light" href="#" ng-if="pp.status==='pending' || pp.status==='failed'"
+                                                ng-click="editPaymentPlan(order._id, pp)">
                                                 <i class="small mdi mdi-content-save"></i>
                                             </a>
                                         </td>
                                         <td class="centered">
-                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status!=='succeeded' && pp.status!=='refunded' && !pp.status.startsWith('disable-')" ng-click="confirmDisable(order._id, pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status==='pending' || pp.status==='failed'"
+                                                ng-click="confirmDisable(order._id, pp)">
                                                 <i class="small mdi mdi-checkbox-blank-outline"></i>
                                             </a>
-                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status.startsWith('disable-')" ng-click="enable(order._id, pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light  grey darken-1" href="#" ng-if="pp.status.startsWith('disable-')"
+                                                ng-click="enable(order._id, pp)">
                                                 <i class="small mdi mdi-checkbox-marked-outline"></i>
                                             </a>
                                         </td>
@@ -149,15 +151,15 @@
                                             <a class="btn-floating btn-large waves-effect waves-light light-blue darken-1" ng-if="pp.status==='failed'" ng-click="retry(order._id,pp)">
                                                 <i class="small mdi mdi-reload"></i>
                                             </a>
-                                            </td>
+                                        </td>
                                         <td>
-                                            <a class="btn-floating btn-large waves-effect waves-light orange darken-1" ng-if="pp.status === 'succeeded'" ng-click="retrieveTransfer(order._id,pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light orange darken-1" ng-if="pp.status === 'refunded-partial' || pp.status === 'succeeded'" ng-click="retrieveTransfer(order._id,pp)">
                                                 <i class="small mdi mdi-undo-variant"></i>
                                             </a>
                                         </td>
 
                                         <td>
-                                            <a class="btn-floating btn-large waves-effect waves-light red darken-1"  ng-if="pp.status !== 'succeeded'" ng-click="confirmRemove(orderIndex, order.orderId, pp._id)">
+                                            <a class="btn-floating btn-large waves-effect waves-light red darken-1" ng-if="pp.status === 'pending' " ng-click="confirmRemove(orderIndex, order.orderId, pp._id)">
                                                 <i class="small mdi mdi-delete"></i>
                                             </a>
                                         </td>
@@ -224,7 +226,8 @@
 
                                 <div class="btns_container" ng-if="loadingOrder !== order._id && editCharges === order._id">
                                     <button class="btn btn-gray waves-effect waves-light" ng-click="changeToEdit('', $index)">Close</button>
-                                     <button class="btn waves-effect waves-light" ng-if="order.status === 'active'" type="button" id="CancelOrder" ng-bind-html="loading ? loader : 'Cancel Order'" ng-click="confirmCancel($index, order.orderId)"></button>
+                                    <button class="btn waves-effect waves-light" ng-if="order.status === 'active'" type="button" id="CancelOrder" ng-bind-html="loading ? loader : 'Cancel Order'"
+                                        ng-click="confirmCancel($index, order.orderId)"></button>
                                     <a class='btn btn-blue waves-effect waves-light' href='#modal{{order._id}}' modal ng-click="loadHistory(order._id)">View Log</a>
                                 </div>
 
@@ -304,65 +307,72 @@
 </div>
 
 <!-- Modal refund -->
-  <div id="modalRefund" class="modal">
+<div id="modalRefund" class="modal">
     <div class="modal-content">
-      <h4>Refund</h4>
+        <h4>Refund</h4>
         <div class="row">
-        <div class="input-field col s12">
-          <textarea id="reason" class="materialize-textarea" ng-model="refundObj.reason"></textarea>
-          <label for="reason">Reason</label>
+            <div class="inline input-field col s12">
+                <input type="number" id="amount" ng-model="refundObj.amount" class="validate" ></input>
+                <label for="amount">Amount (max: ${{refundObj.pp.price}} )</label>
+            </div>
         </div>
-      </div>
-      </p>
+
+        <div class="row">
+            <div class="inline input-field col s12">
+                <textarea id="reason" class="materialize-textarea" ng-model="refundObj.reason" class="validate"></textarea>
+                <label for="reason">Reason</label>
+            </div>
+        </div>
+
     </div>
     <div class="modal-footer">
         <div class="btns_container" ng-hide="processRefud">
-      <button href="#" class="waves-effect waves-green btn-flat" ng-click="refund()">Agree</button>
-      <button href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
-      </div>
+            <button href="#" class="waves-effect waves-green btn-flat" ng-click="refund()">Agree</button>
+            <button href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+        </div>
     </div>
-  </div>
+</div>
 
-  <div id="confirmDisableModal" class="modal bottom-sheet">
+<div id="confirmDisableModal" class="modal bottom-sheet">
     <div class="modal-content">
-      <h4>Confirm</h4>
-      <p>Are you sure? </p>
+        <h4>Confirm</h4>
+        <p>Are you sure? </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(true)">Agree</a>
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(false)">Cancel</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(true)">Agree</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="disabled(false)">Cancel</a>
     </div>
-  </div>
+</div>
 
-  <div id="confirmCancelModal" class="modal bottom-sheet">
+<div id="confirmCancelModal" class="modal bottom-sheet">
     <div class="modal-content">
-      <h4>Confirm</h4>
-      <p>Are you sure? </p>
+        <h4>Confirm</h4>
+        <p>Are you sure? </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(true)">Agree</a>
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(false)">Cancel</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(true)">Agree</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderCancel(false)">Cancel</a>
     </div>
-  </div>
+</div>
 
-  <div id="confirmActivateModal" class="modal bottom-sheet">
+<div id="confirmActivateModal" class="modal bottom-sheet">
     <div class="modal-content">
-      <h4>Confirm</h4>
-      <p>Are you sure? </p>
+        <h4>Confirm</h4>
+        <p>Are you sure? </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderActivate(true)">Agree</a>
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderActivate(false)">Cancel</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderActivate(true)">Agree</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderActivate(false)">Cancel</a>
     </div>
-  </div>
+</div>
 
-  <div id="confirmRemoveModal" class="modal bottom-sheet">
+<div id="confirmRemoveModal" class="modal bottom-sheet">
     <div class="modal-content">
-      <h4>Confirm</h4>
-      <p>Are you sure? </p>
+        <h4>Confirm</h4>
+        <p>Are you sure? </p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderRemovePayment(true)">Agree</a>
-      <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderRemovePayment(false)">Cancel</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderRemovePayment(true)">Agree</a>
+        <a href="#!" class="waves-effect waves-green btn-flat" ng-click="orderRemovePayment(false)">Cancel</a>
     </div>
-  </div>
+</div>

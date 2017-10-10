@@ -108,8 +108,8 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
     $scope.editPaymentPlan = function (orderId, pp) {
       $scope.loadingOrder = orderId;
-      if (!pp.price || !pp.description || !pp.dateCharge) {
-        DialogService.warm('All fields are required');
+      if (Number(pp.price) < 0 || !pp.description || !pp.dateCharge) {
+        DialogService.warn('All fields are required');
         return
       }
 
@@ -142,7 +142,8 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         last4: pp.last4,
         typeAccount: pp.typeAccount,
         status: pp.status,
-        attempts: pp.attempts
+        attempts: pp.attempts,
+        refund: pp.refund
       }
 
       $scope.submitted = true
@@ -249,6 +250,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
             $scope.refundObj.chargeId = transfer.source_transaction;
             $scope.refundObj.pp = pp;
             $scope.refundObj.orderId = orderId;
+            $scope.refundObj.amount = $scope.refundObj.pp.price;
             $scope.refundObj.reason = '';
             $('#modalRefund').openModal();
           }).catch(function (err) {
@@ -260,7 +262,17 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     }
 
     $scope.refund = function () {
-      $scope.processRefud = true;
+      $scope.processRefund = true;
+      if (!$scope.refundObj.amount) {
+        DialogService.warn('Amount is required');
+        $scope.processRefud = false;
+        return;
+      }
+      if (($scope.refundObj.amount < 0 || $scope.refundObj.amount > $scope.refundObj.pp.price )) {
+        DialogService.warn('Amount is a invalid value');
+        $scope.processRefud = false;
+        return;
+      }
       if (!$scope.refundObj.reason) {
         DialogService.warn('A reason is required');
         $scope.processRefud = false;
@@ -271,16 +283,22 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         return;
       }
 
-      PaymentService.refund($scope.refundObj.chargeId, $scope.refundObj.reason).then(function (refund) {
-        $scope.refundObj.pp.status = 'refunded';
+      PaymentService.refund($scope.refundObj.chargeId, $scope.refundObj.reason, $scope.refundObj.amount).then(function (refund) {
+        var status = $scope.refundObj.amount == $scope.refundObj.pp.price ? 'refunded' : 'refunded-partial';
+        $scope.refundObj.pp.status = status;
         $scope.refundObj.pp.attempts.push({
-          status: 'refunded',
+          status: status,
           message: $scope.refundObj.reason,
+          amount: $scope.refundObj.amount,
           dateAttemp: new Date(),
           last4: $scope.refundObj.pp.last4,
           accountBrand: $scope.refundObj.pp.accountBrand,
           transferId: refund.id
         })
+        
+        $scope.refundObj.pp.price = $scope.refundObj.pp.price - $scope.refundObj.amount;
+        $scope.refundObj.pp.refund = $scope.refundObj.pp.refund ? $scope.refundObj.pp.refund + $scope.refundObj.amount : $scope.refundObj.amount;
+
         $scope.editPaymentPlan($scope.refundObj.orderId, $scope.refundObj.pp);
         $('#modalRefund').closeModal();
         DialogService.ok('Refunded was applyed');
