@@ -262,6 +262,10 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
     }
 
     $scope.refund = function () {
+      if($scope.processRefund){
+        DialogService.warn('Refund is proccessing...');
+        return;
+      }
       $scope.processRefund = true;
       if (!$scope.refundObj.amount) {
         DialogService.warn('Amount is required');
@@ -278,13 +282,13 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $scope.processRefud = false;
         return;
       }
-      if ($scope.refundObj.pp.status !== 'succeeded') {
-        DialogService.danger('The status must be succeeded');
+      if (!($scope.refundObj.pp.status === 'succeeded' || $scope.refundObj.pp.status === 'refunded-partially')) {
+        DialogService.danger('The status must be succeeded or refunded-partially');
         return;
       }
 
       PaymentService.refund($scope.refundObj.chargeId, $scope.refundObj.reason, $scope.refundObj.amount).then(function (refund) {
-        var status = $scope.refundObj.amount == $scope.refundObj.pp.price ? 'refunded' : 'refunded-partial';
+        var status = $scope.refundObj.amount == $scope.refundObj.pp.price ? 'refunded' : 'refunded-partially';
         $scope.refundObj.pp.status = status;
         $scope.refundObj.pp.attempts.push({
           status: status,

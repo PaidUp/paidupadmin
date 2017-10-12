@@ -109,20 +109,20 @@
                                     <tr ng-repeat="pp in order.paymentsPlan" ng-if="editCharges === order._id">
                                         <td>
                                             <md-input-container>
-                                                <input type="text" ng-model="pp.description" ng-disabled="pp.status==='succeeded'" />
+                                                <input type="text" ng-model="pp.description" ng-disabled="pp.status==='succeeded' || pp.status.startsWith('refunded')" />
                                             </md-input-container>
 
                                         </td>
                                         <td>
                                             <input input-date id="datePicker{{pp._id}}" type="text" name="created" ng-model="pp.dateCharge" container="" format="mm/dd/yyyy"
                                                 disable="disable" select-years="15" on-set="closeDatePicker('datePicker'+pp._id)"
-                                                ng-disabled="pp.status==='succeeded'" />
+                                                ng-disabled="pp.status==='succeeded'  || pp.status.startsWith('refunded')" />
                                         </td>
                                         <td>
-                                            <input type="text" ng-model="pp.price" ng-disabled="pp.status==='succeeded'" />
+                                            <input type="text" ng-model="pp.price" ng-disabled="pp.status==='succeeded'  || pp.status.startsWith('refunded')" />
                                         </td>
                                         <td>
-                                            <select material-select watch ng-model="pp.account" ng-disabled="pp.status==='succeeded'">
+                                            <select material-select watch ng-model="pp.account" ng-disabled="pp.status==='succeeded'  || pp.status.startsWith('refunded')">
                                                 <option ng-repeat="account in accountsFilter[pp._id]"  value="{{account.id}}">{{account.bankName || account.brand}} x-{{account.last4}}</option>
                                             </select>
                                         </td>
@@ -153,7 +153,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a class="btn-floating btn-large waves-effect waves-light orange darken-1" ng-if="pp.status === 'refunded-partial' || pp.status === 'succeeded'" ng-click="retrieveTransfer(order._id,pp)">
+                                            <a class="btn-floating btn-large waves-effect waves-light orange darken-1" ng-if="pp.status === 'refunded-partially' || pp.status === 'succeeded'" ng-click="retrieveTransfer(order._id,pp)">
                                                 <i class="small mdi mdi-undo-variant"></i>
                                             </a>
                                         </td>
