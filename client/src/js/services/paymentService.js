@@ -45,8 +45,8 @@ module.exports = ['$resource', 'ConfigService', function ($resource, ConfigServi
     return accountServices.get({ action: 'list', userId: userId }).$promise
   }
 
-  this.refund = function (chargeId, reason) {
-    return refundResource.post({ chargeId: chargeId, reason: reason }).$promise
+  this.refund = function (chargeId, reason, amount) {
+    return refundResource.post({ chargeId: chargeId, reason: reason, amount: amount }).$promise
   }
 
   this.retrieveTransfer = function (transferId) {
