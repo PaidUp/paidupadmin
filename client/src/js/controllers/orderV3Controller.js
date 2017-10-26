@@ -21,18 +21,18 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       $scope.loadingOrder = '';
       $scope.accountsFilter = {};
       $scope.expandSection = '',
-        $scope.editCharges = '';
+      $scope.editCharges = '';
 
       CommerceService.orderSearch($scope.searchCriteria).then(function (result) {
 
-        $scope.searchResult = result.body.orders
+        $scope.searchResult = result.body.orders;
         DialogService.info(result.body.orders.length + ' results');
-        $scope.loading = false
+        $scope.loading = false;
       }).catch(function (err) {
-        $scope.loading = false
+        $scope.loading = false;
         DialogService.danger('There are a problem, please contact us');
-      })
-    }
+      });
+    };
 
     function loadCustomInfo(order) {
       $scope.customInfo = [];
@@ -40,7 +40,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $scope.customInfo.push({
           fieldTitle: 'Beneficiary Name',
           fieldValue: order.paymentsPlan[0].beneficiaryInfo.beneficiaryName
-        })
+        });
       }
       if (order.paymentsPlan[0].customInfo) {
         var formTemplate = order.paymentsPlan[0].customInfo.formTemplate;
@@ -50,7 +50,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           $scope.customInfo.push({
             fieldTitle: ft.name,
             fieldValue: formData[ft.model]
-          })
+          });
         });
       }
     }
@@ -63,28 +63,28 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         }
 
         if (!ele.paymentMethods || ele.paymentMethods.length === 0) {
-          ele.paymentMethods = ['card']
+          ele.paymentMethods = ['card'];
         }
 
         ele.paymentMethods.forEach(function (pm, idxPm, arrPm) {
           $scope.accounts.map(function (acc) {
             if (acc.object.indexOf(pm) === 0) {
-              $scope.accountsFilter[ele._id].push(acc)
+              $scope.accountsFilter[ele._id].push(acc);
             }
-          })
-        })
+          });
+        });
       });
     }
 
     function loadAccountFileter(order, cb) {
       PaymentService.listAccounts(order.userId).then(function (res) {
-        $scope.accounts = res.data
+        $scope.accounts = res.data;
         sortAccountFilter(order);
         cb();
       }).catch(function (err) {
-        console.log('ERR', err)
+        console.log('ERR', err);
         DialogService.danger('There are a problem, please contact us');
-      })
+      });
     }
 
     $scope.selectOrder = function (order) {
@@ -104,30 +104,30 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       }
 
 
-    }
+    };
 
     $scope.editPaymentPlan = function (orderId, pp) {
       $scope.loadingOrder = orderId;
       if (Number(pp.price) < 0 || !pp.description || !pp.dateCharge) {
         DialogService.warn('All fields are required');
-        return
+        return;
       }
 
       var objAccount = $scope.accounts.filter(function (ele) {
         if (pp.account === ele.id) {
-          return ele
+          return ele;
         }
-      })
+      });
 
       if (!objAccount || objAccount.length < 1) {
         DialogService.danger('A payment method is required');
-        return
+        return;
       }
 
-      pp.account = objAccount[0].id
-      pp.accountBrand = objAccount[0].brand || objAccount[0].bankName
-      pp.last4 = objAccount[0].last4
-      pp.typeAccount = objAccount[0].object
+      pp.account = objAccount[0].id;
+      pp.accountBrand = objAccount[0].brand || objAccount[0].bankName;
+      pp.last4 = objAccount[0].last4;
+      pp.typeAccount = objAccount[0].object;
 
       var params = {
         version: pp.version || 'v1',
@@ -135,7 +135,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         paymentPlanId: pp._id,
         originalPrice: pp.price / (1 - pp.discount / 100),
         description: pp.description,
-        dateCharge: pp.dateCharge.substring(0, 10) + " 10:00",
+        dateCharge: pp.dateCharge.substring(0, 10) + ' 16:00:00.000Z',
         wasProcessed: pp.wasProcessed,
         account: pp.account,
         accountBrand: pp.accountBrand,
@@ -144,9 +144,9 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         status: pp.status,
         attempts: pp.attempts,
         refund: pp.refund
-      }
+      };
 
-      $scope.submitted = true
+      $scope.submitted = true;
 
       CommerceService.paymentPlanEdit(params).then(function (res) {
         DialogService.ok('Order was updated successfully');
@@ -154,15 +154,15 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       }).catch(function (err) {
         DialogService.danger('Order cannot be updated, please contact us');
         $scope.loadingOrder = '';
-        console.log('ERR: ', err)
-      })
-    }
+        console.log('ERR: ', err);
+      });
+    };
 
     $scope.addPaymentplan = function (order, pp) {
       if (!$scope.newPaymentPlan.description || !$scope.newPaymentPlan.dateCharge || !$scope.newPaymentPlan.price ||
         !$scope.newPaymentPlan.account) {
         DialogService.warn('All fields are required');
-        return
+        return;
       }
       if (isNaN(parseFloat($scope.newPaymentPlan.price))) {
         DialogService.warn('Charge price:\n must be a number.');
@@ -171,67 +171,64 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
 
       var objAccount = $scope.accounts.filter(function (ele) {
         if ($scope.newPaymentPlan.account === ele.id) {
-          return ele
+          return ele;
         }
-      })
+      });
 
       if (!objAccount || objAccount.length < 1) {
         DialogService.danger('A payment method is required');
-        return
+        return;
       }
       $scope.newPaymentPlan.orderId = order._id;
-      $scope.newPaymentPlan.account = objAccount[0].id
-      $scope.newPaymentPlan.accountBrand = objAccount[0].brand || objAccount[0].bankName
-      $scope.newPaymentPlan.last4 = objAccount[0].last4
-      $scope.newPaymentPlan.typeAccount = objAccount[0].object
+      $scope.newPaymentPlan.account = objAccount[0].id;
+      $scope.newPaymentPlan.accountBrand = objAccount[0].brand || objAccount[0].bankName;
+      $scope.newPaymentPlan.last4 = objAccount[0].last4;
+      $scope.newPaymentPlan.typeAccount = objAccount[0].object;
       $scope.newPaymentPlan.originalPrice = $scope.newPaymentPlan.price / (1 - pp.discount / 100),
 
 
-        CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
-          $scope.newPaymentPlan = {}
-          order.paymentsPlan = res.paymentsPlan;
+      CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
+        $scope.newPaymentPlan = {};
+        order.paymentsPlan = res.paymentsPlan;
 
-          DialogService.ok('Payment was added successfully');
+        DialogService.ok('Payment was added successfully');
 
-          $scope.submitted = false
-          //$scope.editCharges = '';
-          //$scope.loadingOrder = order._id;
-          sortAccountFilter(order);
+        $scope.submitted = false;
+        sortAccountFilter(order);
 
-
-        }).catch(function (err) {
-          console.log('ERR: ', err)
-          DialogService.danger('Payment wasn`t added, please contact us');
-        })
-    }
+      }).catch(function (err) {
+        console.log('ERR: ', err);
+        DialogService.danger('Payment wasn`t added, please contact us');
+      });
+    };
 
     $scope.changeToEdit = function (orderId, index) {
       if (orderId.length === 0) {
         $scope.loading = true;
         CommerceService.orderSearch($scope.searchResult[index].orderId).then(function (result) {
           $scope.searchResult.splice(index, 1, result.body.orders[0]);
-          $scope.loading = false
+          $scope.loading = false;
           $scope.editCharges = '';
         }).catch(function (err) {
-          $scope.loading = false
+          $scope.loading = false;
           DialogService.danger('There are a problem, please contact us');
-        })
+        });
       } else {
         $scope.editCharges = orderId;
       }
 
-    }
+    };
 
     $scope.closeDatePicker = function (id) {
-      var selectedDay = angular.element('#' + id + '_root').find('.picker__day--selected').length
+      var selectedDay = angular.element('#' + id + '_root').find('.picker__day--selected').length;
       if (selectedDay) {
-        angular.element('#' + id + '_root').find('.picker__close').click()
+        angular.element('#' + id + '_root').find('.picker__close').click();
       }
-    }
+    };
 
     $scope.completeHistory = function () {
       $scope.ordersHistory = [];
-    }
+    };
 
     $scope.loadHistory = function (orderId) {
       CommerceService.orderHistory(orderId).then(function (res) {
@@ -240,10 +237,10 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         console.log(e);
         DialogService.danger('There are a problem, please contact us');
       });
-    }
+    };
 
     $scope.retrieveTransfer = function (orderId, pp) {
-      $scope.refundObj = {}
+      $scope.refundObj = {};
       pp.attempts.forEach(function (attemp, idx, arr) {
         if (attemp.status === 'succeeded') {
           PaymentService.retrieveTransfer(attemp.transferId).then(function (transfer) {
@@ -255,14 +252,14 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
             $('#modalRefund').openModal();
           }).catch(function (err) {
             DialogService.danger('There are a problem, please contact us');
-            console.log(err)
-          })
+            console.log(err);
+          });
         }
       });
-    }
+    };
 
     $scope.refund = function () {
-      if($scope.processRefund){
+      if ($scope.processRefund) {
         DialogService.warn('Refund is proccessing...');
         return;
       }
@@ -270,7 +267,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         DialogService.warn('Amount is required');
         return;
       }
-      if (($scope.refundObj.amount < 0 || $scope.refundObj.amount > $scope.refundObj.pp.price )) {
+      if (($scope.refundObj.amount < 0 || $scope.refundObj.amount > $scope.refundObj.pp.price)) {
         DialogService.warn('Amount is a invalid value');
         return;
       }
@@ -295,7 +292,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           accountBrand: $scope.refundObj.pp.accountBrand,
           transferId: refund.id
         })
-        
+
         $scope.refundObj.pp.price = $scope.refundObj.pp.price - $scope.refundObj.amount;
         $scope.refundObj.pp.refund = $scope.refundObj.pp.refund ? $scope.refundObj.pp.refund + $scope.refundObj.amount : $scope.refundObj.amount;
 
@@ -307,9 +304,9 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $scope.processRefund = false;
         DialogService.danger('There are a problem, please contact us');
         console.log(err);
-      })
+      });
 
-    }
+    };
 
     $scope.retry = function (orderId, pp) {
       if (pp.status === 'failed') {
@@ -319,20 +316,20 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
       } else {
         DialogService.danger('The status must be failed');
       }
-    }
+    };
 
     $scope.confirmDisable = function (orderId, pp) {
       $('#confirmDisableModal').openModal();
       $scope.disableObj = {
         orderId: orderId,
         pp: pp
-      }
-    }
+      };
+    };
 
     $scope.disabled = function (confirm) {
       if (confirm) {
         if ($scope.disableObj.pp.status !== 'succeeded' || $scope.disableObj.pp.status !== 'refunded') {
-          $scope.disableObj.pp.status = 'disable-' + $scope.disableObj.pp.status
+          $scope.disableObj.pp.status = 'disable-' + $scope.disableObj.pp.status;
           $scope.editPaymentPlan($scope.disableObj.orderId, $scope.disableObj.pp);
           $('#confirmDisableModal').closeModal();
         } else {
@@ -342,7 +339,7 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         }
       } else {
         $('#confirmDisableModal').closeModal();
-        $scope.disableObj = {}
+        $scope.disableObj = {};
       }
 
     }
@@ -357,23 +354,23 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         $('#confirmDisableModal').closeModal();
 
       }
-    }
+    };
 
     $scope.confirmCancel = function (index, orderId) {
       $('#confirmCancelModal').openModal();
       $scope.cancelObj = {
         orderId: orderId,
         index: index
-      }
-    }
+      };
+    };
 
     $scope.confirmActivate = function (index, orderId) {
       $('#confirmActivateModal').openModal();
       $scope.activateObj = {
         orderId: orderId,
         index: index
-      }
-    }
+      };
+    };
 
     $scope.confirmRemove = function (index, orderId, paymentPlanId) {
       $('#confirmRemoveModal').openModal();
@@ -381,8 +378,8 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         orderId: orderId,
         paymentPlanId: paymentPlanId,
         index: index
-      }
-    }
+      };
+    };
 
     $scope.orderCancel = function (confirm) {
       if (confirm) {
@@ -396,12 +393,12 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           DialogService.danger('Unable to cancel this order.');
           $scope.loading = false;
           $('#confirmCancelModal').closeModal();
-        })
+        });
       } else {
         $('#confirmCancelModal').closeModal();
-        $scope.cancelObj = {}
+        $scope.cancelObj = {};
       }
-    }
+    };
 
     $scope.orderActivate = function (confirm) {
       if (confirm) {
@@ -415,12 +412,12 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           DialogService.danger('Unable to activate this order.');
           $scope.loading = false;
           $('#confirmActivateModal').closeModal();
-        })
+        });
       } else {
         $('#confirmActivateModal').closeModal();
-        $scope.cancelObj = {}
+        $scope.cancelObj = {};
       }
-    }
+    };
 
     $scope.orderRemovePayment = function (confirm) {
       if (confirm) {
@@ -434,12 +431,12 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
           DialogService.danger('Unable to update this order.');
           $scope.loading = false;
           $('#confirmRemoveModal').closeModal();
-        })
+        });
       } else {
         $('#confirmRemoveModal').closeModal();
-        $scope.cancelObj = {}
+        $scope.cancelObj = {};
       }
-    }
+    };
 
 
   }]
