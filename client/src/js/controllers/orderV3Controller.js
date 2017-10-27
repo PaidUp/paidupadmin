@@ -179,13 +179,14 @@ module.exports = ['$scope', 'CommerceService', 'PaymentService', 'DialogService'
         DialogService.danger('A payment method is required');
         return;
       }
+      $scope.newPaymentPlan.dateCharge = $scope.newPaymentPlan.dateCharge.substring(0, 10) + ' 16:00:00.000Z';
       $scope.newPaymentPlan.orderId = order._id;
       $scope.newPaymentPlan.account = objAccount[0].id;
       $scope.newPaymentPlan.accountBrand = objAccount[0].brand || objAccount[0].bankName;
       $scope.newPaymentPlan.last4 = objAccount[0].last4;
       $scope.newPaymentPlan.typeAccount = objAccount[0].object;
       $scope.newPaymentPlan.refund = 0;
-      $scope.newPaymentPlan.originalPrice = $scope.newPaymentPlan.price / (1 - pp.discount / 100),
+      $scope.newPaymentPlan.originalPrice = $scope.newPaymentPlan.price / (1 - pp.discount / 100);
 
 
       CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
